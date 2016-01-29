@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_inicio"
+            android:checked="true"
+            android:icon="@drawable/inicio"
+            android:title="@string/item_inicio" />
+        <item
+            android:id="@+id/item_publicaciones"
+            android:checked="true"
+            android:icon="@drawable/my"
+            android:title="@string/item_publicaciones" />
+        <item
+            android:id="@+id/item_favoritos"
+            android:icon="@drawable/favoritos"
+            android:title="@string/item_favoritos" />
+        <item
+            android:id="@+id/item_mensajes"
+            android:icon="@drawable/mensajes"
+            android:title="@string/item_mensajes" />
+        <item
+            android:id="@+id/item_categorias"
+            android:icon="@drawable/categorias"
+            android:title="@string/item_categorias" />
+        <item
+            android:id="@+id/item_configuracion"
+            android:icon="@drawable/configuracion"
+            android:title="@string/item_configuracion" />
+    </group>
+
+</menu>

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Single">
+    <item android:id="@+id/basico"
+        android:icon="@drawable/favoritos"
+        android:title="@string/favorito"/>
+    <item android:id="@+id/fav"
+        android:icon="@drawable/favoritos"
+        android:title="@string/favorito"
+        android:showAsAction="always"/>
+</menu>

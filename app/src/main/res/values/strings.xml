@@ -1,4 +1,54 @@
 <resources>
-    <string name="app_name">Clasificados</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Clasificados.com</string>
+
+    <string name="action_settings">Configuración</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_carrito">Añadir al carrito</string>
+
+    <string name="item_inicio">Inicio</string>
+    <string name="item_publicaciones">Mis Publicaciones</string>
+    <string name="item_favoritos">Favoritos</string>
+    <string name="item_mensajes">Mensajes</string>
+    <string name="item_categorias">Categorías</string>
+    <string name="item_configuracion">Configuración</string>
+
+    <string name="titulo_tab_vehiculos">Vehiculos</string>
+    <string name="titulo_tab_inmuebles">Inmuebles</string>
+    <string name="titulo_tab_productos">Productos</string>
+    <string name="titulo_tab_empleos">Empleos</string>
+    <string name="titulo_tab_servicios">Servicios</string>
+
+    <string name="texto_cambiar_contrasena">Cambia tu contraseña</string>
+    <string name="etiqueta_contrasena">Contraseña</string>
+    <string name="etiqueta_info_usuario">Información del usuario</string>
+    <string name="nologin">Iniciar Sesion</string>
+    <string name="title_activity_login">Login</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Iniciar Sesion</string>
+    <string name="action_sign_in_short">Iniciar Sesion</string>
+    <string name="error_invalid_email">El usuario es invalido</string>
+    <string name="error_invalid_password">La contraseña es muy corta</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="title_activity_elemento_unico">ElementoUnico</string>
+    <string name="register">¿No tienes una cuenta? Registrate</string>
+    <string name="registro">Registrar Nuevo Usuario</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="product_name">Product Name</string>
+    <string name="txt_image_slider">Image Slideshow</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="time_out">Time Out</string>
+    <string name="error_occured">Error Occurred</string>
+    <string name="descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="reportar_anuncio">Reportar este anuncio</string>
+    <string name="contactar">Contactar</string>
+    <string name="ofertar">Haz una oferta</string>
+    <string name="title_activity_single">Single</string>
+    <string name="favorito">Favorito</string>
+
 </resources>
