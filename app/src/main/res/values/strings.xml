@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">Clasificados.com</string>
+    <string name="action_settings">Configuracion</string>
 
-    <string name="action_settings">Configuración</string>
-    <string name="action_search">Buscar</string>
-    <string name="action_carrito">Añadir al carrito</string>
-
-    <string name="item_inicio">Inicio</string>
-    <string name="item_publicaciones">Mis Publicaciones</string>
-    <string name="item_favoritos">Favoritos</string>
-    <string name="item_mensajes">Mensajes</string>
-    <string name="item_categorias">Categorías</string>
-    <string name="item_configuracion">Configuración</string>
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_mispublicaciones">Mis publicaciones</string>
+    <string name="nav_favoritos">Favoritos</string>
+    <string name="nav_mensajes">Mensajes</string>
+    <string name="nav_categorias">Categorias</string>
 
     <string name="titulo_tab_vehiculos">Vehiculos</string>
     <string name="titulo_tab_inmuebles">Inmuebles</string>
@@ -18,37 +14,24 @@
     <string name="titulo_tab_empleos">Empleos</string>
     <string name="titulo_tab_servicios">Servicios</string>
 
-    <string name="texto_cambiar_contrasena">Cambia tu contraseña</string>
-    <string name="etiqueta_contrasena">Contraseña</string>
-    <string name="etiqueta_info_usuario">Información del usuario</string>
-    <string name="nologin">Iniciar Sesion</string>
-    <string name="title_activity_login">Login</string>
+    <string name="facebook">Compartir en Facebook</string>
+    <string name="lorem_short">Lorem Ipsum</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="reportar_anuncio">Reportar este anuncio</string>
+    <string name="contactar">Contactar</string>
+    <string name="ofertar">Ofertar</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Usuario</string>
-    <string name="prompt_password">Contraseña</string>
-    <string name="action_sign_in">Iniciar Sesion</string>
-    <string name="action_sign_in_short">Iniciar Sesion</string>
-    <string name="error_invalid_email">El usuario es invalido</string>
-    <string name="error_invalid_password">La contraseña es muy corta</string>
-    <string name="error_incorrect_password">La contraseña es incorrecta</string>
-    <string name="error_field_required">Este campo es requerido</string>
-    <string name="title_activity_elemento_unico">ElementoUnico</string>
-    <string name="register">¿No tienes una cuenta? Registrate</string>
-    <string name="registro">Registrar Nuevo Usuario</string>
+
+    <string name="title_activity_single">Autos Usados</string>
+    <string name="title_activity_login">Iniciar Sesion</string>
+    <string name="title_activity_registro_usuario">Registrarse</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="registrarse">Registrar Usuario</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="product_name">Product Name</string>
-    <string name="txt_image_slider">Image Slideshow</string>
-    <string name="no_internet_connection">No Internet Connection</string>
-    <string name="time_out">Time Out</string>
-    <string name="error_occured">Error Occurred</string>
-    <string name="descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
-    <string name="reportar_anuncio">Reportar este anuncio</string>
-    <string name="contactar">Contactar</string>
-    <string name="ofertar">Haz una oferta</string>
-    <string name="title_activity_single">Single</string>
-    <string name="favorito">Favorito</string>
+    <string name="registrarme">Registrar</string>
+    <string name="exito_registro">Registro Exitoso</string>
+    <string name="sub_exito_registro">Ahora puedes iniciar sesion</string>
 
 </resources>

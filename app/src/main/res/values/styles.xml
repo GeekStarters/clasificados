@@ -1,18 +1,18 @@
 <resources>
 
-    <style name="Theme.Clasificados" parent="Base.AppTheme" />
-
-    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/accentColor</item>
-
-        <item name="android:windowBackground">@color/window_background</item>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/MaterialDesignLibraryTheme.Light">
+        <item name="colorPrimary">#F8672f</item>
+        <item name="colorPrimaryDark">#F86723</item>
     </style>
 
-    <style name="Theme.ConNavigationDrawer" parent="Base.AppTheme" />
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
-    <style name="Theme.Clasificados.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Clasificados.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

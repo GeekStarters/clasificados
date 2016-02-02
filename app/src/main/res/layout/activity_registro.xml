@@ -1,0 +1,157 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="and.clasificados.com.clasificados.Actividades.Registro"
+    android:background="#dee4ee">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <!--Este carga la slideshow de imagenes -->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardUseCompatPadding="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/card_imagen">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="550dp">
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/logo"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Formulario de Registro"
+                        android:id="@+id/titular"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:layout_below="@+id/logo"
+                        android:layout_centerHorizontal="true" />
+                    <GridLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:layout_below="@+id/titular"
+                        android:padding="@dimen/espacio_norma_1"
+                        android:rowCount="4"
+                        android:id="@+id/campos">
+
+                        <ImageView
+                            android:id="@+id/imageView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="32dp"
+                            android:layout_marginRight="@dimen/espacio_norma_2"
+                            android:src="@drawable/usuario" />
+
+                        <EditText
+                            android:id="@+id/names"
+                            android:layout_width="350dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="32dp"
+                            android:hint="Gabriela Hernandez Mejia" />
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="32dp"
+                            android:layout_marginRight="@dimen/espacio_norma_2"
+                            android:src="@drawable/usuario" />
+
+                        <EditText
+                            android:id="@+id/user"
+                            android:layout_width="350dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="32dp"
+                            android:hint="ghdzmejia" />
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="8dp"
+                            android:src="@drawable/contrasena" />
+
+                        <EditText
+                            android:id="@+id/contra"
+                            android:layout_width="350dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:inputType="textPassword"
+                            android:hint="password" />
+
+                        <ImageView
+                            android:id="@+id/direcc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="32dp"
+                            android:layout_marginRight="@dimen/espacio_norma_2"
+                            android:src="@drawable/usuario" />
+
+                        <EditText
+                            android:id="@+id/direccion"
+                            android:layout_width="350dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="32dp"
+                            android:hint="Res. Lorem ipsum" />
+
+                        <ImageView
+                            android:id="@+id/emai"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="32dp"
+                            android:layout_marginRight="@dimen/espacio_norma_2"
+                            android:src="@drawable/usuario" />
+
+                        <EditText
+                            android:id="@+id/email"
+                            android:layout_width="350dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="32dp"
+                            android:hint="user@example.com" />
+
+                    </GridLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:src="@drawable/button_login"
+                        android:id="@+id/button_registro"
+                        android:layout_below="@+id/campos"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/registrarme"
+                        android:id="@+id/textView"
+                        android:textColor="@android:color/white"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_alignTop="@+id/button_registro"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/button_session" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
