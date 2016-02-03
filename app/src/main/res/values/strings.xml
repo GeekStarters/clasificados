@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Clasificados.com</string>
+    <string name="action_settings">Configuracion</string>
+
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_mispublicaciones">Mis publicaciones</string>
+    <string name="nav_favoritos">Favoritos</string>
+    <string name="nav_mensajes">Mensajes</string>
+    <string name="nav_categorias">Categorias</string>
+
+    <string name="titulo_tab_vehiculos">Vehiculos</string>
+    <string name="titulo_tab_inmuebles">Inmuebles</string>
+    <string name="titulo_tab_productos">Productos</string>
+    <string name="titulo_tab_empleos">Empleos</string>
+    <string name="titulo_tab_servicios">Servicios</string>
+
+    <string name="facebook">Compartir en Facebook</string>
+    <string name="lorem_short">Lorem Ipsum</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="reportar_anuncio">Reportar este anuncio</string>
+    <string name="contactar">Contactar</string>
+    <string name="ofertar">Ofertar</string>
+
+
+    <string name="title_activity_single">Autos Usados</string>
+    <string name="title_activity_login">Iniciar Sesion</string>
+    <string name="title_activity_registro_usuario">Registrarse</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="registrarse">Registrar Usuario</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registrarme">Registrar</string>
+    <string name="exito_registro">Registro Exitoso</string>
+    <string name="sub_exito_registro">Ahora puedes iniciar sesion</string>
+
+</resources>
