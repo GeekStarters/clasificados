@@ -8,9 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import and.clasificados.com.common.RoundedTransformation;
 import and.clasificados.com.modelo.Clasificado;
 import and.clasificados.com.R;
 
@@ -70,10 +72,19 @@ public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategoria
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Clasificado item = items.get(i);
-        Glide.with(viewHolder.itemView.getContext())
+
+        /*Glide.with(viewHolder.itemView.getContext())
                 .load(item.getIdDrawable())
                 .centerCrop()
+                .into(viewHolder.imagen);*/
+
+
+        Picasso.with(viewHolder.itemView.getContext())
+                .load(item.getIdDrawable())
+                .transform(new RoundedTransformation(30, 0))
+                .fit()
                 .into(viewHolder.imagen);
+
         viewHolder.categoria.setText(item.getCategoria());
         viewHolder.nombre.setText(item.getTextoAnuncio());
         viewHolder.precio.setText("Q" + item.getPrecio());

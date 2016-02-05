@@ -1,47 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:layout_height="match_parent">
 
-        <com.blunderer.materialdesignlibrary.views.BorderRoundedImageView
+    <RelativeLayout
+        android:id="@+id/cont_items"
+        android:padding="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
             android:id="@+id/item_imagen"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_weight="0.26"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:adjustViewBounds="true"
             android:src="@drawable/ingeniero"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+    <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/item_imagen"
+            android:layout_toEndOf="@+id/item_imagen">
+
             <and.clasificados.com.views.TextViewLight
                 android:id="@+id/texto_categoria"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Categoria"
+                android:textSize="14sp"
                 android:layout_marginLeft="1dp"/>
 
             <and.clasificados.com.views.TextViewBold
                 android:id="@+id/texto_anuncio"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Texto Anuncio"
+                android:textSize="16sp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginLeft="1dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:padding="2dp"
                 android:textColor="#000000" />
+
             <and.clasificados.com.views.TextViewLight
                 android:id="@+id/precio_anuncio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Precio"
+                android:textSize="18sp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginLeft="1dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:padding="2dp"
                 android:textColor="#F86723" />
         </LinearLayout>
-    </LinearLayout>
+</RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/cont_items"
+        android:background="@color/divider" />
+
+    </RelativeLayout>

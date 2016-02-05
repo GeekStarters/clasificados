@@ -1,6 +1,7 @@
 package and.clasificados.com;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
@@ -97,4 +98,5 @@ public class MainActivity  extends com.blunderer.materialdesignlibrary.activitie
     protected ActionBarHandler getActionBarHandler() {
         return new ActionBarDefaultHandler(this);
     }
+
 }
