@@ -1,4 +1,4 @@
-package and.clasificados.com.Modelo;
+package and.clasificados.com.modelo;
 
 import java.util.ArrayList;
 import java.util.List;

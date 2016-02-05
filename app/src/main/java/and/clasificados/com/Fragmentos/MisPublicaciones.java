@@ -1,4 +1,4 @@
-package and.clasificados.com.Fragmentos;
+package and.clasificados.com.fragmentos;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import and.clasificados.com.Auxiliares.AdaptadorCategorias;
-import and.clasificados.com.Modelo.Clasificado;
+import and.clasificados.com.auxiliares.AdaptadorCategorias;
+import and.clasificados.com.auxiliares.DecoracionLineaDivisoria;
+import and.clasificados.com.modelo.Clasificado;
 import and.clasificados.com.R;
 
 /**
@@ -44,6 +45,8 @@ public class MisPublicaciones extends Fragment {
         });
 
         reciclador.setAdapter(adaptador);
+        reciclador.addItemDecoration(new DecoracionLineaDivisoria(getActivity()));
+
 
 
         return view;

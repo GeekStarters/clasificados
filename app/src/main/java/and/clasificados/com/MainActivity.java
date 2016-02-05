@@ -12,12 +12,12 @@ import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerStyleHandler
 import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerTopHandler;
 import com.blunderer.materialdesignlibrary.models.Account;
 
-import and.clasificados.com.Actividades.Login;
-import and.clasificados.com.Fragmentos.Categorias;
-import and.clasificados.com.Fragmentos.Favoritos;
-import and.clasificados.com.Fragmentos.Inicio;
-import and.clasificados.com.Fragmentos.Mensajes;
-import and.clasificados.com.Fragmentos.MisPublicaciones;
+import and.clasificados.com.actividades.Login;
+import and.clasificados.com.fragmentos.Categorias;
+import and.clasificados.com.fragmentos.Favoritos;
+import and.clasificados.com.fragmentos.Inicio;
+import and.clasificados.com.fragmentos.Mensajes;
+import and.clasificados.com.fragmentos.MisPublicaciones;
 
 public class MainActivity  extends com.blunderer.materialdesignlibrary.activities.NavigationDrawerActivity {
 
@@ -29,10 +29,10 @@ public class MainActivity  extends com.blunderer.materialdesignlibrary.activitie
 
     @Override
     public NavigationDrawerAccountsHandler getNavigationDrawerAccountsHandler() {
-            return new NavigationDrawerAccountsHandler(this)
-                    .addAccount("Clasificados.com" , "correo@email.com",
-                            R.drawable.profile3, R.drawable.profile2_background);
-        }
+        return new NavigationDrawerAccountsHandler(this)
+                .addAccount("Clasificados.com" , "correo@email.com",
+                        R.drawable.profile3, R.drawable.profile2_background);
+    }
 
 
     @Override
@@ -64,7 +64,7 @@ public class MainActivity  extends com.blunderer.materialdesignlibrary.activitie
     public NavigationDrawerBottomHandler getNavigationDrawerBottomHandler() {
         return new NavigationDrawerBottomHandler(this)
                 .addItem(R.string.action_settings, R.drawable.configuracion, null)
-                .addItem(R.string.facebook,R.drawable.ic_facebook,null);
+                .addItem(R.string.nav_facebook,R.drawable.ic_facebook,null);
     }
 
     @Override
@@ -74,6 +74,11 @@ public class MainActivity  extends com.blunderer.materialdesignlibrary.activitie
 
     @Override
     public boolean replaceActionBarTitleByNavigationDrawerItemTitle() {
+        return false;
+    }
+
+    @Override
+    public boolean setActionBarBackground() {
         return true;
     }
 
@@ -86,6 +91,7 @@ public class MainActivity  extends com.blunderer.materialdesignlibrary.activitie
     protected boolean enableActionBarShadow() {
         return false;
     }
+
 
     @Override
     protected ActionBarHandler getActionBarHandler() {

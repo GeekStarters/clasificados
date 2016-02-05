@@ -1,8 +1,8 @@
-package and.clasificados.com.Actividades;
+package and.clasificados.com.actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -62,5 +62,4 @@ public class Login extends com.blunderer.materialdesignlibrary.activities.Activi
     protected boolean enableActionBarShadow() {
         return false;
     }
-
 }

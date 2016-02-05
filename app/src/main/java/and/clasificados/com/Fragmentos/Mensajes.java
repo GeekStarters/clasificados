@@ -1,4 +1,4 @@
-package and.clasificados.com.Fragmentos;
+package and.clasificados.com.fragmentos;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import and.clasificados.com.Auxiliares.AdaptadorMensaje;
-import and.clasificados.com.Modelo.Mensaje;
+import and.clasificados.com.auxiliares.AdaptadorMensaje;
+import and.clasificados.com.auxiliares.DecoracionLineaDivisoria;
+import and.clasificados.com.modelo.Mensaje;
 import and.clasificados.com.R;
 
 /**
@@ -44,6 +45,8 @@ public class Mensajes extends Fragment {
         });
 
         reciclador.setAdapter(adaptador);
+        reciclador.addItemDecoration(new DecoracionLineaDivisoria(getActivity()));
+
 
 
         return view;

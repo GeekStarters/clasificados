@@ -45,7 +45,7 @@
                         android:layout_marginRight="@dimen/espacio_norma_2"
                         android:src="@drawable/usuario" />
 
-                    <EditText
+                    <and.clasificados.com.views.EditTextLight
                         android:id="@+id/user"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                         android:layout_marginRight="8dp"
                         android:src="@drawable/contrasena" />
 
-                    <EditText
+                    <and.clasificados.com.views.EditTextLight
                         android:id="@+id/contra"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                        android:id="@+id/button_session"
                        android:layout_below="@+id/campos"
                        android:layout_centerHorizontal="true" />
-                    <TextView
+                    <and.clasificados.com.views.TextViewLight
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/button_session"
@@ -85,7 +85,7 @@
                         android:layout_centerHorizontal="true"
                         android:id="@+id/registro" />
 
-                    <TextView
+                    <and.clasificados.com.views.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/login"

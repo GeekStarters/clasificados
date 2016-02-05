@@ -1,4 +1,4 @@
-package and.clasificados.com.Auxiliares;
+package and.clasificados.com.auxiliares;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import and.clasificados.com.Actividades.Single;
-import and.clasificados.com.Modelo.Clasificado;
+import and.clasificados.com.actividades.Single;
+import and.clasificados.com.modelo.Clasificado;
 import and.clasificados.com.R;
 
 /**

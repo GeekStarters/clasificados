@@ -7,6 +7,7 @@
     <string name="nav_favoritos">Favoritos</string>
     <string name="nav_mensajes">Mensajes</string>
     <string name="nav_categorias">Categorias</string>
+    <string name="nav_facebook">Compartir en Facebook</string>
 
     <string name="titulo_tab_vehiculos">Vehiculos</string>
     <string name="titulo_tab_inmuebles">Inmuebles</string>
@@ -14,7 +15,6 @@
     <string name="titulo_tab_empleos">Empleos</string>
     <string name="titulo_tab_servicios">Servicios</string>
 
-    <string name="facebook">Compartir en Facebook</string>
     <string name="lorem_short">Lorem Ipsum</string>
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="reportar_anuncio">Reportar este anuncio</string>
@@ -28,10 +28,9 @@
     <string name="login">Iniciar Sesion</string>
     <string name="registrarse">Registrar Usuario</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registrarme">Registrar</string>
     <string name="exito_registro">Registro Exitoso</string>
     <string name="sub_exito_registro">Ahora puedes iniciar sesion</string>
+    <string name="mi_cuenta">Mi Cuenta</string>
 
 </resources>

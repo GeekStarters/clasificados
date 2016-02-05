@@ -1,4 +1,4 @@
-package and.clasificados.com.Actividades;
+package and.clasificados.com.actividades;
 
 import android.view.Menu;
 

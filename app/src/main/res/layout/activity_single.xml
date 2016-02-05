@@ -49,7 +49,7 @@
                     android:rowCount="6"
                     android:id="@+id/tabla_anuncio">
 
-                    <TextView
+                    <and.clasificados.com.views.TextViewBold
                         android:id="@+id/texto_anuncio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,23 +57,23 @@
                         android:layout_marginBottom="32dp"
                         android:text="Titulo Anuncio"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-                    <TextView
+                    <and.clasificados.com.views.TextViewLight
                         android:id="@+id/texto_precio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="32dp"
-                        android:text="$4999.99"
+                        android:text="Titulo Anuncio"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/colorPrimary"/>
-                    <TextView
+                     <and.clasificados.com.views.TextViewLight
                         android:id="@+id/texto_descripcion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="@string/lorem"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
-                    <TextView
+                    <and.clasificados.com.views.TextViewLight
                         android:id="@+id/mapa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true">
-                   <TextView
+                   <and.clasificados.com.views.TextViewLight
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="Compartir este anuncio"
@@ -147,7 +147,7 @@
 
             </android.support.v7.widget.CardView>
             <!--Link para reportar-->
-            <TextView
+            <and.clasificados.com.views.TextViewLight
                 android:id="@+id/reportar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />
 
-                    <TextView
+                    <and.clasificados.com.views.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/contactar"
@@ -192,7 +192,7 @@
                         android:layout_marginLeft="58dp"
                         android:layout_marginStart="58dp" />
 
-                    <TextView
+                    <and.clasificados.com.views.TextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ofertar"

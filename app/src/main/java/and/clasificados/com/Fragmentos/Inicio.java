@@ -1,14 +1,15 @@
-package and.clasificados.com.Fragmentos;
+package and.clasificados.com.fragmentos;
 
 import com.blunderer.materialdesignlibrary.handlers.ViewPagerHandler;
 
-import and.clasificados.com.Auxiliares.CategoriasTab;
 import and.clasificados.com.R;
+import and.clasificados.com.auxiliares.CategoriasTab;
+
 
 /**
  * Created by Gabriela Mejia on 1/2/2016.
  */
-public class Inicio  extends com.blunderer.materialdesignlibrary.fragments.ViewPagerWithTabsFragment {
+public class Inicio extends com.blunderer.materialdesignlibrary.fragments.ViewPagerWithTabsFragment {
 
     @Override
     public ViewPagerHandler getViewPagerHandler() {
@@ -34,7 +35,5 @@ public class Inicio  extends com.blunderer.materialdesignlibrary.fragments.ViewP
     public int defaultViewPagerPageSelectedPosition() {
         return 0;
     }
-
-
 
 }

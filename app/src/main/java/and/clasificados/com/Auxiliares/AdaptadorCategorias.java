@@ -1,4 +1,4 @@
-package and.clasificados.com.Auxiliares;
+package and.clasificados.com.auxiliares;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import and.clasificados.com.Modelo.Clasificado;
+import and.clasificados.com.modelo.Clasificado;
 import and.clasificados.com.R;
 
 /**

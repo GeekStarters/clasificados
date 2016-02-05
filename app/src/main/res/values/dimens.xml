@@ -17,4 +17,6 @@
     <dimen name="espacio_norma_1">16dp</dimen>
     <dimen name="espacio_norma_2">8dp</dimen>
     <dimen name="cardview_margin_horizontal">16dp</dimen>
+
+    <dimen name="tab_min_height">46dp</dimen>
 </resources>

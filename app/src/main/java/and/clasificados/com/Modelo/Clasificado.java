@@ -1,4 +1,4 @@
-package and.clasificados.com.Modelo;
+package and.clasificados.com.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,29 +41,29 @@ public class Clasificado {
         INMUEBLES.add(new Clasificado(9000.00,"Alquiler", "Edificio", R.drawable.edificio));
         INMUEBLES.add(new Clasificado(3500.00, "En  Venta", "Edificio", R.drawable.edificio));
 
-        PRODUCTOS.add(new Clasificado(2,"Electrodomensticos", "Postre De Vainilla", R.drawable.celular));
-        PRODUCTOS.add(new Clasificado(3, "Celulares","Flan Celestial", R.drawable.celular));
-        PRODUCTOS.add(new Clasificado(2.5f,"Muebles", "Cupcake Festival", R.drawable.celular));
-        PRODUCTOS.add(new Clasificado(4, "Joyeria","Pastel De Fresa", R.drawable.celular));
-        PRODUCTOS.add(new Clasificado(5, "Otros","Muffin Amoroso", R.drawable.celular));
+        PRODUCTOS.add(new Clasificado(2483.54,"Electrodomensticos", "Refrigerador", R.drawable.celular));
+        PRODUCTOS.add(new Clasificado(3483.54, "Celulares","Celular", R.drawable.celular));
+        PRODUCTOS.add(new Clasificado(2483.54,"Muebles", "Chaise Longue", R.drawable.celular));
+        PRODUCTOS.add(new Clasificado(4483.54, "Joyeria","Collar de diamantes", R.drawable.celular));
+        PRODUCTOS.add(new Clasificado(5483.54, "Otros","Laptop", R.drawable.celular));
 
-        EMPLEOS.add(new Clasificado(3, "Servicios", "Taza de Café", R.drawable.ingeniero));
-        EMPLEOS.add(new Clasificado(12, "Industria", "Coctel Tronchatoro", R.drawable.ingeniero));
-        EMPLEOS.add(new Clasificado(5, "", "Jugo Natural", R.drawable.ingeniero));
-        EMPLEOS.add(new Clasificado(24, "Industria", "Coctel Jordano", R.drawable.ingeniero));
-        EMPLEOS.add(new Clasificado(30, "", "Botella Vino Tinto Darius", R.drawable.ingeniero));
+        EMPLEOS.add(new Clasificado(3002.50, "Servicios", "Fontaneria", R.drawable.ingeniero));
+        EMPLEOS.add(new Clasificado(1200.00, "Industria", "Ingeniero", R.drawable.ingeniero));
+        EMPLEOS.add(new Clasificado(5025.50, "Industria", "Ingeniero", R.drawable.ingeniero));
+        EMPLEOS.add(new Clasificado(2400.00, "Industria", "Ingeniero", R.drawable.ingeniero));
+        EMPLEOS.add(new Clasificado(3004.00, "Industria", "Ingeniero", R.drawable.ingeniero));
 
-        SERVICIOS.add(new Clasificado(2,"Plomeeria", "Postre De Vainilla", R.drawable.electricista));
-        SERVICIOS.add(new Clasificado(3, "Celulares","Flan Celestial", R.drawable.electricista));
-        SERVICIOS.add(new Clasificado(2.5f,"Muebles", "Cupcake Festival", R.drawable.electricista));
-        SERVICIOS.add(new Clasificado(4, "Joyeria","Pastel De Fresa", R.drawable.electricista));
-        SERVICIOS.add(new Clasificado(5, "Otros","Muffin Amoroso", R.drawable.electricista));
+        SERVICIOS.add(new Clasificado(2125.00,"Plomeria", "Fontaneria", R.drawable.electricista));
+        SERVICIOS.add(new Clasificado(3125.00, "Electricidad","Fontaneria", R.drawable.electricista));
+        SERVICIOS.add(new Clasificado(2125.00,"Restaurador", "Fontaneria", R.drawable.electricista));
+        SERVICIOS.add(new Clasificado(4125.00, "Otro","Fontaneria", R.drawable.electricista));
+        SERVICIOS.add(new Clasificado(5125.00, "Otros","Fontaneria", R.drawable.electricista));
 
         FAVORITOS.add(new Clasificado(5450.90, "Autos","Mitsubishi Lancer", R.drawable.carro));
         FAVORITOS.add(new Clasificado(4250.00, "Otros", "Mitsubishi Lancer", R.drawable.carro));
-        FAVORITOS.add(new Clasificado(24, "Industria", "Coctel Jordano", R.drawable.ingeniero));
-        FAVORITOS.add(new Clasificado(5, "Otros","Muffin Amoroso", R.drawable.celular));
-        FAVORITOS.add(new Clasificado(5, "Otros","Muffin Amoroso", R.drawable.electricista));
+        FAVORITOS.add(new Clasificado(2410.00, "Servicios", "Fontaneria", R.drawable.ingeniero));
+        FAVORITOS.add(new Clasificado(5000.00, "Otros","Laptop", R.drawable.celular));
+        FAVORITOS.add(new Clasificado(5102.00, "Otros","Fontaneria", R.drawable.electricista));
 
 
     }
