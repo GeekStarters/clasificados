@@ -1,5 +1,6 @@
 package and.clasificados.com.auxiliares;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ public class CategoriasTab extends Fragment {
     private RecyclerView reciclador;
     private LinearLayoutManager layoutManager;
     private AdaptadorCategorias adaptador;
+    private Context context;
 
     public CategoriasTab() {
     }
@@ -41,7 +43,6 @@ public class CategoriasTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_grupo_items, container, false);
-
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
@@ -74,8 +75,7 @@ public class CategoriasTab extends Fragment {
         });
 
         reciclador.setAdapter(adaptador);
-
-
+        reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getActivity()));
         return view;
     }
 }

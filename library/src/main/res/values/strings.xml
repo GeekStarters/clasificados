@@ -10,5 +10,7 @@
     <string name="mdl_add_account">Add an account</string>
     <string name="mdl_search">Search</string>
     <string name="mdl_back">Back</string>
+    <string name="nav_mensajes">Mensajes</string>
+    <string name="mi_cuenta">Mi Cuenta</string>
 
 </resources>
