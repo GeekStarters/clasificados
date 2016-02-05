@@ -48,6 +48,8 @@
     <string name="mdl_navigation_drawer_open">Open navigation drawer</string>
     <string name="mdl_search">Search</string>
     <string name="mdl_settings">Settings</string>
+    <string name="mi_cuenta">Mi Cuenta</string>
+    <string name="nav_mensajes">Mensajes</string>
     <style name="MaterialDesignLibraryTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/mdl_color_primary</item>
         <item name="colorPrimaryDark">@color/mdl_color_primary_dark</item>

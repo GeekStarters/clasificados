@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="line_footer">#c2c2c2</color>
     <color name="mdl_cardview_background">#fafafa</color>
     <color name="mdl_cardview_highlight_button_color">#ffab40</color>
     <color name="mdl_cardview_image_left_description_color">#757575</color>

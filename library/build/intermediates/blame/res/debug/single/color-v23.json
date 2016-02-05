@@ -1,14 +1,18 @@
 [
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
     },
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
     },
     {
-        "merged": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
-        "source": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/build/intermediates/res/merged/debug/color-v23/abc_color_highlight_material.xml",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/color-v23/abc_color_highlight_material.xml"
     }
 ]

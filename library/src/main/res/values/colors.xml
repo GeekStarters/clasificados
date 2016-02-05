@@ -23,4 +23,6 @@
     <color name="mdl_cardview_normal_button_ripple_color">#66999999</color>
     <color name="mdl_cardview_separator_color">#dcdcdc</color>
 
+    <color name="line_footer">#c2c2c2</color>
+
 </resources>

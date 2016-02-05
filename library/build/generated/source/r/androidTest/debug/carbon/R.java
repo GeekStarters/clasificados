@@ -437,7 +437,7 @@ public final class R {
 		public static final int abc_textfield_search_material = 0x7f020044;
 		public static final int carbon_windowbackground_dark = 0x7f020046;
 		public static final int carbon_windowbackground_light = 0x7f020047;
-		public static final int ic_launcher = 0x7f020052;
+		public static final int ic_launcher = 0x7f020055;
 	}
 	public static final class id {
 		public static final int action_bar = 0x7f0b005f;
@@ -569,7 +569,7 @@ public final class R {
 		public static final int carbon_snackbar = 0x7f03001b;
 		public static final int carbon_toolbar = 0x7f03001c;
 		public static final int carbon_validated_edittext = 0x7f03001d;
-		public static final int support_simple_spinner_dropdown_item = 0x7f03003f;
+		public static final int support_simple_spinner_dropdown_item = 0x7f030040;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f050000;

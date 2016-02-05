@@ -1,38 +1,50 @@
 [
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_mic.png",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_mic.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_action_arrow_left.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/src/main/res/drawable-ldpi/ic_action_arrow_left.png"
     },
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_cancel.png",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_cancel.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_arrow_left.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_arrow_left.png"
     },
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_arrow_left.png",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_arrow_left.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_mic.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_mic.png"
     },
     {
-        "merged": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_arrow_left.png",
-        "source": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_arrow_left.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_action_mic.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/src/main/res/drawable-ldpi/ic_action_mic.png"
     },
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_mic.png",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_mic.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_action_cancel.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/library/src/main/res/drawable-ldpi/ic_action_cancel.png"
     },
     {
-        "merged": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_mic.png",
-        "source": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_mic.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_cancel.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_cancel.png"
     },
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_cancel.png",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_cancel.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_cancel.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_cancel.png"
     },
     {
-        "merged": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_arrow_left.png",
-        "source": "C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_arrow_left.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_cancel.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_cancel.png"
     },
     {
-        "merged": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_cancel.png",
-        "source": "C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_cancel.png"
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_arrow_left.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_arrow_left.png"
+    },
+    {
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_arrow_left.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_arrow_left.png"
+    },
+    {
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_mic.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\C:\\Users\\Gabriela Mejia\\AndroidStudioProjects\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_mic.png"
+    },
+    {
+        "merged": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\build\\intermediates\\res\\merged\\release\\drawable-ldpi-v4\\ic_action_mic.png",
+        "source": "/Users/Francisco/Documents/apps/Clasificados/clasificados-android/C:\\Users\\Francisco\\Documents\\apps\\clasificados-android\\library\\src\\main\\res\\drawable-ldpi\\ic_action_mic.png"
     }
 ]
