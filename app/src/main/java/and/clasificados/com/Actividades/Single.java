@@ -1,34 +1,36 @@
 package and.clasificados.com.actividades;
 
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-
-import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
-import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
+import android.support.v7.widget.Toolbar;
 
 import and.clasificados.com.R;
 
-public class Single extends com.blunderer.materialdesignlibrary.activities.Activity{
+public class Single extends AppCompatActivity {
 
     @Override
-    protected int getContentView() {
-        return R.layout.activity_single;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_single);
+
+        agregarToolbar();
     }
 
-    @Override
-    protected ActionBarHandler getActionBarHandler() {
-        return new ActionBarDefaultHandler(this);
+    private void agregarToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_single, menu);
         return true;
-    }
-
-    @Override
-    protected boolean enableActionBarShadow() {
-        return false;
     }
 
 }

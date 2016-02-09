@@ -2,32 +2,28 @@ package and.clasificados.com.actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
-import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
-
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
 
-public class Login extends com.blunderer.materialdesignlibrary.activities.Activity {
+public class Login extends AppCompatActivity {
 
     ImageView login;
     TextView  registro;
     EditText user, password;
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_login;
-    }
 
-    @Override
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getContentView();
+        setContentView(R.layout.activity_login);
+
         login=(ImageView) findViewById(R.id.button_session);
         registro=(TextView)findViewById(R.id.registro);
         user=(EditText) findViewById(R.id.user);
@@ -51,15 +47,17 @@ public class Login extends com.blunderer.materialdesignlibrary.activities.Activi
                 startActivity(i);
             }
         });
+
+        agregarToolbar();
     }
 
-    @Override
-    protected ActionBarHandler getActionBarHandler() {
-        return new ActionBarDefaultHandler(this);
+    private void agregarToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
-    @Override
-    protected boolean enableActionBarShadow() {
-        return false;
-    }
 }

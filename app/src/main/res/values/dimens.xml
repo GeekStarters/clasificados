@@ -3,7 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="header_left_padding">16dp</dimen>
+    <dimen name="header_height">192dp</dimen>
 
+    <dimen name="perfil_image_size">64dp</dimen>
     <!-- ListView -->
     <dimen name="listview_row_height">48dp</dimen>
     <dimen name="listview_row_header_padding_vertical">16dp</dimen>
@@ -19,4 +22,9 @@
     <dimen name="cardview_margin_horizontal">16dp</dimen>
 
     <dimen name="tab_min_height">46dp</dimen>
+
+    <dimen name="tab_max_width">264dp</dimen>
+    <dimen name="tab_padding_bottom">16dp</dimen>
+    <dimen name="tab_label">10sp</dimen>
+    <dimen name="custom_tab_layout_height">72dp</dimen>
 </resources>

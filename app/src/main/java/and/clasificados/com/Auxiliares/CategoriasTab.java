@@ -30,7 +30,7 @@ public class CategoriasTab extends Fragment {
     public CategoriasTab() {
     }
 
-    public static CategoriasTab newInstance(int indiceSeccion) {
+    public static CategoriasTab nuevaInstancia(int indiceSeccion) {
         CategoriasTab fragment = new CategoriasTab();
         Bundle args = new Bundle();
         args.putInt(INDICE_SECCION, indiceSeccion);

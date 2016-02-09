@@ -2,101 +2,111 @@ package and.clasificados.com;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
-import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
-import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerAccountsHandler;
-import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerAccountsMenuHandler;
-import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerBottomHandler;
-import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerStyleHandler;
-import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerTopHandler;
-import com.blunderer.materialdesignlibrary.models.Account;
-
-import and.clasificados.com.actividades.Login;
 import and.clasificados.com.fragmentos.Categorias;
 import and.clasificados.com.fragmentos.Favoritos;
 import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.fragmentos.Mensajes;
 import and.clasificados.com.fragmentos.MisPublicaciones;
 
-public class MainActivity  extends com.blunderer.materialdesignlibrary.activities.NavigationDrawerActivity {
+public class MainActivity extends AppCompatActivity {
 
+    private DrawerLayout drawerLayout;
 
     @Override
-    public NavigationDrawerStyleHandler getNavigationDrawerStyleHandler() {
-        return null;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        agregarToolbar();
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        if (navigationView != null) {
+            prepararDrawer(navigationView);
+            seleccionarItem(navigationView.getMenu().getItem(0));
+        }
     }
 
-    @Override
-    public NavigationDrawerAccountsHandler getNavigationDrawerAccountsHandler() {
-        return new NavigationDrawerAccountsHandler(this)
-                .addAccount("Clasificados.com" , "correo@email.com",
-                        R.drawable.profile3, R.drawable.profile2_background);
+    private void agregarToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+           // ab.setDisplayHomeAsUpEnabled(true);
+        }
+
     }
 
-
-    @Override
-    public NavigationDrawerAccountsMenuHandler getNavigationDrawerAccountsMenuHandler() {
-        return new NavigationDrawerAccountsMenuHandler(this)
-                .addItem(getString(R.string.login), R.drawable.usuario, new View.OnClickListener() {
+    private void prepararDrawer(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getApplicationContext(), Login.class));
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        seleccionarItem(menuItem);
+                        drawerLayout.closeDrawers();
+                        return true;
                     }
                 });
+
+    }
+
+    private void seleccionarItem(MenuItem itemDrawer) {
+        Fragment fragmentoGenerico = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        switch (itemDrawer.getItemId()) {
+            case R.id.item_inicio:
+                fragmentoGenerico = new Inicio();
+                break;
+            case R.id.item_publicaciones:
+                fragmentoGenerico =new MisPublicaciones();
+                break;
+            case R.id.item_favoritos:
+                fragmentoGenerico = new Favoritos();
+                break;
+            case R.id.item_mensajes:
+                fragmentoGenerico = new Mensajes();
+                break;
+            case R.id.item_categorias:
+                fragmentoGenerico = new Categorias();
+                break;
+            case R.id.item_configuracion:
+                // startActivity(new Intent(this, ActividadConfiguracion.class));
+                break;
+            case R.id.item_sharefb:
+                //     startActivity(new Intent(this, ActividadConfiguracion.class));
+                break;
+        }
+        if (fragmentoGenerico != null) {
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_content, fragmentoGenerico)
+                    .commit();
+        }
+
+        setTitle("");
     }
 
     @Override
-    public void onNavigationDrawerAccountChange(Account account) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public NavigationDrawerTopHandler getNavigationDrawerTopHandler() {
-        return new NavigationDrawerTopHandler(this)
-                .addItem(R.string.nav_inicio, new Inicio())
-                .addItem(R.string.nav_mispublicaciones, R.drawable.my, new MisPublicaciones())
-                .addItem(R.string.nav_favoritos, R.drawable.favoritos,new Favoritos())
-                .addItem(R.string.nav_mensajes, R.drawable.mensajes,new Mensajes())
-                .addItem(R.string.nav_categorias, R.drawable.categorias, new Categorias());
-    }
-
-    @Override
-    public NavigationDrawerBottomHandler getNavigationDrawerBottomHandler() {
-        return new NavigationDrawerBottomHandler(this)
-                .addItem(R.string.action_settings, R.drawable.configuracion, null)
-                .addItem(R.string.nav_facebook,R.drawable.ic_facebook,null);
-    }
-
-    @Override
-    public boolean overlayActionBar() {
-        return false;
-    }
-
-    @Override
-    public boolean replaceActionBarTitleByNavigationDrawerItemTitle() {
-        return false;
-    }
-
-    @Override
-    public boolean setActionBarBackground() {
-        return true;
-    }
-
-    @Override
-    public int defaultNavigationDrawerItemSelectedPosition() {
-        return 0;
-    }
-
-    @Override
-    protected boolean enableActionBarShadow() {
-        return false;
-    }
-
-
-    @Override
-    protected ActionBarHandler getActionBarHandler() {
-        return new ActionBarDefaultHandler(this);
-    }
-
 }
