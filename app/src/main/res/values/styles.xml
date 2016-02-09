@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/MaterialDesignLibraryTheme.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#F8672f</item>
         <item name="colorPrimaryDark">#F86723</item>
     </style>

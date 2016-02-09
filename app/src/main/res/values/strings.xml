@@ -3,7 +3,7 @@
     <string name="action_settings">Configuracion</string>
 
     <string name="nav_inicio">Inicio</string>
-    <string name="nav_mispublicaciones">Mis publicaciones</string>
+    <string name="nav_publicaciones">Mis publicaciones</string>
     <string name="nav_favoritos">Favoritos</string>
     <string name="nav_mensajes">Mensajes</string>
     <string name="nav_categorias">Categorias</string>
