@@ -33,4 +33,21 @@
     <string name="sub_exito_registro">Ahora puedes iniciar sesion</string>
     <string name="mi_cuenta">Mi Cuenta</string>
 
+
+    <string name="activity_base_alert_message_error">Ha ocurrido un error, Por favor intente de nuevo</string>
+    <string name="activity_base_alert_message_network_exception">Compruebe su conexión a Internet.</string>
+    <string name="activity_base_alert_message_parsing_exception">Mensaje incorrecto de server.Please inténtalo de nuevo</string>
+    <string name="activity_base_alert_message_timeout_exception">El servidor no responde. Por favor, inténtalo de nuevo</string>
+
+
+
+    <!-- String for Server Exception Class -->
+    <string name="server_exception_error_message_general">Error en el servidor</string>
+    <string name="server_exception_error_message_server_error">Error interno en el servidor</string>
+    <string name="server_exception_error_message_resource_not_found">Recurso solicitado no existe en el servidor</string>
+    <string name="server_exception_error_message_forbidden">Error en el servidor</string>
+    <string name="error">Error</string>
+    <string name="reg_success">Registered Successfully..</string>
+
+
 </resources>

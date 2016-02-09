@@ -2,12 +2,40 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="auto"
     package="and.clasificados.com">
 
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission android:name="adn.guatemala.com.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="adn.guatemala.com.permission.C2D_MESSAGE" />
+    <permission android:name="adn.guatemala.com.Mapa.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
+    <uses-permission android:name="adn.guatemala.com.locationapi.maps.permission.MAPS_RECEIVE" />
+
+    <supports-screens android:resizeable="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"/>
+
+
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -66,5 +94,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="and.clasificados.com.MainActivity" />
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="c0864e02352dde7651752073e60fc6bbb3295b04" />
     </application>
 </manifest>

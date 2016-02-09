@@ -9,13 +9,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/custom_tab_layout_height"
-            android:background="@drawable/logo"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_height="wrap_content"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/logo"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/logo"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+
+            </android.support.v7.widget.Toolbar>
+
+
+
+
     </android.support.design.widget.AppBarLayout>
     <RelativeLayout
         android:id="@+id/main_content"
