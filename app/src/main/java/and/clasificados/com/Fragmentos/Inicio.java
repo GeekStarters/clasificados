@@ -78,36 +78,61 @@ public class Inicio extends Fragment {
 
         private void setupTabIcons() {
 
-        LayoutInflater inflator = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.tabbar_view_new, null);
-        TextView tabOne = (TextView)v.findViewById(R.id.tab);
-        tabOne.setText(getString(R.string.titulo_tab_vehiculos));
-        ImageView img_tab = (ImageView)v.findViewById(R.id.img_tab);
-        Picasso.with(getActivity())
+            LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View vOne = inflator1.inflate(R.layout.tabbar_view_new, null);
+            TextView tabOne = (TextView)vOne.findViewById(R.id.tab);
+            tabOne.setText(getString(R.string.titulo_tab_vehiculos));
+            ImageView img_tab1 = (ImageView)vOne.findViewById(R.id.img_tab);
+            Picasso.with(getActivity())
                     .load(R.drawable.icon_tabbar_vehiculo)
                     .fit()
-                    .into(img_tab);
-        tabLayout.getTabAt(0).setCustomView(v);
- 
-        TextView tabTwo = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.tabbar_view, null);
-        tabTwo.setText(getString(R.string.titulo_tab_inmuebles));
-        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.icon_tabbar_edificio, 0, 0);
-        tabLayout.getTabAt(1).setCustomView(tabTwo);
- 
-        TextView tabThree = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.tabbar_view, null);
-        tabThree.setText(getString(R.string.titulo_tab_productos));
-        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.icon_tabbar_producto, 0, 0);
-        tabLayout.getTabAt(2).setCustomView(tabThree);
-         
-        TextView tabFour = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.tabbar_view, null);
-        tabFour.setText(getString(R.string.titulo_tab_empleos));
-        tabFour.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.icon_tabbar_empleo, 0, 0);
-        tabLayout.getTabAt(3).setCustomView(tabFour);
+                    .into(img_tab1);
+            tabLayout.getTabAt(0).setCustomView(vOne);
 
-        TextView tabFive = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.tabbar_view, null);
-        tabFive.setText(getString(R.string.titulo_tab_servicios));
-        tabFive.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.icon_tabbar_servicio, 0, 0);
-        tabLayout.getTabAt(4).setCustomView(tabFive);
+            LayoutInflater inflator2 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View vTwo = inflator2.inflate(R.layout.tabbar_view_new, null);
+            TextView tabTwo = (TextView)vTwo.findViewById(R.id.tab);
+            tabTwo.setText(getString(R.string.titulo_tab_inmuebles));
+            ImageView img_tab2 = (ImageView)vTwo.findViewById(R.id.img_tab);
+            Picasso.with(getActivity())
+                    .load(R.drawable.icon_tabbar_edificio)
+                    .fit()
+                    .into(img_tab2);
+            tabLayout.getTabAt(1).setCustomView(vTwo);
+
+            LayoutInflater inflator3 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View vThree = inflator3.inflate(R.layout.tabbar_view_new, null);
+            TextView tabThree = (TextView)vThree.findViewById(R.id.tab);
+            tabThree.setText(getString(R.string.titulo_tab_productos));
+            ImageView img_tab3 = (ImageView)vThree.findViewById(R.id.img_tab);
+            Picasso.with(getActivity())
+                    .load(R.drawable.icon_tabbar_producto)
+                    .fit()
+                    .into(img_tab3);
+            tabLayout.getTabAt(2).setCustomView(vThree);
+
+            LayoutInflater inflator4 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View vFour = inflator4.inflate(R.layout.tabbar_view_new, null);
+            TextView tabFour = (TextView)vFour.findViewById(R.id.tab);
+            tabFour.setText(getString(R.string.titulo_tab_empleos));
+            ImageView img_tab4 = (ImageView)vFour.findViewById(R.id.img_tab);
+            Picasso.with(getActivity())
+                    .load(R.drawable.icon_tabbar_empleo)
+                    .fit()
+                    .into(img_tab4);
+            tabLayout.getTabAt(3).setCustomView(vFour);
+
+            LayoutInflater inflator5 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View vFive = inflator5.inflate(R.layout.tabbar_view_new, null);
+            TextView tabFive = (TextView)vFive.findViewById(R.id.tab);
+            tabFive.setText(getString(R.string.titulo_tab_servicios));
+            ImageView img_tab5 = (ImageView)vFive.findViewById(R.id.img_tab);
+            Picasso.with(getActivity())
+                    .load(R.drawable.icon_tabbar_servicio)
+                    .fit()
+                    .into(img_tab5);
+            tabLayout.getTabAt(4).setCustomView(vFive);
+
     }
 
     private void insertarTabs(ViewGroup container) {

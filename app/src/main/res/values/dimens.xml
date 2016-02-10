@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="header_left_padding">16dp</dimen>
-    <dimen name="header_height">192dp</dimen>
+    <dimen name="header_height">150dp</dimen>
 
     <dimen name="perfil_image_size">64dp</dimen>
     <!-- ListView -->
@@ -25,6 +25,6 @@
 
     <dimen name="tab_max_width">264dp</dimen>
     <dimen name="tab_padding_bottom">16dp</dimen>
-    <dimen name="tab_label">10sp</dimen>
+    <dimen name="tab_label">9sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
 </resources>
