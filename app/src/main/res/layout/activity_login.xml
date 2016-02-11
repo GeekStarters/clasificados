@@ -1,113 +1,136 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="and.clasificados.com.clasificados.Actividades.Login">
+    android:background="#ffffff">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-<RelativeLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#dee4ee">
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <!--Este carga la slideshow de imagenes -->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                card_view:cardCornerRadius="2dp"
-                card_view:cardUseCompatPadding="true"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/card_imagen">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="550dp">
                 <ImageView
                     android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/logo"
-                    />
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:layout_below="@+id/logo"
-                    android:padding="@dimen/espacio_norma_1"
-                    android:rowCount="2"
-                    android:id="@+id/campos">
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="32dp"
-                        android:layout_marginRight="@dimen/espacio_norma_2"
-                        android:src="@drawable/usuario" />
+                    android:layout_width="150dp"
+                    android:layout_height="125dp"
+                    android:src="@drawable/header_login"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
                     <and.clasificados.com.views.EditTextLight
                         android:id="@+id/user"
                         android:layout_width="350dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="32dp"
-                        android:hint="username" />
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="8dp"
-                        android:src="@drawable/contrasena" />
-
-                    <and.clasificados.com.views.EditTextLight
-                        android:id="@+id/contra"
-                        android:layout_width="350dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:inputType="textPassword"
-                        android:hint="password"/>
-                </GridLayout>
-                   <ImageView
-                       android:layout_width="wrap_content"
-                       android:layout_height="30dp"
-                       android:src="@drawable/button_login"
-                       android:id="@+id/button_session"
-                       android:layout_below="@+id/campos"
-                       android:layout_centerHorizontal="true" />
-                    <and.clasificados.com.views.TextViewLight
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/button_session"
-                        android:text="¿No tienes una cuenta? Toca aqui para registrarte"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:hint="@string/us_o_e"
+                        android:background="@drawable/rounded_etext"
+                        android:layout_below="@+id/button_fb"
                         android:layout_centerHorizontal="true"
-                        android:id="@+id/registro" />
+                        android:layout_marginTop="40dp" />
 
-                    <and.clasificados.com.views.TextViewBold
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/login"
-                        android:id="@+id/textView"
-                        android:textColor="@android:color/white"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:layout_alignTop="@+id/button_session"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@+id/button_session" />
-            </RelativeLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_fb"
+        android:src="@drawable/fb_login"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="105dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView5"
+        android:src="@drawable/login_divider"
+        android:layout_alignBottom="@+id/user"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="40dp" />
+
+    <and.clasificados.com.views.TextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/o_cuenta"
+        android:id="@+id/textView6"
+        android:textColor="#cccccc"
+        android:layout_alignTop="@+id/imageView5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp" />
+
+    <and.clasificados.com.views.TextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_fb"
+        android:id="@+id/textView7"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/logo"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6" />
+
+    <and.clasificados.com.views.EditTextLight
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:id="@+id/editText"
+        android:layout_below="@+id/user"
+        android:layout_alignLeft="@+id/user"
+        android:layout_alignStart="@+id/user"
+        android:hint="@string/password"
+        android:layout_marginTop="18dp"
+        android:layout_alignRight="@+id/user"
+        android:layout_alignEnd="@+id/user"
+        android:background="@drawable/rounded_etext"
+        android:inputType="textPassword"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:id="@+id/button_session"
+        android:src="@drawable/button_login"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/editText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <and.clasificados.com.views.TextViewLight
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/olvidar"
+        android:id="@+id/olvide"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_alignTop="@+id/button_session"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView9"
+        android:layout_below="@+id/olvide"
+        android:layout_alignLeft="@+id/olvide"
+        android:layout_alignStart="@+id/olvide"
+        android:src="@drawable/login_forgot"
+        android:layout_alignRight="@+id/olvide"
+        android:layout_alignEnd="@+id/olvide" />
+
+    <and.clasificados.com.views.TextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ingresar"
+        android:id="@+id/textView9"
+        android:textColor="#FFFFFF"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_alignBottom="@+id/imageView9"
+        android:layout_alignRight="@+id/button_fb"
+        android:layout_alignEnd="@+id/button_fb" />
+
+    <and.clasificados.com.views.ButtonLight
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_cuenta"
+        android:id="@+id/button_registro"
+        android:background="@drawable/rounded_etext"
+        android:layout_below="@+id/button_session"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
+
 </RelativeLayout>
-</LinearLayout>
+</ScrollView>

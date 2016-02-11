@@ -23,12 +23,12 @@
 
 
     <string name="title_activity_single">Autos Usados</string>
-    <string name="title_activity_login">Iniciar Sesion</string>
+    <string name="title_activity_login">Iniciar Sesión</string>
     <string name="title_activity_registro_usuario">Registrarse</string>
-    <string name="login">Iniciar Sesion</string>
-    <string name="registrarse">Registrar Usuario</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="no_cuenta">No tengo una cuenta, crearla</string>
 
-    <string name="registrarme">Registrar</string>
+    <string name="registrarme">Registrar mi cuenta</string>
     <string name="exito_registro">Registro Exitoso</string>
     <string name="sub_exito_registro">Ahora puedes iniciar sesion</string>
     <string name="mi_cuenta">Mi Cuenta</string>
@@ -48,6 +48,23 @@
     <string name="server_exception_error_message_forbidden">Error en el servidor</string>
     <string name="error">Error</string>
     <string name="reg_success">Registered Successfully..</string>
+    <string name="lista" />
+    <string name="o_cuenta">O con tu cuenta</string>
+    <string name="us_o_e">Usuario o Email</string>
+    <string name="login_fb">Ingresar con Facebook</string>
+    <string name="password">Contraseña</string>
+    <string name="olvidar">Olvidé mi contraseña</string>
+    <string name="ingresar_cuenta">Ingresar a Cuenta</string>
+    <string name="o_datos">O llena los datos</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="email">Correo electronico</string>
+    <string name="nombre_user">Nombre de usuario</string>
+    <string name="contra2">Repetir contraseña</string>
+    <string name="al_registrarme">Al registrarme acepto los  </string>
+    <string name="terminos">  Términos</string>
+    <string name="y">y</string>
+    <string name="condi">Condiciones</string>
 
 
 </resources>

@@ -153,6 +153,13 @@ public class Inicio extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        appBarLayout.removeView(tabLayout);
+    }
+
+
 
     /**
      * Un {@link FragmentStatePagerAdapter} que gestiona las secciones, fragmentos y
