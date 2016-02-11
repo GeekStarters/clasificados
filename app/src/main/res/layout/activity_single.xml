@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -5,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="and.clasificados.com.clasificados.Actividades.Single">
+    android:background="#F3F3F3"
+    tools:context="and.clasificados.com.clasificados.actividades.Single">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,21 +17,18 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <RelativeLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:background="#dee4ee"
-    android:padding="5dp">
     <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
+
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <!--Este carga la slideshow de imagenes -->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +40,21 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager_imagen"
                     android:layout_width="fill_parent"
-                    android:layout_height="150dp" />
+                    android:layout_height="200dp" />
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:padding="10dip"
+                    app:centered="true"
+                    app:fillColor="#ffffff"
+                    app:pageColor="#949795"
+                    app:snap="false" />
 
             </android.support.v7.widget.CardView>
             <!--Este carga la descripcion del anuncio, el mapa, etc. -->
@@ -50,115 +63,106 @@
                 android:layout_height="wrap_content"
                 card_view:cardCornerRadius="2dp"
                 android:layout_below="@+id/card_imagen"
-                card_view:cardUseCompatPadding="true"
+                card_view:cardUseCompatPadding="false"
                 android:id="@+id/anuncio_card"
                 android:layout_centerHorizontal="true">
-
-                <GridLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:columnCount="1"
-                    android:padding="@dimen/espacio_norma_1"
-                    android:rowCount="6"
-                    android:id="@+id/tabla_anuncio">
-
-                    <and.clasificados.com.views.TextViewBold
-                        android:id="@+id/texto_anuncio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="32dp"
-                        android:text="Titulo Anuncio"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
-                    <and.clasificados.com.views.TextViewLight
-                        android:id="@+id/texto_precio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="32dp"
-                        android:text="Titulo Anuncio"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@color/colorPrimary"/>
-                     <and.clasificados.com.views.TextViewLight
-                        android:id="@+id/texto_descripcion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/lorem"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-                    <and.clasificados.com.views.TextViewLight
-                        android:id="@+id/mapa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Calculo a distancia "
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
-                    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/map"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        class="com.google.android.gms.maps.SupportMapFragment"/>
-                </GridLayout>
-            </android.support.v7.widget.CardView>
-            <!--Este carga las redes sociales -->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="2dp"
-                card_view:cardUseCompatPadding="true"
-                android:id="@+id/anuncio_redes"
-                android:layout_below="@+id/anuncio_card"
-                android:layout_centerHorizontal="true">
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true">
-                   <and.clasificados.com.views.TextViewLight
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="Compartir este anuncio"
-                       android:textAppearance="?android:attr/textAppearanceSmall"
-                       android:id="@+id/texto_share"
-                       android:layout_centerHorizontal="true" />
-                   <GridLayout
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_below="@+id/texto_share"
-                       android:layout_centerHorizontal="true"
-                       android:columnCount="5">
-                       <ImageView
-                           android:layout_width="50dp"
-                           android:layout_height="50dp"
-                           android:layout_gravity="center_vertical"
-                           android:src="@drawable/ic_facebook"
-                           android:id="@+id/imageView3" />
-                       <ImageView
-                           android:layout_width="50dp"
-                           android:layout_height="50dp"
-                           android:layout_gravity="center_vertical"
-                           android:src="@drawable/ic_twitter" />
-                       <ImageView
-                           android:layout_width="50dp"
-                           android:layout_height="50dp"
-                           android:layout_gravity="center_vertical"
-                           android:src="@drawable/ic_whats" />
-                       <ImageView
-                           android:layout_width="50dp"
-                           android:layout_height="50dp"
-                           android:layout_gravity="center_vertical"
-                           android:src="@drawable/ic_messenger" />
-                       <ImageView
-                           android:layout_width="50dp"
-                           android:layout_height="50dp"
-                           android:layout_gravity="center_vertical"
-                           android:src="@drawable/ic_share" />
-                   </GridLayout>
-
-                </RelativeLayout>
-
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="1"
+        android:padding="@dimen/espacio_norma_1"
+        android:rowCount="6"
+        android:id="@+id/tabla_anuncio">
+        <and.clasificados.com.views.TextViewBold
+            android:id="@+id/texto_anuncio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="32dp"
+            android:text="@string/titulo_anuncio"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <and.clasificados.com.views.TextViewLight
+            android:id="@+id/texto_precio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="32dp"
+            android:text="@string/precio"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorPrimary"/>
+        <and.clasificados.com.views.TextViewLight
+            android:id="@+id/texto_descripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/lorem"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <and.clasificados.com.views.TextViewLight
+            android:id="@+id/mapa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/distancia"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:layout_width="350dp"
+            android:layout_height="175dp"
+            class="com.google.android.gms.maps.SupportMapFragment"/>
+    </GridLayout>
+    <and.clasificados.com.views.TextViewLight
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/texto_share"
+        android:layout_below="@+id/tabla_anuncio"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center" />
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/texto_share"
+        android:layout_centerHorizontal="true"
+        android:columnCount="5">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_facebook"
+            android:id="@+id/fb" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_twitter"
+            android:id="@+id/tw"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_whats"
+            android:id="@+id/wha"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_messenger"
+            android:id="@+id/msg"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_share"
+            android:id="@+id/sha"/>
+    </GridLayout>
+</RelativeLayout>
 
             </android.support.v7.widget.CardView>
+
             <!--Link para reportar-->
             <and.clasificados.com.views.TextViewLight
                 android:id="@+id/reportar"
@@ -167,58 +171,60 @@
                 android:paddingBottom="8dp"
                 android:text="@string/reportar_anuncio"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_below="@+id/anuncio_redes"
+                android:layout_below="@+id/anuncio_card"
                 android:layout_centerHorizontal="true" />
+
             <!--Botones -->
 
-                <RelativeLayout
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reportar"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:layout_width="170dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/button_contactar"
+                    android:id="@+id/contactar" />
+                <ImageView
+                    android:layout_width="170dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/button_ofertar"
+                    android:id="@+id/ofertar"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <and.clasificados.com.views.TextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/reportar">
+                    android:text="@string/contactar"
+                    android:id="@+id/textView3"
+                    android:textColor="#ffffff"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="58dp"
+                    android:layout_marginStart="58dp" />
 
-                    <ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="75dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/button_contactar"
-                        android:id="@+id/imageView" />
-                    <ImageView
-                        android:layout_width="150dp"
-                        android:layout_height="75dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/button_ofertar"
-                        android:id="@+id/imageView2"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
-
-                    <and.clasificados.com.views.TextViewBold
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/contactar"
-                        android:id="@+id/textView3"
-                        android:textColor="#ffffff"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="58dp"
-                        android:layout_marginStart="58dp" />
-
-                    <and.clasificados.com.views.TextViewBold
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ofertar"
-                        android:id="@+id/textView4"
-                        android:textColor="#ffffff"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:layout_marginRight="39dp"
-                        android:layout_marginEnd="39dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
-                </RelativeLayout>
+                <and.clasificados.com.views.TextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ofertar"
+                    android:id="@+id/textView4"
+                    android:textColor="#ffffff"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginRight="39dp"
+                    android:layout_marginEnd="39dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-</RelativeLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package and.clasificados.com;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.fragmentos.Login;
 import and.clasificados.com.fragmentos.Categorias;
 import and.clasificados.com.fragmentos.Favoritos;
@@ -57,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         }
         setTitle(getString(R.string.ingresar_cuenta));
         drawerLayout.closeDrawers();
+    }
+
+    public void crear(View v){
+        startActivity(new Intent(this, Publicar.class));
     }
 
     private void prepararDrawer(NavigationView navigationView) {

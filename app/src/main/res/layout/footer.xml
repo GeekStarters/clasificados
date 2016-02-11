@@ -124,7 +124,8 @@
         android:layout_marginBottom="-40dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/cont_footer"
-        android:src="@drawable/footer_center" />
+        android:src="@drawable/footer_center"
+        android:onClick="crear"/>
 
 
 </RelativeLayout>

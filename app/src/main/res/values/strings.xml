@@ -16,7 +16,7 @@
     <string name="titulo_tab_servicios">Servicios</string>
 
     <string name="lorem_short">Lorem Ipsum</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.</string>
     <string name="reportar_anuncio">Reportar este anuncio</string>
     <string name="contactar">Contactar</string>
     <string name="ofertar">Ofertar</string>
@@ -38,7 +38,6 @@
     <string name="activity_base_alert_message_network_exception">Compruebe su conexión a Internet.</string>
     <string name="activity_base_alert_message_parsing_exception">Mensaje incorrecto de server.Please inténtalo de nuevo</string>
     <string name="activity_base_alert_message_timeout_exception">El servidor no responde. Por favor, inténtalo de nuevo</string>
-
 
 
     <!-- String for Server Exception Class -->
@@ -65,6 +64,17 @@
     <string name="terminos">  Términos</string>
     <string name="y">y</string>
     <string name="condi">Condiciones</string>
+    <string name="precio">Q4,950.99</string>
+    <string name="titulo_anuncio">Chevrolet Tahoe LS, 4x4, modelo 2007 de Agencia, Un Dueño</string>
+    <string name="distancia">Kilometro 18.5 Carretera a Fraijanes, Guatemala, Guatemala</string>
+    <string name="share">Compartir clasificado</string>
+    <string name="title_activity_publicar">Publicar Clasificado</string>
+    <string name="clean">Limpiar</string>
+    <string name="titulo">Titulo</string>
+    <string name="costo">Precio</string>
+    <string name="descripcion">Descripción</string>
+    <string name="fotografias">6 Fotografias</string>
+    <string name="publicar_mi">Publicar mi clasificado</string>
 
 
 </resources>

@@ -3,10 +3,11 @@
     <string name="action_settings">Configuracion</string>
 
     <string name="nav_inicio">Inicio</string>
-    <string name="nav_mispublicaciones">Mis publicaciones</string>
+    <string name="nav_publicaciones">Mis publicaciones</string>
     <string name="nav_favoritos">Favoritos</string>
     <string name="nav_mensajes">Mensajes</string>
     <string name="nav_categorias">Categorias</string>
+    <string name="nav_facebook">Compartir en Facebook</string>
 
     <string name="titulo_tab_vehiculos">Vehiculos</string>
     <string name="titulo_tab_inmuebles">Inmuebles</string>
@@ -14,22 +15,66 @@
     <string name="titulo_tab_empleos">Empleos</string>
     <string name="titulo_tab_servicios">Servicios</string>
 
-    <string name="facebook">Compartir en Facebook</string>
     <string name="lorem_short">Lorem Ipsum</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.</string>
     <string name="reportar_anuncio">Reportar este anuncio</string>
     <string name="contactar">Contactar</string>
     <string name="ofertar">Ofertar</string>
 
 
     <string name="title_activity_single">Autos Usados</string>
-    <string name="title_activity_login">Iniciar Sesion</string>
+    <string name="title_activity_login">Iniciar Sesión</string>
     <string name="title_activity_registro_usuario">Registrarse</string>
-    <string name="login">Iniciar Sesion</string>
-    <string name="registrarse">Registrar Usuario</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="no_cuenta">No tengo una cuenta, crearla</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registrarme">Registrar mi cuenta</string>
+    <string name="exito_registro">Registro Exitoso</string>
     <string name="sub_exito_registro">Ahora puedes iniciar sesion</string>
+    <string name="mi_cuenta">Mi Cuenta</string>
+
+
+    <string name="activity_base_alert_message_error">Ha ocurrido un error, Por favor intente de nuevo</string>
+    <string name="activity_base_alert_message_network_exception">Compruebe su conexión a Internet.</string>
+    <string name="activity_base_alert_message_parsing_exception">Mensaje incorrecto de server.Please inténtalo de nuevo</string>
+    <string name="activity_base_alert_message_timeout_exception">El servidor no responde. Por favor, inténtalo de nuevo</string>
+
+
+    <!-- String for Server Exception Class -->
+    <string name="server_exception_error_message_general">Error en el servidor</string>
+    <string name="server_exception_error_message_server_error">Error interno en el servidor</string>
+    <string name="server_exception_error_message_resource_not_found">Recurso solicitado no existe en el servidor</string>
+    <string name="server_exception_error_message_forbidden">Error en el servidor</string>
+    <string name="error">Error</string>
+    <string name="reg_success">Registered Successfully..</string>
+    <string name="lista" />
+    <string name="o_cuenta">O con tu cuenta</string>
+    <string name="us_o_e">Usuario o Email</string>
+    <string name="login_fb">Ingresar con Facebook</string>
+    <string name="password">Contraseña</string>
+    <string name="olvidar">Olvidé mi contraseña</string>
+    <string name="ingresar_cuenta">Ingresar a Cuenta</string>
+    <string name="o_datos">O llena los datos</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="email">Correo electronico</string>
+    <string name="nombre_user">Nombre de usuario</string>
+    <string name="contra2">Repetir contraseña</string>
+    <string name="al_registrarme">Al registrarme acepto los  </string>
+    <string name="terminos">  Términos</string>
+    <string name="y">y</string>
+    <string name="condi">Condiciones</string>
+    <string name="precio">Q4,950.99</string>
+    <string name="titulo_anuncio">Chevrolet Tahoe LS, 4x4, modelo 2007 de Agencia, Un Dueño</string>
+    <string name="distancia">Kilometro 18.5 Carretera a Fraijanes, Guatemala, Guatemala</string>
+    <string name="share">Compartir clasificado</string>
+    <string name="title_activity_publicar">Publicar Clasificado</string>
+    <string name="clean">Limpiar</string>
+    <string name="titulo">Titulo</string>
+    <string name="costo">Precio</string>
+    <string name="descripcion">Descripción</string>
+    <string name="fotografias">6 Fotografias</string>
+    <string name="publicar_mi">Publicar mi clasificado</string>
+
 
 </resources>
