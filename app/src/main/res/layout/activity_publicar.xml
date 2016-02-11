@@ -39,17 +39,35 @@
                 android:layout_marginTop="24dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
-
-            <and.clasificados.com.views.EditTextLight
+            <GridLayout
                 android:layout_width="350dp"
-                android:layout_height="40dp"
-                android:id="@+id/editText"
+                android:layout_height="match_parent"
+                android:layout_marginTop="19dp"
+                android:columnCount="3"
+                android:rowCount="1"
+                android:id="@+id/gridLayout3"
                 android:layout_below="@+id/titulo"
-                android:hint="@string/costo"
-                android:layout_marginTop="18dp"
                 android:layout_alignRight="@+id/titulo"
-                android:layout_alignEnd="@+id/titulo"
-                android:background="@drawable/rounded_etext"/>
+                android:layout_alignEnd="@+id/titulo">
+
+                <and.clasificados.com.views.ButtonLight
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/currency"
+                    android:text="@string/moneda"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:background="@drawable/rounded_etext"/>
+                <and.clasificados.com.views.EditTextLight
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/costo"
+                    android:hint="@string/costo"
+                    android:background="@drawable/rounded_etext"
+                    android:layout_row="0"
+                    android:layout_column="2"/>
+
+            </GridLayout>
 
             <GridLayout
                 android:layout_width="350dp"
@@ -58,9 +76,9 @@
                 android:columnCount="3"
                 android:rowCount="1"
                 android:id="@+id/gridLayout"
-                android:layout_below="@+id/editText"
-                android:layout_alignLeft="@+id/editText2"
-                android:layout_alignStart="@+id/editText2">
+                android:layout_below="@+id/gridLayout3"
+                android:layout_alignLeft="@+id/gridLayout3"
+                android:layout_alignStart="@+id/gridLayout3">
 
                 <Spinner
                     android:layout_width="165dp"
@@ -81,10 +99,10 @@
             <and.clasificados.com.views.EditTextLight
                 android:layout_width="350dp"
                 android:layout_height="200dp"
-                android:id="@+id/editText2"
+                android:id="@+id/descripcion"
                 android:layout_below="@+id/gridLayout"
-                android:layout_alignLeft="@+id/editText"
-                android:layout_alignStart="@+id/editText"
+                android:layout_alignLeft="@+id/gridLayout3"
+                android:layout_alignStart="@+id/gridLayout3"
                 android:layout_marginTop="21dp"
                 android:hint="@string/descripcion"
                 android:textAlignment="gravity"
@@ -93,9 +111,9 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/editText2"
-                android:layout_alignLeft="@+id/editText2"
-                android:layout_alignStart="@+id/editText2"
+                android:layout_below="@+id/descripcion"
+                android:layout_alignLeft="@+id/descripcion"
+                android:layout_alignStart="@+id/descripcion"
                 android:columnCount="4"
                 android:rowCount="1"
                 android:layout_marginTop="28dp"
@@ -146,8 +164,8 @@
                 android:layout_alignLeft="@+id/gridLayout2"
                 android:layout_alignStart="@+id/gridLayout2"
                 android:layout_marginTop="25dp"
-                android:layout_alignRight="@+id/editText2"
-                android:layout_alignEnd="@+id/editText2">
+                android:layout_alignRight="@+id/descripcion"
+                android:layout_alignEnd="@+id/descripcion">
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"

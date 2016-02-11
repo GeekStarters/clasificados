@@ -9,11 +9,12 @@
     android:orientation="vertical"
     android:padding="@dimen/header_left_padding"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/header_nav">
 
     <!-- Imagen de perfil -->
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circle_image"
+        android:id="@+id/profile"
         android:layout_width="@dimen/perfil_image_size"
         android:layout_height="@dimen/perfil_image_size"
         android:scaleType="centerCrop"
@@ -52,11 +53,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_activity_login"
-        android:id="@+id/textView11"
+        android:id="@+id/auxiliar"
         android:textColor="#000000"
         android:textAppearance="?android:textAppearanceLarge"
         android:layout_centerVertical="true"
         android:layout_alignRight="@+id/username"
-        android:layout_alignEnd="@+id/username" />
+        android:layout_alignEnd="@+id/username"
+        android:visibility="visible"/>
 
 </RelativeLayout>

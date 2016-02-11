@@ -69,7 +69,7 @@ android:layout_height="550dp">
     <and.clasificados.com.views.EditTextLight
         android:layout_width="350dp"
         android:layout_height="40dp"
-        android:id="@+id/editText"
+        android:id="@+id/pass"
         android:layout_below="@+id/user"
         android:layout_alignLeft="@+id/user"
         android:layout_alignStart="@+id/user"
@@ -86,7 +86,7 @@ android:layout_height="550dp">
         android:id="@+id/button_session"
         android:src="@drawable/button_login"
         android:layout_marginTop="23dp"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/pass"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -97,8 +97,8 @@ android:layout_height="550dp">
         android:id="@+id/olvide"
         android:textAppearance="?android:textAppearanceSmall"
         android:layout_alignTop="@+id/button_session"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass" />
 
     <ImageView
         android:layout_width="wrap_content"

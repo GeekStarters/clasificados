@@ -75,6 +75,11 @@
     <string name="descripcion">Descripción</string>
     <string name="fotografias">6 Fotografias</string>
     <string name="publicar_mi">Publicar mi clasificado</string>
+    <string name="error_incorrect_password">Error contraseña incorrecta</string>
+    <string name="error_invalid_email">No existe usuario con este registro</string>
+    <string name="no_coinciden">Contraseñas no coinciden</string>
+    <string name="no_vacios">Campos vacios</string>
+    <string name="moneda">Q</string>
 
 
 </resources>

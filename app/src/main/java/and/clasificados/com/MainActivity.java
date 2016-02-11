@@ -12,6 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.fragmentos.Login;
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
+
 
     private void seleccionarItem(MenuItem itemDrawer) {
         Fragment fragmentoGenerico = null;
