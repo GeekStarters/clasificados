@@ -25,11 +25,12 @@
         android:layout_height="match_parent"
         android:background="#ffffff"
         android:paddingBottom="@dimen/espacio_norma_1"
-        android:paddingLeft="@dimen/espacio_norma_1"
-        android:paddingRight="@dimen/espacio_norma_1">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:paddingLeft="@dimen/espacio_norma_1"
+            android:paddingRight="@dimen/espacio_norma_1"
             android:layout_height="wrap_content">
 
             <and.clasificados.com.views.EditTextLight
@@ -112,54 +113,62 @@
                 android:hint="@string/descripcion"
                 android:padding="4dp"
                 android:textAlignment="gravity"
-                android:background="@drawable/rounded_etext"/>
+                android:background="@drawable/rounded_etext"
+                android:gravity="top" />
 
-            <GridLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/descripcion"
                 android:layout_alignLeft="@+id/descripcion"
                 android:layout_alignStart="@+id/descripcion"
-                android:columnCount="4"
-                android:rowCount="1"
                 android:layout_marginTop="28dp"
+                android:background="@drawable/rounded_etext"
                 android:id="@+id/gridLayout2">
                 <and.clasificados.com.views.TextViewLight
                     android:id="@+id/texto_descripcion"
-                    android:layout_width="170dp"
-                    android:layout_height="60dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:textSize="14sp"
+                    android:padding="2dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/fotografias"
+                    android:gravity="left|center_vertical"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_row="0"
-                    android:layout_column="0"
-                    android:background="@drawable/border"/>
+                    android:layout_toLeftOf="@+id/camera"
+                    android:layout_toStartOf="@+id/camera" />
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="45dp"
                     android:id="@+id/camera"
-                    android:layout_row="0"
-                    android:layout_column="1"
+                    android:padding="4dp"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/add_camera"
-                    android:background="@drawable/border"/>
+                    android:background="@drawable/border"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/gallery"
+                    android:layout_toStartOf="@+id/gallery" />
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="45dp"
+                    android:adjustViewBounds="true"
                     android:id="@+id/gallery"
-                    android:layout_row="0"
-                    android:layout_column="2"
+                    android:padding="4dp"
                     android:src="@drawable/add_photo"
-                    android:background="@drawable/border"/>
+                    android:background="@drawable/border"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/delete"
+                    android:layout_toStartOf="@+id/delete" />
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="45dp"
                     android:id="@+id/delete"
-                    android:layout_row="0"
-                    android:layout_column="3"
-                    android:src="@drawable/delete_photo"
-                    android:background="@drawable/border"/>
-            </GridLayout>
+                    android:padding="4dp"
+                    android:adjustViewBounds="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/delete_photo"/>
+            </RelativeLayout>
 
             <GridLayout
                 android:layout_width="match_parent"

@@ -69,7 +69,7 @@ public class Inicio extends Fragment {
             tabLayout.setupWithViewPager(viewPager);
             context=getActivity();
             setupTabIcons();
-            new DataCategory(context).execute();
+            //new DataCategory(context).execute();
 
         }
 
