@@ -8,6 +8,7 @@
     <string name="nav_mensajes">Mensajes</string>
     <string name="nav_categorias">Categorias</string>
     <string name="nav_facebook">Compartir en Facebook</string>
+    <string name="terminos_cond">Al registrarme acepto los <font color='#F8672f'>Terminos</font> y <font color='#F8672f'>Condiciones</font></string>
 
     <string name="titulo_tab_vehiculos">Vehiculos</string>
     <string name="titulo_tab_inmuebles">Inmuebles</string>
@@ -24,7 +25,7 @@
 
     <string name="title_activity_single">Autos Usados</string>
     <string name="title_activity_login">Iniciar Sesión</string>
-    <string name="title_activity_registro_usuario">Registrarse</string>
+    <string name="title_activity_registro_usuario">Crear Cuenta</string>
     <string name="ingresar">Ingresar</string>
     <string name="no_cuenta">No tengo una cuenta, crearla</string>
 
@@ -60,10 +61,6 @@
     <string name="email">Correo electronico</string>
     <string name="nombre_user">Nombre de usuario</string>
     <string name="contra2">Repetir contraseña</string>
-    <string name="al_registrarme">Al registrarme acepto los  </string>
-    <string name="terminos">  Términos</string>
-    <string name="y">y</string>
-    <string name="condi">Condiciones</string>
     <string name="precio">Q4,950.99</string>
     <string name="titulo_anuncio">Chevrolet Tahoe LS, 4x4, modelo 2007 de Agencia, Un Dueño</string>
     <string name="distancia">Kilometro 18.5 Carretera a Fraijanes, Guatemala, Guatemala</string>

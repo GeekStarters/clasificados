@@ -38,27 +38,16 @@
         android:layout_marginStart="85dp"
         android:visibility="invisible"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <and.clasificados.com.views.ButtonLight
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id="@+id/image_login"
-        android:src="@drawable/button_nav"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/circle_image"
-        android:layout_alignTop="@+id/circle_image"
-        android:onClick="iniciar"
-        android:visibility="visible"/>
-
-    <and.clasificados.com.views.TextViewLight
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/title_activity_login"
-        android:id="@+id/auxiliar"
         android:textColor="#000000"
-        android:textAppearance="?android:textAppearanceLarge"
+        android:onClick="iniciar"
+        android:visibility="visible"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/username"
-        android:layout_alignEnd="@+id/username"
-        android:visibility="visible"/>
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_button"/>
 
 </RelativeLayout>

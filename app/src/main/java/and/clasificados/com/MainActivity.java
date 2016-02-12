@@ -17,8 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import and.clasificados.com.actividades.Login;
 import and.clasificados.com.actividades.Publicar;
-import and.clasificados.com.fragmentos.Login;
 import and.clasificados.com.fragmentos.Categorias;
 import and.clasificados.com.fragmentos.Favoritos;
 import and.clasificados.com.fragmentos.Inicio;
@@ -53,16 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void iniciar(View v){
-        Fragment fragmento = new Login();
-        FragmentManager fragmentM = getSupportFragmentManager();
-        if (fragmento != null) {
-            fragmentM
-                    .beginTransaction()
-                    .replace(R.id.main_content, fragmento)
-                    .commit();
-        }
-        setTitle(getString(R.string.ingresar_cuenta));
-        drawerLayout.closeDrawers();
+        startActivity(new Intent(this,Login.class));
     }
 
     public void crear(View v){

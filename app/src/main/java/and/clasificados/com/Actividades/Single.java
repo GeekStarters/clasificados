@@ -148,11 +148,13 @@ public class Single extends AppCompatActivity {
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_custom);
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
         setTitle(R.string.title_activity_single);
+
     }
 
     @Override

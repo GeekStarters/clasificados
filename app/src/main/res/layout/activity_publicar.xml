@@ -23,7 +23,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:paddingBottom="@dimen/espacio_norma_1"
+        android:paddingLeft="@dimen/espacio_norma_1"
+        android:paddingRight="@dimen/espacio_norma_1">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -38,7 +41,8 @@
                 android:background="@drawable/rounded_etext"
                 android:layout_marginTop="24dp"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:padding="4dp"/>
             <GridLayout
                 android:layout_width="350dp"
                 android:layout_height="match_parent"
@@ -65,7 +69,8 @@
                     android:hint="@string/costo"
                     android:background="@drawable/rounded_etext"
                     android:layout_row="0"
-                    android:layout_column="2"/>
+                    android:layout_column="2"
+                    android:padding="4dp"/>
 
             </GridLayout>
 
@@ -105,6 +110,7 @@
                 android:layout_alignStart="@+id/gridLayout3"
                 android:layout_marginTop="21dp"
                 android:hint="@string/descripcion"
+                android:padding="4dp"
                 android:textAlignment="gravity"
                 android:background="@drawable/rounded_etext"/>
 
