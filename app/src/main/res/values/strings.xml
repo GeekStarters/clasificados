@@ -80,6 +80,7 @@
     <string name="no_coinciden">Contraseñas no coinciden</string>
     <string name="no_vacios">Campos vacios</string>
     <string name="moneda">Q</string>
+    <string name="facebook_app_id" translatable="false">1633928916883308</string>
 
 
 </resources>
