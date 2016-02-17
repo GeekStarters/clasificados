@@ -13,14 +13,12 @@
     android:id="@+id/header_nav">
 
     <!-- Imagen de perfil -->
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/profile"
         android:layout_width="@dimen/perfil_image_size"
         android:layout_height="@dimen/perfil_image_size"
         android:scaleType="centerCrop"
         android:src="@drawable/profile3"
-        app:border_color="@android:color/white"
-        app:border_width="1dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"/>

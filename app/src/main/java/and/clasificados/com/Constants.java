@@ -19,6 +19,9 @@ import java.security.NoSuchAlgorithmException;
 public class Constants {
     public static String URL_DOMINIO ="http://api.clasificados.dev/1.0/";
     public static String categories = URL_DOMINIO+"categories";
+    public static String URL = "http://api.staging.clasificados.com/1.0/";
+    public static String registro=URL+"user/signin";
+    public static String autenticar=URL+"user/auth";
 
 
     public static String convertStreamToString(InputStream is) {

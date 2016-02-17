@@ -65,6 +65,12 @@ public class CategoriasTab extends Fragment {
             case 4:
                 adaptador = new AdaptadorCategorias(Clasificado.SERVICIOS);
                 break;
+            case 5:
+                adaptador = new AdaptadorCategorias(Clasificado.MIOS);
+                break;
+            case 6:
+                adaptador = new AdaptadorCategorias(Clasificado.FAVORITOS);
+                break;
         }
 
         adaptador.setOnClickListener(new View.OnClickListener() {

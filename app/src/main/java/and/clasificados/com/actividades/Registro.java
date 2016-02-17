@@ -1,25 +1,48 @@
 package and.clasificados.com.actividades;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+
+import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
 import and.clasificados.com.fragmentos.Inicio;
+import and.clasificados.com.modelo.Usuario;
+import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
+import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 
 public class  Registro extends AppCompatActivity {
@@ -28,7 +51,7 @@ public class  Registro extends AppCompatActivity {
     ImageView fb;
     TextView terminos;
     EditTextLight nombre, apellido,usuario, pass1, pass2,email;
-
+    private static final String TAG = Registro.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +78,7 @@ public class  Registro extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Iremos a Facebook", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.registro:
-                        registro();
+                       registro();
                         break;
                     case R.id.terminos:
                         Toast.makeText(getApplicationContext(),"Saldra un alert con los terminos y condiciones", Toast.LENGTH_LONG).show();
@@ -83,43 +106,31 @@ public class  Registro extends AppCompatActivity {
         String contra2=pass2.getText().toString();
         boolean cancel = false;
         boolean bloqueo = false;
-        View focusView=null; View focusView1=null; View focusView2=null;View focusView3=null; View focusView4=null; View focusView5=null; View focusView6 = null;
+        View focusView=null; View focusView1=null; View focusView2=null;View focusView3=null; View focusView4=null;
         try {
             if (user.isEmpty()) {
                 usuario.setError(getString(R.string.no_vacios));
                 focusView1 = usuario;
                 bloqueo = true;
             } else {
-                if (nom.isEmpty()) {
-                    nombre.setError(getString(R.string.no_vacios));
-                    focusView2 = nombre;
-                    bloqueo = true;
-                } else {
                     if (correo.isEmpty()) {
                         email.setError(getString(R.string.no_vacios));
-                        focusView3 = email;
+                        focusView2 = email;
                         bloqueo = true;
-                    } else {
-                        if (apel.isEmpty()) {
-                            apellido.setError(getString(R.string.no_vacios));
-                            focusView4 = apellido;
-                            bloqueo = true;
-                        } else {
+                    }else {
                             if (contra.isEmpty()) {
                                 pass1.setError(getString(R.string.no_vacios));
-                                focusView5 = pass1;
+                                focusView3 = pass1;
                                 bloqueo = true;
                             } else {
                                 if (contra2.isEmpty()) {
                                     pass2.setError(getString(R.string.no_vacios));
-                                    focusView6 = pass1;
+                                    focusView4 = pass1;
                                     bloqueo = true;
                                 }
                             }
                         }
                     }
-                }
-            }
             if (!contra.isEmpty()&&!contra2.isEmpty()) {
                 if (!contra.equals(contra2)) {
                     pass2.setError(getString(R.string.no_coinciden));
@@ -133,10 +144,9 @@ public class  Registro extends AppCompatActivity {
                 focusView2.requestFocus();
                 focusView3.requestFocus();
                 focusView4.requestFocus();
-                focusView5.requestFocus();
-                focusView6.requestFocus();
             }else{
-                transicion();
+                NuevoUsuario tarea = new NuevoUsuario();
+                tarea.execute();
             }
         }catch (Exception e) {
 
@@ -154,8 +164,75 @@ public class  Registro extends AppCompatActivity {
         setTitle(R.string.title_activity_registro_usuario);
 
     }
+
     public void transicion(){
-       startActivity(new Intent(this,MainActivity.class));
+       startActivity(new Intent(this, Login.class));
+    }
+
+
+    private class NuevoUsuario extends AsyncTask<String,Integer,Boolean> {
+
+        protected Boolean doInBackground(String... params) {
+            boolean resul;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(Constants.registro);
+            post.setHeader("content-type", "application/json");
+            try
+            {
+                final String first = nombre.getText().toString();
+                final String last = apellido.getText().toString();
+                final String user = usuario.getText().toString();
+                final String correo= email.getText().toString();
+                final String contra = pass1.getText().toString();
+                final String contra2 = pass2.getText().toString();
+
+                JSONObject map = new JSONObject();
+                map.put("provider", "local");
+                map.put("first_name", first);
+                map.put("last_name", last);
+                map.put("user_name", user);
+                map.put("email", correo);
+                map.put("password", contra);
+                map.put("password_confirmation", contra2);
+                map.put("fb_user_id",null);
+                map.put("phone",null);
+                StringEntity entity = new StringEntity(map.toString());
+                post.setEntity(entity);
+                HttpResponse resp = httpClient.execute(post);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                String aux = respJSON.get("errors").toString();
+                if(aux.equals("[]")){
+                    resul=true;
+                }else{
+                   /* String error1=null,error2=null, resultado=null;
+                    String[] parts = aux.split(",");
+                    error1 = parts[0];
+                    error2 = parts[2];
+                    if(!error2.isEmpty()){
+                        resultado = error1.substring(13,error1.length()-1) + " ó " + error2.substring(12,error2.length()-1);
+                    }else{
+                        resultado = error1.substring(13,error1.length()-1);
+                    }*/
+                    resul=false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.e("ServicioRest","Error!", ex);
+                //Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                resul = false;
+            }
+
+            return resul;
+        }
+
+        protected void onPostExecute(Boolean result) {
+
+            if (result)
+            {
+                transicion();
+            }
+        }
     }
 
 }

@@ -12,11 +12,12 @@ public class Mensaje {
     private int imagen;
     private String nombre;
     private String mensaje;
+    private int idDrawable;
 
-    public Mensaje(int imagen, String nombre, String mensaje) {
-        this.imagen = imagen;
+    public Mensaje(int idDrawable, String nombre, String mensaje) {
         this.nombre = nombre;
         this.mensaje = mensaje;
+        this.idDrawable=idDrawable;
     }
 
     public static final List<Mensaje> MENSAJES= new ArrayList<Mensaje>();
@@ -40,6 +41,10 @@ public class Mensaje {
 
     public String getMensaje() {
         return mensaje;
+    }
+
+    public int getIdDrawable() {
+        return idDrawable;
     }
 
 }

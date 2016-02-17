@@ -55,6 +55,8 @@ public class Splash extends Activity {
         protected void onPostExecute(Boolean result) {
 
             Intent menu = new Intent(getApplicationContext(), MainActivity.class);
+            menu.putExtra("usuario","none");
+            menu.putExtra("contra","none");
             startActivity(menu);
             finish();
 

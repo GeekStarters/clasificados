@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Single">
+    <item
+        android:id="@+id/fav"
+        android:icon="@drawable/configuracion_white"
+        android:orderInCategory="1"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom" />
+</menu>

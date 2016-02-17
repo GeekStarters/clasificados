@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import and.clasificados.com.common.CircleTransformation;
+import and.clasificados.com.common.RoundedTransformation;
 import and.clasificados.com.modelo.Mensaje;
 import and.clasificados.com.R;
 
@@ -33,7 +34,7 @@ public class AdaptadorMensaje extends RecyclerView.Adapter<AdaptadorMensaje.View
             super(v);
             mensaje = (TextView) v.findViewById(R.id.item_mensaje);
             nombre = (TextView) v.findViewById(R.id.item_usuario);
-            imagen = (ImageView) v.findViewById(R.id.item_imagen);
+            imagen = (ImageView) v.findViewById(R.id.circle_image);
         }
     }
 
@@ -68,9 +69,9 @@ public class AdaptadorMensaje extends RecyclerView.Adapter<AdaptadorMensaje.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Mensaje item = items.get(i);
-        Glide.with(viewHolder.itemView.getContext())
-                .load(item.getImagen())
-                .centerCrop()
+        Picasso.with(viewHolder.itemView.getContext())
+                .load(item.getIdDrawable())
+                .transform(new CircleTransformation())
                 .into(viewHolder.imagen);
         viewHolder.nombre.setText(item.getNombre());
         viewHolder.mensaje.setText(item.getMensaje());

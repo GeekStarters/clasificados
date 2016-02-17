@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
 import and.clasificados.com.actividades.Registro;
 import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.views.EditTextLight;
+import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class Login extends AppCompatActivity{
 
@@ -41,17 +52,6 @@ public class Login extends AppCompatActivity{
         olvide = (TextView) findViewById(R.id.olvide);
         usuario = (EditTextLight) findViewById(R.id.user);
         contra = (EditTextLight) findViewById(R.id.pass);
-        contra.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_NULL) {
-                    login();
-                    return true;
-                }
-                return false;
-            }
-        });
-
         View.OnClickListener onclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +63,8 @@ public class Login extends AppCompatActivity{
                         registro();
                         break;
                     case R.id.button_session:
-                        login();
+                        AutenticarUsuario tarea = new AutenticarUsuario();
+                        tarea.execute();
                         break;
                     case R.id.olvide:
                         Toast.makeText(getApplicationContext(), "Iremos a cambiar contraseña", Toast.LENGTH_LONG).show();
@@ -93,29 +94,55 @@ public class Login extends AppCompatActivity{
         startActivity(new Intent(this, Registro.class));
     }
 
-    public void login() {
-        usuario.setError(null);
-        contra.setError(null);
-        String idUser = usuario.getText().toString();
-        String password = contra.getText().toString();
+    private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
+        String user="none",pass="none";
+        protected Boolean doInBackground(String... params) {
+            boolean resul;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(Constants.autenticar);
+            post.setHeader("content-type", "application/json");
+            try
+            {
+                final String acceso = usuario.getText().toString();
+                final String clave= contra.getText().toString();
+                JSONObject map = new JSONObject();
+                map.put("provider", "local");
+                map.put("access", acceso);
+                map.put("password", clave);
+                map.put("fb_user_id", null);
+                StringEntity entity = new StringEntity(map.toString());
+                post.setEntity(entity);
+                HttpResponse resp = httpClient.execute(post);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                String aux = respJSON.get("errors").toString();
+                if(aux.equals("[]")){
+                    resul=true;
+                    user=acceso;
+                    pass=clave;
+                }else{
+                    String resultado = aux.substring(13, aux.length() - 12);
+                    Toast.makeText(getApplicationContext(),resultado,Toast.LENGTH_LONG).show();
+                    user="none";
+                    resul=false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.e("ServicioRest", "Error!", ex);
+             //   Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                resul = false;
+            }
+            return resul;
+        }
 
-        boolean cancel = false;
-        View focusView = null;
-        try {
-            //  Usuario usuario = new Usuario();
-            if (!password.equals(idUser)) {
-                contra.setError(getString(R.string.error_incorrect_password));
-                focusView = contra;
-                cancel = true;
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+           //     Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_LONG).show();
+                Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                i.putExtra("usuario",user);
+                i.putExtra("contra",pass);
+                startActivity(i);
             }
-            if (cancel) {
-                focusView.requestFocus();
-            } else {
-                startActivity(new Intent(this, MainActivity.class));
-            }
-        } catch (Exception e) {
-            usuario.setError(getString(R.string.error_invalid_email));
-            focusView = usuario;
         }
     }
 

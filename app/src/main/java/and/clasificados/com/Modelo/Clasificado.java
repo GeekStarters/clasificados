@@ -27,6 +27,7 @@ public class Clasificado {
     public static final List<Clasificado> EMPLEOS = new ArrayList<>();
     public static final List<Clasificado> SERVICIOS = new ArrayList<>();
     public static final List<Clasificado> FAVORITOS = new ArrayList<>();
+    public static final List<Clasificado> MIOS = new ArrayList<>();
 
     static {
         VEHICULOS.add(new Clasificado(5450.90, "Autos","Mitsubishi Lancer", R.drawable.carro));
@@ -65,6 +66,11 @@ public class Clasificado {
         FAVORITOS.add(new Clasificado(5000.00, "Otros","Laptop", R.drawable.celular));
         FAVORITOS.add(new Clasificado(5102.00, "Otros","Fontaneria", R.drawable.electricista));
 
+        MIOS.add(new Clasificado(5050.90, "Autos", "Mitsubishi Lancer", R.drawable.carro));
+        MIOS.add(new Clasificado(4050.00, "Alquiler", "Edifico", R.drawable.edificio));
+        MIOS.add(new Clasificado(2010.00, "Servicios", "Fontaneria", R.drawable.ingeniero));
+        MIOS.add(new Clasificado(5000.00, "Otros", "Laptop", R.drawable.celular));
+        MIOS.add(new Clasificado(5002.00, "Otros", "Fontaneria", R.drawable.electricista));
 
     }
 

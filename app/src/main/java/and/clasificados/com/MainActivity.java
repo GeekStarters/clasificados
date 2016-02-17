@@ -11,30 +11,44 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.squareup.picasso.Picasso;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import and.clasificados.com.actividades.Login;
 import and.clasificados.com.actividades.Publicar;
+import and.clasificados.com.common.CircleTransformation;
 import and.clasificados.com.fragmentos.Categorias;
-import and.clasificados.com.fragmentos.Favoritos;
+import and.clasificados.com.actividades.Mis;
 import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.fragmentos.Mensajes;
 import and.clasificados.com.fragmentos.MisPublicaciones;
+import and.clasificados.com.fragmentos.NoLogin;
+import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout drawerLayout;
     Button image_login;
+    ImageView picture;
+    TextView user;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -45,22 +59,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        agregarToolbar();
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            prepararDrawer(navigationView);
-            seleccionarItem(navigationView.getMenu().getItem(0));
+       try {
+           Intent intent = getIntent();
+           String u = intent.getStringExtra("usuario");
+           String p= intent.getStringExtra("contra");
+           agregarToolbar();
+           drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+           NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+           View header = navigationView.getHeaderView(0);
+           image_login= (Button) header.findViewById(R.id.image_login);
+           picture = (ImageView) header.findViewById(R.id.profile);
+           user = (TextView) header.findViewById(R.id.username);
+           if(estaLogueado(u)){
+               AutenticarUsuario tarea = new AutenticarUsuario();
+               tarea.execute(u,p);
+               image_login.setVisibility(View.INVISIBLE);
+               picture.setVisibility(View.VISIBLE);
+               user.setVisibility(View.VISIBLE);
+               if (navigationView != null) {
+                   prepararDrawer(navigationView);
+                   seleccionarItem(navigationView.getMenu().getItem(0));
+               }
+           }else{
+               image_login.setVisibility(View.VISIBLE);
+               picture.setVisibility(View.INVISIBLE);
+               user.setVisibility(View.INVISIBLE);
+               if (navigationView != null) {
+                   prepararDrawer_nologin(navigationView);
+                   selectItem(navigationView.getMenu().getItem(0));
+               }
+       }
+
+           // ATTENTION: This was auto-generated to implement the App Indexing API.
+           // See https://g.co/AppIndexing/AndroidStudio for more information.
+           client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+           // image_login=(Button)findViewById(R.id.image_login);
+           image_login.setOnClickListener(this);
+       }catch (Exception ex){
+           Log.e("Error","Error Intent",ex);
+           agregarToolbar();
+           drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+           NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+           View header = navigationView.getHeaderView(0);
+           image_login= (Button) header.findViewById(R.id.image_login);
+           picture = (ImageView) header.findViewById(R.id.profile);
+           user = (TextView) header.findViewById(R.id.username);
+           image_login.setVisibility(View.VISIBLE);
+           picture.setVisibility(View.INVISIBLE);
+           user.setVisibility(View.INVISIBLE);
+           if (navigationView != null) {
+                   prepararDrawer_nologin(navigationView);
+                   selectItem(navigationView.getMenu().getItem(0));
+           }
+           }
+
+           // ATTENTION: This was auto-generated to implement the App Indexing API.
+           // See https://g.co/AppIndexing/AndroidStudio for more information.
+           client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+           // image_login=(Button)findViewById(R.id.image_login);
+           image_login.setOnClickListener(this);
+       }
+
+
+
+
+    private boolean estaLogueado(String usuario) {
+        boolean variable;
+        if(usuario.equals("none")){
+            variable = false;
+        }else {
+            variable = true;
         }
-
-        View header = navigationView.getHeaderView(0);
-        image_login= (Button) header.findViewById(R.id.image_login);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-       // image_login=(Button)findViewById(R.id.image_login);
-        image_login.setOnClickListener(this);
+        return variable;
     }
 
     private void agregarToolbar() {
@@ -69,6 +139,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
             // ab.setDisplayHomeAsUpEnabled(true);
+        }
+
+    }
+
+    private void cambiarToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
         }
 
     }
@@ -95,6 +175,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void prepararDrawer_nologin(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        selectItem(menuItem);
+                        drawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+
+    }
+
+    private void selectItem(MenuItem itemDrawer) {
+        Fragment fragmentoGenerico = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        switch (itemDrawer.getItemId()) {
+            case R.id.item_inicio:
+                fragmentoGenerico = new Inicio();
+                break;
+            case R.id.item_publicaciones:
+                fragmentoGenerico = new NoLogin();
+                break;
+            case R.id.item_favoritos:
+                fragmentoGenerico = new NoLogin();
+                break;
+            case R.id.item_mensajes:
+                fragmentoGenerico = new NoLogin();
+                break;
+            case R.id.item_categorias:
+                fragmentoGenerico = new Categorias();
+                break;
+            case R.id.item_configuracion:
+                // startActivity(new Intent(this, ActividadConfiguracion.class));
+                break;
+            case R.id.item_sharefb:
+                //     startActivity(new Intent(this, ActividadConfiguracion.class));
+                break;
+        }
+        if (fragmentoGenerico != null) {
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_content, fragmentoGenerico)
+                    .commit();
+        }
+
+        setTitle("");
+    }
 
     private void seleccionarItem(MenuItem itemDrawer) {
         Fragment fragmentoGenerico = null;
@@ -108,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentoGenerico = new MisPublicaciones();
                 break;
             case R.id.item_favoritos:
-                fragmentoGenerico = new Favoritos();
+                startActivity(new Intent(this,Mis.class));
                 break;
             case R.id.item_mensajes:
                 fragmentoGenerico = new Mensajes();
@@ -192,4 +322,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
+        String usuario=null, url=null;
+        protected Boolean doInBackground(String... params) {
+            boolean resul;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(Constants.autenticar);
+            post.setHeader("content-type", "application/json");
+            try
+            {
+                JSONObject map = new JSONObject();
+                map.put("provider", "local");
+                map.put("access", params[0]);
+                map.put("password", params[1]);
+                map.put("fb_user_id", null);
+                StringEntity entity = new StringEntity(map.toString());
+                post.setEntity(entity);
+                HttpResponse resp = httpClient.execute(post);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                String aux = respJSON.get("errors").toString();
+                if(aux.equals("[]")){
+                    resul=true;
+                    JSONObject data  = respJSON.getJSONObject("data");
+                    usuario = data.getString("first_name") + " " + data.getString("last_name");
+                    url = respJSON.getString("imagesDomain")+data.getString("picture_profile");
+                }else{
+                    String resultado = aux.substring(13, aux.length() - 12);
+                    Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+                    resul=false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.e("ServicioRest", "Error!", ex);
+                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                resul = false;
+            }
+            return resul;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Picasso.with(getApplicationContext())
+                        .load(url)
+                        .transform(new CircleTransformation())
+                        .fit()
+                        .into(picture);
+                Log.e("imagen",url);
+                user.setText(usuario);
+            }
+        }
+    }
+
 }
