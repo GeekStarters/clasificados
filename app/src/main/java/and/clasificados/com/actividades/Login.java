@@ -2,21 +2,24 @@ package and.clasificados.com.actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -24,31 +27,35 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
-import and.clasificados.com.actividades.Registro;
-import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.views.EditTextLight;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class Login extends AppCompatActivity{
 
+    private LoginButton fb;
+    private CallbackManager callbackManager;
     Button registro, sesion;
-    ImageView fb;
     TextView olvide;
     EditTextLight usuario, contra;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
         agregarToolbar();
         registro = (Button) findViewById(R.id.button_registro);
         sesion = (Button) findViewById(R.id.button_session);
-        fb = (ImageView) findViewById(R.id.button_fb);
+        fb = (LoginButton) findViewById(R.id.button_fb);
+        fb.setText(getString(R.string.login_fb));
+        fb.setReadPermissions("email", "user_friends");
         olvide = (TextView) findViewById(R.id.olvide);
         usuario = (EditTextLight) findViewById(R.id.user);
         contra = (EditTextLight) findViewById(R.id.pass);
@@ -56,9 +63,6 @@ public class Login extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.button_fb:
-                        Toast.makeText(getApplicationContext(), "Iremos a Facebook", Toast.LENGTH_LONG).show();
-                        break;
                     case R.id.button_registro:
                         registro();
                         break;
@@ -72,10 +76,57 @@ public class Login extends AppCompatActivity{
                 }
             }
         };
+        fb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                String accessToken = loginResult.getAccessToken().getToken();
+                System.out.println("aqui " + accessToken);
+                AccessToken accesstoken = loginResult.getAccessToken();
+                GraphRequest request = GraphRequest.newMeRequest(
+                        accesstoken,
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+
+                                    GraphResponse response) {
+
+                                try {
+                                    Log.v("LoginActivity", response.toString());
+                                    String id = object.getString("id");
+
+                                    System.out.println(object);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,first_name,gender,last_name");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                System.out.println(exception.toString());
+            }
+        });
         registro.setOnClickListener(onclick);
-        fb.setOnClickListener(onclick);
         sesion.setOnClickListener(onclick);
         olvide.setOnClickListener(onclick);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void agregarToolbar() {
@@ -87,8 +138,9 @@ public class Login extends AppCompatActivity{
             ab.setDisplayHomeAsUpEnabled(true);
         }
         setTitle(R.string.title_activity_login);
-
     }
+
+
 
     public void registro() {
         startActivity(new Intent(this, Registro.class));
@@ -137,11 +189,14 @@ public class Login extends AppCompatActivity{
 
         protected void onPostExecute(Boolean result) {
             if (result) {
-           //     Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_LONG).show();
                 Intent i=new Intent(getApplicationContext(),MainActivity.class);
                 i.putExtra("usuario",user);
-                i.putExtra("contra",pass);
-                startActivity(i);
+                i.putExtra("contra", pass);
+                setResult(RESULT_OK, i);
+                finish();
+               // startActivity(i);
+            }else{
+               //
             }
         }
     }

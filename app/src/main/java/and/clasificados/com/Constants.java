@@ -17,11 +17,12 @@ import java.security.NoSuchAlgorithmException;
  * Created by Francisco on 31/5/15.
  */
 public class Constants {
-    public static String URL_DOMINIO ="http://api.clasificados.dev/1.0/";
-    public static String categories = URL_DOMINIO+"categories";
     public static String URL = "http://api.staging.clasificados.com/1.0/";
     public static String registro=URL+"user/signin";
     public static String autenticar=URL+"user/auth";
+    public static String categories = URL+"categories";
+    public static String last = URL+"ads/lasts/";
+    public static String nuevo_clasificado=URL+"ads";
 
 
     public static String convertStreamToString(InputStream is) {

@@ -14,7 +14,7 @@
             android:adjustViewBounds="true"
             android:src="@drawable/favoritos"
             android:layout_weight="1" />
-        <and.clasificados.com.views.TextViewBold
+        <and.clasificados.com.views.TextViewLight
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tab"

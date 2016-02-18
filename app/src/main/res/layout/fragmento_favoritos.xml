@@ -22,29 +22,34 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!-- Imagen de perfil -->
-            <ImageView
-                android:id="@+id/profile"
-                android:layout_width="@dimen/perfil_image_size"
-                android:layout_height="@dimen/perfil_image_size"
-                android:scaleType="centerCrop"
-                android:gravity="center"
-                android:src="@drawable/profile3"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
-            <!-- Nombre de Usuario -->
-            <and.clasificados.com.views.TextViewBold
-                android:id="@+id/username"
+            <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Martin Montenegro"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="85dp"
-                android:layout_marginStart="85dp"/>
+                android:rowCount="2"
+                android:columnCount="1"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:id="@+id/profile"
+                    android:layout_width="@dimen/perfil_image_size"
+                    android:layout_height="@dimen/perfil_image_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profile3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_row="0"
+                    />
+                <!-- Nombre de Usuario -->
+                <and.clasificados.com.views.TextViewBold
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Martin Montenegro"
+                    android:scaleType="centerCrop"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_row="1"/>
+
+            </GridLayout>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

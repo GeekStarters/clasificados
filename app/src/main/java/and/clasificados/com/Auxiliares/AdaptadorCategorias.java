@@ -70,16 +70,21 @@ public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategoria
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Clasificado item = items.get(i);
+        if(item.getUrl()==null){
+            Picasso.with(viewHolder.itemView.getContext())
+                    .load(item.getIdDrawable())
+                    .transform(new RoundedTransformation(30, 0))
+                    .fit()
+                    .into(viewHolder.imagen);
+        }else{
         Picasso.with(viewHolder.itemView.getContext())
-                .load(item.getIdDrawable())
+                .load(item.getUrl())
                 .transform(new RoundedTransformation(30, 0))
                 .fit()
                 .into(viewHolder.imagen);
-
+        }
         viewHolder.categoria.setText(item.getCategoria());
         viewHolder.nombre.setText(item.getTextoAnuncio());
-        viewHolder.precio.setText("Q" + item.getPrecio());
-
-
+        viewHolder.precio.setText(item.getPrecio());
     }
 }

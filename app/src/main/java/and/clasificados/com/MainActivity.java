@@ -44,11 +44,13 @@ import and.clasificados.com.fragmentos.NoLogin;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+  private final static int LOGIN =0;
+    boolean logued=false;
     private DrawerLayout drawerLayout;
     Button image_login;
     ImageView picture;
     TextView user;
+    String auto=null;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -59,10 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       try {
-           Intent intent = getIntent();
-           String u = intent.getStringExtra("usuario");
-           String p= intent.getStringExtra("contra");
            agregarToolbar();
            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -70,47 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            image_login= (Button) header.findViewById(R.id.image_login);
            picture = (ImageView) header.findViewById(R.id.profile);
            user = (TextView) header.findViewById(R.id.username);
-           if(estaLogueado(u)){
-               AutenticarUsuario tarea = new AutenticarUsuario();
-               tarea.execute(u,p);
-               image_login.setVisibility(View.INVISIBLE);
-               picture.setVisibility(View.VISIBLE);
-               user.setVisibility(View.VISIBLE);
-               if (navigationView != null) {
-                   prepararDrawer(navigationView);
-                   seleccionarItem(navigationView.getMenu().getItem(0));
-               }
-           }else{
-               image_login.setVisibility(View.VISIBLE);
-               picture.setVisibility(View.INVISIBLE);
-               user.setVisibility(View.INVISIBLE);
-               if (navigationView != null) {
-                   prepararDrawer_nologin(navigationView);
-                   selectItem(navigationView.getMenu().getItem(0));
-               }
-       }
-
-           // ATTENTION: This was auto-generated to implement the App Indexing API.
-           // See https://g.co/AppIndexing/AndroidStudio for more information.
-           client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-           // image_login=(Button)findViewById(R.id.image_login);
-           image_login.setOnClickListener(this);
-       }catch (Exception ex){
-           Log.e("Error","Error Intent",ex);
-           agregarToolbar();
-           drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-           NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-           View header = navigationView.getHeaderView(0);
-           image_login= (Button) header.findViewById(R.id.image_login);
-           picture = (ImageView) header.findViewById(R.id.profile);
-           user = (TextView) header.findViewById(R.id.username);
-           image_login.setVisibility(View.VISIBLE);
-           picture.setVisibility(View.INVISIBLE);
-           user.setVisibility(View.INVISIBLE);
-           if (navigationView != null) {
-                   prepararDrawer_nologin(navigationView);
-                   selectItem(navigationView.getMenu().getItem(0));
-           }
+           if(logued){
+               setNavigation(navigationView,true);
+           }else {
+               setNavigation(navigationView,false);
            }
 
            // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -121,17 +82,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Comprobamos si el resultado de la segunda actividad es "RESULT_CANCELED".
+        if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+            switch (requestCode) {
+                case LOGIN:
+                    String u = data.getExtras().getString("usuario");
+                    String p= data.getExtras().getString("contra");
+                    AutenticarUsuario tarea = new AutenticarUsuario();
+                    tarea.execute(u,p);
+                    image_login.setVisibility(View.INVISIBLE);
+                    picture.setVisibility(View.VISIBLE);
+                    user.setVisibility(View.VISIBLE);
+                    logued=true;
+                    break;
 
-
-    private boolean estaLogueado(String usuario) {
-        boolean variable;
-        if(usuario.equals("none")){
-            variable = false;
-        }else {
-            variable = true;
+            }
         }
-        return variable;
     }
+
 
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -141,20 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // ab.setDisplayHomeAsUpEnabled(true);
         }
 
-    }
-
-    private void cambiarToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
-
-    }
-
-    public void iniciar(View v) {
-        //startActivity(new Intent(this, Login.class));
     }
 
     public void crear(View v) {
@@ -196,6 +156,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (itemDrawer.getItemId()) {
             case R.id.item_inicio:
                 fragmentoGenerico = new Inicio();
+                auto="false";
+                Bundle bundle=new Bundle();
+                bundle.putString("auto", auto);
+                fragmentoGenerico.setArguments(bundle);
                 break;
             case R.id.item_publicaciones:
                 fragmentoGenerico = new NoLogin();
@@ -233,6 +197,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (itemDrawer.getItemId()) {
             case R.id.item_inicio:
                 fragmentoGenerico = new Inicio();
+                Bundle bundle=new Bundle();
+                bundle.putString("auto", auto);
+                fragmentoGenerico.setArguments(bundle);
                 break;
             case R.id.item_publicaciones:
                 fragmentoGenerico = new MisPublicaciones();
@@ -317,9 +284,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.image_login:
-                startActivity(new Intent(this, Login.class));
-
+                Intent i = new Intent(this, Login.class);
+                startActivityForResult(i, LOGIN);
                 break;
+        }
+    }
+
+    public void setNavigation(NavigationView navigation, boolean b) {
+        if (navigation != null) {
+            if(b){
+                prepararDrawer(navigation);
+                seleccionarItem(navigation.getMenu().getItem(0));
+            }else{
+                prepararDrawer_nologin(navigation);
+                selectItem(navigation.getMenu().getItem(0));
+            }
+
         }
     }
 
@@ -347,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     JSONObject data  = respJSON.getJSONObject("data");
                     usuario = data.getString("first_name") + " " + data.getString("last_name");
                     url = respJSON.getString("imagesDomain")+data.getString("picture_profile");
+                    auto = respJSON.getString("basic_authentication");
                 }else{
                     String resultado = aux.substring(13, aux.length() - 12);
                     Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
@@ -365,11 +346,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Boolean result) {
             if (result) {
                 Picasso.with(getApplicationContext())
-                        .load(url)
+                        .load(R.drawable.profile3)
                         .transform(new CircleTransformation())
                         .fit()
                         .into(picture);
-                Log.e("imagen",url);
                 user.setText(usuario);
             }
         }

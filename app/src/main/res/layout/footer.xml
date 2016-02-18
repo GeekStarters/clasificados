@@ -120,7 +120,7 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView6"
+        android:id="@+id/nuevo"
         android:layout_marginBottom="-40dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/cont_footer"

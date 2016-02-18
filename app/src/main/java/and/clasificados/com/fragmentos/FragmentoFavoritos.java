@@ -101,8 +101,8 @@ public class FragmentoFavoritos extends Fragment {
 
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        adapter.addFragment(CategoriasTab.nuevaInstancia(5), getString(R.string.nav_publicaciones));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(6), getString(R.string.nav_favoritos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(6), getString(R.string.nav_publicaciones));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(7), getString(R.string.nav_favoritos));
         viewPager.setAdapter(adapter);
     }
 

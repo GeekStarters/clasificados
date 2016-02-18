@@ -18,6 +18,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -48,7 +58,8 @@ import io.fabric.sdk.android.services.concurrency.AsyncTask;
 public class  Registro extends AppCompatActivity {
 
     Button registro;
-    ImageView fb;
+    private LoginButton fb;
+    private CallbackManager callbackManager;
     TextView terminos;
     EditTextLight nombre, apellido,usuario, pass1, pass2,email;
     private static final String TAG = Registro.class.getSimpleName();
@@ -56,10 +67,14 @@ public class  Registro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_registro);
         agregarToolbar();
         registro = (Button)findViewById(R.id.registro);
-        fb=(ImageView)findViewById(R.id.button_fb2);
+        fb=(LoginButton)findViewById(R.id.button_fb2);
+        fb.setText(getString(R.string.login_fb));
+        fb.setReadPermissions("email", "user_friends");
         nombre=(EditTextLight)findViewById(R.id.nombre);
         apellido=(EditTextLight)findViewById(R.id.apellido);
         email=(EditTextLight)findViewById(R.id.email);
@@ -88,7 +103,53 @@ public class  Registro extends AppCompatActivity {
         };
         terminos.setOnClickListener(onclick);
         registro.setOnClickListener(onclick);
-        fb.setOnClickListener(onclick);
+        fb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                String accessToken = loginResult.getAccessToken().getToken();
+                System.out.println("aqui " + accessToken);
+
+                AccessToken accesstoken = loginResult.getAccessToken();
+
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        accesstoken,
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+
+                                    GraphResponse response) {
+
+                                try {
+                                    Log.v("LoginActivity", response.toString());
+                                    String id = object.getString("id");
+
+                                    System.out.println(object);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,first_name,gender,last_name");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                System.out.println(exception.toString());
+            }
+        });
     }
 
     public void registro(){
@@ -165,6 +226,11 @@ public class  Registro extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
     public void transicion(){
        startActivity(new Intent(this, Login.class));
     }

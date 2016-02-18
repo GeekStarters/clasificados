@@ -2,6 +2,7 @@ package and.clasificados.com.fragmentos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -13,8 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +31,7 @@ import org.json.JSONObject;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.R;
+import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.auxiliares.CategoriasTab;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
@@ -61,7 +61,7 @@ public class Inicio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_paginado, container, false);
-
+        final String strtext=getArguments().getString("auto");
         if (savedInstanceState == null) {
             insertarTabs(container);
             viewPager = (ViewPager) view.findViewById(R.id.pager);
@@ -72,11 +72,34 @@ public class Inicio extends Fragment {
             //new DataCategory(context).execute();
 
         }
+        ImageView plus = (ImageView)view.findViewById(R.id.nuevo);
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assert strtext != null;
+                if(strtext.equals("false")||strtext.isEmpty()){
+                    transicion();
+                }else {
+                    Intent i = new Intent(getContext(), Publicar.class);
+                    i.putExtra("basic",strtext);
+                    startActivity(i);
+                }
+            }
+        });
 
         return view;
     }
 
-        private void setupTabIcons() {
+    private void transicion() {
+        Fragment fragmentoGenerico = new NoLogin();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.main_content, fragmentoGenerico)
+                .commit();
+    }
+
+    private void setupTabIcons() {
 
             LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View vOne = inflator1.inflate(R.layout.tabbar_view_new, null);
@@ -145,11 +168,11 @@ public class Inicio extends Fragment {
 
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        adapter.addFragment(CategoriasTab.nuevaInstancia(0), getString(R.string.titulo_tab_vehiculos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_inmuebles));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_vehiculos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(3), getString(R.string.titulo_tab_inmuebles));
         adapter.addFragment(CategoriasTab.nuevaInstancia(2), getString(R.string.titulo_tab_productos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(3), getString(R.string.titulo_tab_empleos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(4), getString(R.string.titulo_tab_servicios));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(4), getString(R.string.titulo_tab_empleos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(5), getString(R.string.titulo_tab_servicios));
         viewPager.setAdapter(adapter);
     }
 
