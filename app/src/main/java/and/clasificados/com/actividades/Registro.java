@@ -286,6 +286,7 @@ public class  Registro extends AppCompatActivity {
                 HttpResponse resp = httpClient.execute(post);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 String aux = respJSON.get("errors").toString();
+                System.out.println(aux);
                 if(aux.equals("[]")){
                     resul=true;
                     provider = params[0];

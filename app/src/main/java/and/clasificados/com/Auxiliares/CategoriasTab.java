@@ -118,6 +118,7 @@ public class CategoriasTab extends Fragment {
                 for(int i=0; i<results.length(); i++)
                 {
                     JSONObject ad = results.getJSONObject(i);
+                    System.out.println(ad.toString());
                     JSONObject info = ad.getJSONObject("info");
                     titulo=info.getString("title");
                     precio = info.getString("currencySymbol")+" "+info.getString("price");

@@ -27,16 +27,16 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
-        android:name="adn.guatemala.com.permission.C2D_MESSAGE"
+        android:name="and.clasificados.com.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="adn.guatemala.com.permission.C2D_MESSAGE" />
+    <uses-permission android:name="and.clasificados.com.permission.C2D_MESSAGE" />
 
     <permission
-        android:name="adn.guatemala.com.Mapa.permission.MAPS_RECEIVE"
+        android:name="and.clasificados.com.Mapa.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="adn.guatemala.com.locationapi.maps.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="and.clasificados.com.locationapi.maps.permission.MAPS_RECEIVE" />
 
     <supports-screens
         android:anyDensity="true"

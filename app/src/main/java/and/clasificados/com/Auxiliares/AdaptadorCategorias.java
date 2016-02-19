@@ -73,13 +73,13 @@ public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategoria
         if(item.getUrl()==null){
             Picasso.with(viewHolder.itemView.getContext())
                     .load(item.getIdDrawable())
-                    .transform(new RoundedTransformation(30, 0))
+                    .transform(new RoundedTransformation(15, 0))
                     .fit()
                     .into(viewHolder.imagen);
         }else{
         Picasso.with(viewHolder.itemView.getContext())
                 .load(item.getUrl())
-                .transform(new RoundedTransformation(30, 0))
+                .transform(new RoundedTransformation(15, 0))
                 .fit()
                 .into(viewHolder.imagen);
         }
