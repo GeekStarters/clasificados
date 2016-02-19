@@ -81,6 +81,7 @@ public class CategoriasTab extends Fragment {
         resultado = new ArrayList<>();
         int indiceSeccion = getArguments().getInt(INDICE_SECCION);
         String pasar = ""+indiceSeccion;
+        Log.i("indice recibido",pasar);
         if(indiceSeccion>3){
             LlenarLista llenar = new LlenarLista();
             llenar.execute(pasar);
@@ -112,34 +113,30 @@ public class CategoriasTab extends Fragment {
     }
 
     private class LlenarLista extends AsyncTask<String,Integer,Boolean> {
+        Clasificado c;
         String precio=null, titulo=null, url_imagen=null, categoria=null;
         protected Boolean doInBackground(String... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.last+params[0]);
+            Log.i("direccion para get",get.toString());
             get.setHeader("content-type", "application/json");
             try
             {
                 HttpResponse resp = httpClient.execute(get);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 JSONObject data  = respJSON.getJSONObject("data");
-                JSONArray respu = data.getJSONArray("results");
-                Clasificado c;
-
-                for(int i=0; i<respu.length(); i++)
+                JSONArray results = data.getJSONArray("results");
+                for(int i=0; i<results.length(); i++)
                 {
-                    c=new Clasificado();
-                    JSONObject obj = respu.getJSONObject(i);
-                    JSONObject info = obj.getJSONObject("info");
-                    JSONArray imagen = info.getJSONArray("images");
+                    JSONObject ad = results.getJSONObject(i);
+                    JSONObject info = ad.getJSONObject("info");
                     titulo=info.getString("title");
-                    precio = info.getString("currencySymbol")+" "+info.getString("precio");
-                    url_imagen = imagen.getString(0);
+                    precio = info.getString("currencySymbol")+" "+info.getString("price");
                     categoria = info.getString("subCategoryName");
-                    c.setCategoria(categoria);
-                    c.setPrecio(precio);
-                    c.setTextoAnuncio(titulo);
-                    c.setUrl(url_imagen);
+                    JSONArray imagen = info.getJSONArray("images");
+                    url_imagen = imagen.getString(0);
+                    c= new Clasificado(precio,categoria,titulo,url_imagen);
                     resultado.add(c);
                 }
                 resul = true;

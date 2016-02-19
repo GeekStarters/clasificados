@@ -119,8 +119,10 @@ public class  Registro extends AppCompatActivity {
                                     user = new Usuario();
                                     user.facebookID = object.getString("id").toString();
                                     user.email = object.getString("email").toString();
-                                    user.name = object.getString("first_name").toString();
-                                    user.last = object.getString("last_name").toString();
+                                    String nombre = object.getString("name").toString();
+                                    String[] partes = nombre.split(" ");
+                                    user.name = partes[0];
+                                    user.last = partes[1];
                                     user.provider = "facebook";
                                     NuevoUsuario t = new NuevoUsuario();
                                     t.execute(user.provider,user.facebookID,user.email,user.name,user.last);

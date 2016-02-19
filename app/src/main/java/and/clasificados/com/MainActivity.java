@@ -73,13 +73,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            user = (TextView) header.findViewById(R.id.username);
            login_user=PrefUtils.getCurrentUser(MainActivity.this);
            if(login_user!=null){
+               if(login_user.provider.equals("local")){
+                   Picasso.with(getApplicationContext())
+                           .load(R.drawable.profile3)              //aqui debe ir la url
+                           .transform(new CircleTransformation())
+                           .into(picture);
+               }else{
+                   Picasso.with(getApplicationContext())
+                           .load("https://graph.facebook.com/"+login_user.facebookID + "/picture?type=large")
+                           .transform(new CircleTransformation())
+                           .into(picture);
+               }
                image_login.setVisibility(View.INVISIBLE);
                picture.setVisibility(View.VISIBLE);
                user.setVisibility(View.VISIBLE);
-               Picasso.with(getApplicationContext())
-                       .load(R.drawable.profile3)              //aqui debe ir la url
-                       .transform(new CircleTransformation())
-                       .into(picture);
                user.setText(login_user.name + " " + login_user.last);
                setNavigation(navigationView, true);
            }else {
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                image_login.setVisibility(View.VISIBLE);
                picture.setVisibility(View.INVISIBLE);
                user.setVisibility(View.INVISIBLE);
-               setNavigation(navigationView,false);
+               setNavigation(navigationView, false);
            }
 
            // ATTENTION: This was auto-generated to implement the App Indexing API.
