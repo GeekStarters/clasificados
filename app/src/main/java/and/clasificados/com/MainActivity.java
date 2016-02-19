@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import and.clasificados.com.actividades.Login;
 import and.clasificados.com.actividades.Publicar;
+import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.common.CircleTransformation;
 import and.clasificados.com.fragmentos.Categorias;
 import and.clasificados.com.actividades.Mis;
@@ -41,16 +42,18 @@ import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.fragmentos.Mensajes;
 import and.clasificados.com.fragmentos.MisPublicaciones;
 import and.clasificados.com.fragmentos.NoLogin;
+import and.clasificados.com.modelo.Usuario;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-  private final static int LOGIN =0;
-    boolean logued=false;
+
     private DrawerLayout drawerLayout;
     Button image_login;
     ImageView picture;
     TextView user;
     String auto=null;
+    NavigationView navigationView;
+    Usuario login_user;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -63,14 +66,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
            agregarToolbar();
            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-           NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+           navigationView = (NavigationView) findViewById(R.id.nav_view);
            View header = navigationView.getHeaderView(0);
            image_login= (Button) header.findViewById(R.id.image_login);
            picture = (ImageView) header.findViewById(R.id.profile);
            user = (TextView) header.findViewById(R.id.username);
-           if(logued){
-               setNavigation(navigationView,true);
+           login_user=PrefUtils.getCurrentUser(MainActivity.this);
+           if(login_user!=null){
+               image_login.setVisibility(View.INVISIBLE);
+               picture.setVisibility(View.VISIBLE);
+               user.setVisibility(View.VISIBLE);
+               Picasso.with(getApplicationContext())
+                       .load(R.drawable.profile3)              //aqui debe ir la url
+                       .transform(new CircleTransformation())
+                       .into(picture);
+               user.setText(login_user.name + " " + login_user.last);
+               setNavigation(navigationView, true);
            }else {
+               auto="none";
+               image_login.setVisibility(View.VISIBLE);
+               picture.setVisibility(View.INVISIBLE);
+               user.setVisibility(View.INVISIBLE);
                setNavigation(navigationView,false);
            }
 
@@ -81,30 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            image_login.setOnClickListener(this);
        }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Comprobamos si el resultado de la segunda actividad es "RESULT_CANCELED".
-        if (resultCode == RESULT_CANCELED) {
-            Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT)
-                    .show();
-        } else {
-            switch (requestCode) {
-                case LOGIN:
-                    String u = data.getExtras().getString("usuario");
-                    String p= data.getExtras().getString("contra");
-                    AutenticarUsuario tarea = new AutenticarUsuario();
-                    tarea.execute(u,p);
-                    image_login.setVisibility(View.INVISIBLE);
-                    picture.setVisibility(View.VISIBLE);
-                    user.setVisibility(View.VISIBLE);
-                    logued=true;
-                    break;
-
-            }
-        }
-    }
 
 
     private void agregarToolbar() {
@@ -198,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.item_inicio:
                 fragmentoGenerico = new Inicio();
                 Bundle bundle=new Bundle();
-                bundle.putString("auto", auto);
+                bundle.putString("auto", login_user.auto);
                 fragmentoGenerico.setArguments(bundle);
                 break;
             case R.id.item_publicaciones:
@@ -285,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.image_login:
                 Intent i = new Intent(this, Login.class);
-                startActivityForResult(i, LOGIN);
+                startActivity(i);
                 break;
         }
     }
@@ -300,58 +292,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selectItem(navigation.getMenu().getItem(0));
             }
 
-        }
-    }
-
-    private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
-        String usuario=null, url=null;
-        protected Boolean doInBackground(String... params) {
-            boolean resul;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost(Constants.autenticar);
-            post.setHeader("content-type", "application/json");
-            try
-            {
-                JSONObject map = new JSONObject();
-                map.put("provider", "local");
-                map.put("access", params[0]);
-                map.put("password", params[1]);
-                map.put("fb_user_id", null);
-                StringEntity entity = new StringEntity(map.toString());
-                post.setEntity(entity);
-                HttpResponse resp = httpClient.execute(post);
-                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                String aux = respJSON.get("errors").toString();
-                if(aux.equals("[]")){
-                    resul=true;
-                    JSONObject data  = respJSON.getJSONObject("data");
-                    usuario = data.getString("first_name") + " " + data.getString("last_name");
-                    url = respJSON.getString("imagesDomain")+data.getString("picture_profile");
-                    auto = respJSON.getString("basic_authentication");
-                }else{
-                    String resultado = aux.substring(13, aux.length() - 12);
-                    Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-                    resul=false;
-                }
-            }
-            catch(Exception ex)
-            {
-                Log.e("ServicioRest", "Error!", ex);
-                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
-                resul = false;
-            }
-            return resul;
-        }
-
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                Picasso.with(getApplicationContext())
-                        .load(R.drawable.profile3)
-                        .transform(new CircleTransformation())
-                        .fit()
-                        .into(picture);
-                user.setText(usuario);
-            }
         }
     }
 

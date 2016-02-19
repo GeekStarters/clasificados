@@ -80,12 +80,12 @@ public class CategoriasTab extends Fragment {
         reciclador.setLayoutManager(layoutManager);
         resultado = new ArrayList<>();
         int indiceSeccion = getArguments().getInt(INDICE_SECCION);
+        String pasar = ""+indiceSeccion;
         if(indiceSeccion>3){
-            String pasar = ""+indiceSeccion;
             LlenarLista llenar = new LlenarLista();
             llenar.execute(pasar);
         }else{
-            switch (indiceSeccion) {
+           /* switch (indiceSeccion) {
                 case 4:
                     adaptador = new AdaptadorCategorias(Clasificado.EMPLEOS);
                     break;
@@ -106,7 +106,7 @@ public class CategoriasTab extends Fragment {
                 }
             });
             reciclador.setAdapter(adaptador);
-            reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getActivity()));
+            reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getActivity()));*/
         }
         return view;
     }

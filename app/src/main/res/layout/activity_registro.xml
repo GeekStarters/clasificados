@@ -23,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/espacio_norma_1"
-        android:paddingRight="@dimen/espacio_norma_1">
+        android:paddingRight="@dimen/espacio_norma_1"
+        android:paddingTop="@dimen/espacio_norma_1">
 
         <and.clasificados.com.views.EditTextLight
             android:id="@+id/nombre"

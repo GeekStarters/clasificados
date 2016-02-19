@@ -48,6 +48,7 @@ import java.util.HashMap;
 import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
+import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
@@ -57,6 +58,7 @@ import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class  Registro extends AppCompatActivity {
 
+    Usuario user;
     Button registro;
     private LoginButton fb;
     private CallbackManager callbackManager;
@@ -89,9 +91,6 @@ public class  Registro extends AppCompatActivity {
             public void onClick(View v)
             {
                 switch (v.getId()){
-                    case R.id.button_fb2:
-                        Toast.makeText(getApplicationContext(),"Iremos a Facebook", Toast.LENGTH_LONG).show();
-                        break;
                     case R.id.registro:
                        registro();
                         break;
@@ -106,39 +105,40 @@ public class  Registro extends AppCompatActivity {
         fb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
-                String accessToken = loginResult.getAccessToken().getToken();
-                System.out.println("aqui " + accessToken);
-
-                AccessToken accesstoken = loginResult.getAccessToken();
-
-
+                // App code
                 GraphRequest request = GraphRequest.newMeRequest(
-                        accesstoken,
+                        loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(
                                     JSONObject object,
-
                                     GraphResponse response) {
 
+                                Log.e("response: ", response + "");
                                 try {
-                                    Log.v("LoginActivity", response.toString());
-                                    String id = object.getString("id");
-
-                                    System.out.println(object);
-                                } catch (JSONException e) {
+                                    user = new Usuario();
+                                    user.facebookID = object.getString("id").toString();
+                                    user.email = object.getString("email").toString();
+                                    user.name = object.getString("first_name").toString();
+                                    user.last = object.getString("last_name").toString();
+                                    user.provider = "facebook";
+                                    NuevoUsuario t = new NuevoUsuario();
+                                    t.execute(user.provider,user.facebookID,user.email,user.name,user.last);
+                                  //  PrefUtils.setCurrentUser(user, Rn.this);
+                                }catch (Exception e){
                                     e.printStackTrace();
                                 }
+                             //   Toast.makeText(Login.this,"welcome "+user.name,Toast.LENGTH_LONG).show();
+                                finish();
+
                             }
+
                         });
 
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,first_name,gender,last_name");
+                parameters.putString("fields", "id,name,email,gender, birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
-
-
             }
 
             @Override
@@ -207,7 +207,7 @@ public class  Registro extends AppCompatActivity {
                 focusView4.requestFocus();
             }else{
                 NuevoUsuario tarea = new NuevoUsuario();
-                tarea.execute();
+                tarea.execute("local",user,correo,nom,apel,contra,contra2);
             }
         }catch (Exception e) {
 
@@ -245,23 +245,25 @@ public class  Registro extends AppCompatActivity {
             post.setHeader("content-type", "application/json");
             try
             {
-                final String first = nombre.getText().toString();
-                final String last = apellido.getText().toString();
-                final String user = usuario.getText().toString();
-                final String correo= email.getText().toString();
-                final String contra = pass1.getText().toString();
-                final String contra2 = pass2.getText().toString();
+
 
                 JSONObject map = new JSONObject();
-                map.put("provider", "local");
-                map.put("first_name", first);
-                map.put("last_name", last);
-                map.put("user_name", user);
-                map.put("email", correo);
-                map.put("password", contra);
-                map.put("password_confirmation", contra2);
-                map.put("fb_user_id",null);
+                map.put("provider", params[0]);
+                map.put("first_name", params[3]);
+                map.put("last_name", params[4]);
+                map.put("user_name", params[1]);
+                map.put("email", params[2]);
                 map.put("phone",null);
+                if(params[0]=="facebook"){
+                    map.put("password", null);
+                    map.put("password_confirmation", null);
+                    map.put("fb_user_id",params[1]);
+                }else{
+                    map.put("password", params[5]);
+                    map.put("password_confirmation", params[6]);
+                    map.put("fb_user_id",null);
+                }
+
                 StringEntity entity = new StringEntity(map.toString());
                 post.setEntity(entity);
                 HttpResponse resp = httpClient.execute(post);

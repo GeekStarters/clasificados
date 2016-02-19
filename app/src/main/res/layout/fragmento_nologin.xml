@@ -3,7 +3,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
-    android:paddingBottom="@dimen/espacio_norma_1">
+    android:paddingBottom="@dimen/espacio_norma_1"
+    android:paddingLeft="@dimen/espacio_norma_1"
+    android:paddingRight="@dimen/espacio_norma_1">
 
     <and.clasificados.com.views.TextViewBold
         android:id="@+id/user"
@@ -15,16 +17,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true" />
-
-    <and.clasificados.com.views.ButtonLight
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="@string/title_activity_login"
-        android:id="@+id/ir_login"
-        android:background="@drawable/rounded_etext"
-        android:layout_below="@+id/user"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp" />
 
     <ImageView
         android:id="@+id/logo"

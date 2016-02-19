@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +75,14 @@ public class FragmentoFavoritos extends Fragment {
         private void setupTabIcons() {
 
             LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vOne = inflator1.inflate(R.layout.tabbar_view, null);
+            View vOne = inflator1.inflate(R.layout.tabbar_view_icon, null);
             TextView tabOne = (TextView)vOne.findViewById(R.id.tab);
             tabOne.setText(getString(R.string.nav_publicaciones));
+            ImageView img_tab1 = (ImageView)vOne.findViewById(R.id.img_tab);
+            Picasso.with(getActivity())
+                    .load(R.drawable.my)
+                    .fit()
+                    .into(img_tab1);
             tabLayout.getTabAt(0).setCustomView(vOne);
 
             LayoutInflater inflator2 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -95,14 +101,41 @@ public class FragmentoFavoritos extends Fragment {
         View padre = (View) container.getParent();
         appBarLayout = (AppBarLayout) padre.findViewById(R.id.appbar);
         tabLayout = new TabLayout(getActivity());
-        tabLayout.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF"));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+               /* String titulo = tab.getCustomView().toString();
+                Log.e("Dato",titulo);*/
+              /*  LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View vOne = inflator1.inflate(R.layout.tabbar_view, null);
+                TextView tabOne = (TextView)vOne.findViewById(R.id.tab);
+                tabOne.setText(getString(R.string.nav_publicaciones));
+                ImageView img_tab1 = (ImageView)vOne.findViewById(R.id.img_tab);
+                Picasso.with(getActivity())
+                        .load(R.drawable.my)
+                        .fit()
+                        .into(img_tab1);
+                tabLayout.getTabAt(0).setCustomView(vOne);
+                tab.setCustomView(vOne);*/
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         appBarLayout.addView(tabLayout);
     }
 
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        adapter.addFragment(CategoriasTab.nuevaInstancia(6), getString(R.string.nav_publicaciones));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(7), getString(R.string.nav_favoritos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.nav_publicaciones));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(2), getString(R.string.nav_favoritos));
         viewPager.setAdapter(adapter);
     }
 

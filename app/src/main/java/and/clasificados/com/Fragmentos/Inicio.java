@@ -162,17 +162,19 @@ public class Inicio extends Fragment {
         View padre = (View) container.getParent();
         appBarLayout = (AppBarLayout) padre.findViewById(R.id.appbar                                      );
         tabLayout = new TabLayout(getActivity());
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
         tabLayout.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF"));
         appBarLayout.addView(tabLayout);
+
     }
 
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
         adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_vehiculos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(3), getString(R.string.titulo_tab_inmuebles));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(2), getString(R.string.titulo_tab_productos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(4), getString(R.string.titulo_tab_empleos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(5), getString(R.string.titulo_tab_servicios));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_inmuebles));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_productos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_empleos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_servicios));
         viewPager.setAdapter(adapter);
     }
 

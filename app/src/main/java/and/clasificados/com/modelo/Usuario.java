@@ -1,59 +1,15 @@
 package and.clasificados.com.modelo;
 
 /**
- * Created by Gabriela Mejia on 11/2/2016.
+ * Created by Gabriela Mejia on 18/2/2016.
  */
 public class Usuario {
-    private String first_name,last_name, email, user_name, password;
-
-    public Usuario() {
-    }
-
-    public Usuario(String first_name, String last_name, String email, String password, String user_name) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.password = password;
-        this.user_name = user_name;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String name;
+    public String email;
+    public String facebookID;
+    public String last;
+    public String provider;
+    public String pic;
+    public String auto;
+    public String token;
 }

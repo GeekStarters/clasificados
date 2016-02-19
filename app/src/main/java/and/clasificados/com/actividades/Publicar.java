@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -73,12 +74,11 @@ public class Publicar extends AppCompatActivity {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost(Constants.nuevo_clasificado);
-            post.setHeader("Authorization", "Basic"+params[0] );
+            post.setHeader("authorization", "Basic"+ " " +params[0] );
             post.setHeader("content-type", "application/json");
             try
             {
                 final String titulo = title.getText().toString();
-              //  final String categoria = cat.getText().toString();
                 final String precio = costo.getText().toString();
                 final String descripcion= descr.getText().toString();
 
