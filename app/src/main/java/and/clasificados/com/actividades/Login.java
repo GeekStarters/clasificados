@@ -223,6 +223,7 @@ public class Login extends AppCompatActivity{
 
         protected void onPostExecute(Boolean result) {
             if (result) {
+                Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
                 Intent i=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
             }else{

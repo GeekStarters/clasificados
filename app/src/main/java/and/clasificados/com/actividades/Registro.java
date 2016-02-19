@@ -240,6 +240,7 @@ public class  Registro extends AppCompatActivity {
 
     private class NuevoUsuario extends AsyncTask<String,Integer,Boolean> {
 
+        String password = null, provider = null, user_name=null, error="";
         protected Boolean doInBackground(String... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
@@ -247,8 +248,6 @@ public class  Registro extends AppCompatActivity {
             post.setHeader("content-type", "application/json");
             try
             {
-
-
                 JSONObject map = new JSONObject();
                 map.put("provider", params[0]);
                 map.put("first_name", params[3]);
@@ -273,16 +272,19 @@ public class  Registro extends AppCompatActivity {
                 String aux = respJSON.get("errors").toString();
                 if(aux.equals("[]")){
                     resul=true;
-                }else{
-                   /* String error1=null,error2=null, resultado=null;
-                    String[] parts = aux.split(",");
-                    error1 = parts[0];
-                    error2 = parts[2];
-                    if(!error2.isEmpty()){
-                        resultado = error1.substring(13,error1.length()-1) + " ó " + error2.substring(12,error2.length()-1);
+                    provider = params[0];
+                    user_name=params[1];
+                    if(provider.equals("local")){
+                        password=params[5];
                     }else{
-                        resultado = error1.substring(13,error1.length()-1);
-                    }*/
+                        password=null;
+                    }
+                }else{
+                    JSONArray errores = respJSON.getJSONArray("errors");
+                    for(int i=0; i<errores.length();i++){
+                        JSONObject ad = errores.getJSONObject(i);
+                        error=error+","+ad.getString("message");
+                    }
                     resul=false;
                 }
             }
@@ -300,9 +302,87 @@ public class  Registro extends AppCompatActivity {
 
             if (result)
             {
-                transicion();
+                AutenticarUsuario t = new AutenticarUsuario();
+                t.execute(provider,password,user_name);
+            }else{
+                String[] aux_err = error.split(",");
+                String e1=aux_err[0];
+                String e2=aux_err[1];
+                if(e2.equals(null)){
+                    Toast.makeText(getApplicationContext(),e1,Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getApplicationContext(),e1,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),e2,Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+    }
+
+    private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
+        String resultado="none";
+        protected Boolean doInBackground(String... params) {
+            boolean resul;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(Constants.autenticar);
+            post.setHeader("content-type", "application/json");
+            try
+            {
+                JSONObject map = new JSONObject();
+                map.put("provider", params[0]);
+                if(params[0]=="local"){
+                    map.put("access", params[2]);
+                    map.put("password", params[1]);
+                    map.put("fb_user_id", null);
+                }else{
+                    map.put("access", params[2]);
+                    map.put("password", null);
+                    map.put("fb_user_id", params[2]);
+                }
+
+                StringEntity entity = new StringEntity(map.toString());
+                post.setEntity(entity);
+                HttpResponse resp = httpClient.execute(post);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                String aux = respJSON.get("errors").toString();
+                if(aux.equals("[]")){
+                    resul=true;
+                    JSONObject data  = respJSON.getJSONObject("data");
+                    user = new Usuario();
+                    user.provider=params[0];
+                    user.name=data.getString("first_name");
+                    user.last=data.getString("last_name");
+                    user.pic=respJSON.getString("imagesDomain")+data.getString("picture_profile");
+                    user.auto= data.getString("basic_authentication");
+                    user.email=data.getString("email");
+                    user.facebookID=data.getString("fb_user_id");
+                    user.token=data.getString("token");
+                    PrefUtils.setCurrentUser(user, Registro.this);
+                }else{
+                    resultado = aux.substring(13, aux.length() - 12);
+                    user=null;
+                    resul=false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.e("ServicioRest", "Error!", ex);
+                resul = false;
+            }
+            return resul;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
+                startActivity(i);
+            }else{
+                Toast.makeText(getApplicationContext(),resultado,Toast.LENGTH_LONG).show();
             }
         }
     }
+
+}
 
 }
