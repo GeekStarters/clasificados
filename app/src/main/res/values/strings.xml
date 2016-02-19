@@ -81,6 +81,12 @@
     <string name="debes">Debes iniciar sesion, para accesar a este contenido.</string>
     <string name="title_activity_logout">Logout</string>
     <string name="bienvenido">Bienvenido</string>
+    <string name="cat1">Marca</string>
+    <string name="cat2">Modelo</string>
+    <string name="cat3">Nuevos</string>
+    <string name="filtro">Filtro</string>
+    <string name="cargando">Cargando</string>
+    <string name="creado">Registro exitoso</string>
 
 
 </resources>

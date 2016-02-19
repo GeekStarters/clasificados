@@ -14,7 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -53,6 +59,7 @@ public class Inicio extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     Activity context;
+    RelativeLayout filtro;
 
     public Inicio() {
     }
@@ -62,6 +69,14 @@ public class Inicio extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_paginado, container, false);
         final String strtext=getArguments().getString("auto");
+        /*filtro = (RelativeLayout) view.findViewById(R.id.filtro_vehiculos);
+        Button filtrar = (Button)filtro.findViewById(R.id.filtrado);
+        filtrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ocultar(v);
+            }
+        });*/
         if (savedInstanceState == null) {
             insertarTabs(container);
             viewPager = (ViewPager) view.findViewById(R.id.pager);
@@ -99,6 +114,45 @@ public class Inicio extends Fragment {
                 .commit();
     }
 
+    private void animar(boolean mostrar)
+    {
+        AnimationSet set = new AnimationSet(true);
+        Animation animation = null;
+        if (mostrar)
+        {
+            //desde la esquina inferior derecha a la superior izquierda
+            animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        }
+        else
+        {    //desde la esquina superior izquierda a la esquina inferior derecha
+            animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f);
+        }
+        //duración en milisegundos
+        animation.setDuration(500);
+        set.addAnimation(animation);
+        LayoutAnimationController controller = new LayoutAnimationController(set, 0.25f);
+        filtro.setLayoutAnimation(controller);
+        filtro.startAnimation(animation);
+    }
+
+    public void ocultar(View button)
+    {
+        if (filtro.getVisibility() == View.VISIBLE)
+        {
+            animar(false);
+            filtro.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    public void mostrar(View button) {
+        if (filtro.getVisibility() == View.INVISIBLE) {
+            animar(false);
+            filtro.setVisibility(View.VISIBLE);
+        }
+    }
+
+
     private void setupTabIcons() {
 
             LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -121,7 +175,7 @@ public class Inicio extends Fragment {
                     .load(R.drawable.icon_tabbar_edificio)
                     .fit()
                     .into(img_tab2);
-            tabLayout.getTabAt(1).setCustomView(vTwo);
+            tabLayout.getTabAt(2).setCustomView(vTwo);
 
             LayoutInflater inflator3 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View vThree = inflator3.inflate(R.layout.tabbar_view_new, null);
@@ -132,7 +186,7 @@ public class Inicio extends Fragment {
                     .load(R.drawable.icon_tabbar_producto)
                     .fit()
                     .into(img_tab3);
-            tabLayout.getTabAt(2).setCustomView(vThree);
+            tabLayout.getTabAt(1).setCustomView(vThree);
 
             LayoutInflater inflator4 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View vFour = inflator4.inflate(R.layout.tabbar_view_new, null);
@@ -171,8 +225,8 @@ public class Inicio extends Fragment {
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
         adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_vehiculos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_inmuebles));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_productos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(2), getString(R.string.titulo_tab_productos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(3), getString(R.string.titulo_tab_inmuebles));
         adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_empleos));
         adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_servicios));
         viewPager.setAdapter(adapter);

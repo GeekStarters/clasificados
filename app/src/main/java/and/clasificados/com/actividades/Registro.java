@@ -1,6 +1,8 @@
 package and.clasificados.com.actividades;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -49,6 +51,10 @@ import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
 import and.clasificados.com.auxiliares.PrefUtils;
+import and.clasificados.com.exception.NetworkException;
+import and.clasificados.com.exception.ParsingException;
+import and.clasificados.com.exception.ServerException;
+import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
@@ -57,7 +63,6 @@ import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 
 public class  Registro extends AppCompatActivity {
-
     Usuario user;
     Button registro;
     private LoginButton fb;
@@ -233,14 +238,25 @@ public class  Registro extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    public void transicion(){
-       startActivity(new Intent(this, Login.class));
-    }
 
 
     private class NuevoUsuario extends AsyncTask<String,Integer,Boolean> {
-
+        ProgressDialog progressDialog;
         String password = null, provider = null, user_name=null, error="";
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(Registro.this);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage(getString(R.string.cargando));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+
+        @Override
         protected Boolean doInBackground(String... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
@@ -287,24 +303,25 @@ public class  Registro extends AppCompatActivity {
                     }
                     resul=false;
                 }
-            }
-            catch(Exception ex)
+            } catch(Exception ex)
             {
-                Log.e("ServicioRest","Error!", ex);
-                //Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                Log.e("ServicioRest", "Error!", ex);
                 resul = false;
             }
+
 
             return resul;
         }
 
+        @Override
         protected void onPostExecute(Boolean result) {
-
             if (result)
             {
+                Toast.makeText(getApplicationContext(),getString(R.string.creado),Toast.LENGTH_LONG).show();
                 AutenticarUsuario t = new AutenticarUsuario();
-                t.execute(provider,password,user_name);
+                t.execute(provider, password, user_name);
             }else{
+                progressDialog.dismiss();
                 String[] aux_err = error.split(",");
                 String e1=aux_err[0];
                 String e2=aux_err[1];
@@ -313,14 +330,26 @@ public class  Registro extends AppCompatActivity {
                 }else {
                     Toast.makeText(getApplicationContext(),e1,Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(),e2,Toast.LENGTH_LONG).show();
-
                 }
 
             }
     }
 
     private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
+        ProgressDialog progressDialog;
         String resultado="none";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(Registro.this);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage(getString(R.string.cargando));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+
         protected Boolean doInBackground(String... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
@@ -373,9 +402,10 @@ public class  Registro extends AppCompatActivity {
         }
 
         protected void onPostExecute(Boolean result) {
+            progressDialog.dismiss();
             if (result) {
-                Intent i=new Intent(getApplicationContext(),MainActivity.class);
                 Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
+                Intent i=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
             }else{
                 Toast.makeText(getApplicationContext(),resultado,Toast.LENGTH_LONG).show();

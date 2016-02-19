@@ -14,9 +14,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
@@ -57,7 +65,6 @@ public class FragmentoFavoritos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_paginado, container, false);
-
         if (savedInstanceState == null) {
             insertarTabs(container);
             viewPager = (ViewPager) view.findViewById(R.id.pager);
@@ -72,17 +79,13 @@ public class FragmentoFavoritos extends Fragment {
         return view;
     }
 
-        private void setupTabIcons() {
+
+    private void setupTabIcons() {
 
             LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vOne = inflator1.inflate(R.layout.tabbar_view_icon, null);
-            TextView tabOne = (TextView)vOne.findViewById(R.id.tab);
+            View vOne = inflator1.inflate(R.layout.tabbar_view, null);
+            TextView tabOne = (TextView) vOne.findViewById(R.id.tab);
             tabOne.setText(getString(R.string.nav_publicaciones));
-            ImageView img_tab1 = (ImageView)vOne.findViewById(R.id.img_tab);
-            Picasso.with(getActivity())
-                    .load(R.drawable.my)
-                    .fit()
-                    .into(img_tab1);
             tabLayout.getTabAt(0).setCustomView(vOne);
 
             LayoutInflater inflator2 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -98,44 +101,16 @@ public class FragmentoFavoritos extends Fragment {
     }
 
     private void insertarTabs(ViewGroup container) {
-        View padre = (View) container.getParent();
+        final View padre = (View) container.getParent();
         appBarLayout = (AppBarLayout) padre.findViewById(R.id.appbar);
         tabLayout = new TabLayout(getActivity());
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-               /* String titulo = tab.getCustomView().toString();
-                Log.e("Dato",titulo);*/
-              /*  LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View vOne = inflator1.inflate(R.layout.tabbar_view, null);
-                TextView tabOne = (TextView)vOne.findViewById(R.id.tab);
-                tabOne.setText(getString(R.string.nav_publicaciones));
-                ImageView img_tab1 = (ImageView)vOne.findViewById(R.id.img_tab);
-                Picasso.with(getActivity())
-                        .load(R.drawable.my)
-                        .fit()
-                        .into(img_tab1);
-                tabLayout.getTabAt(0).setCustomView(vOne);
-                tab.setCustomView(vOne);*/
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
         appBarLayout.addView(tabLayout);
     }
 
     private void poblarViewPager(ViewPager viewPager) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.nav_publicaciones));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(2), getString(R.string.nav_favoritos));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(2), getString(R.string.nav_publicaciones));
+        adapter.addFragment(CategoriasTab.nuevaInstancia(3), getString(R.string.nav_favoritos));
         viewPager.setAdapter(adapter);
     }
 

@@ -101,4 +101,5 @@ public class Clasificado {
     public String getCategoria() {
         return categoria;
     }
+
 }

@@ -8,6 +8,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,24 +26,49 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import and.clasificados.com.Constants;
+import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
+import and.clasificados.com.auxiliares.PrefUtils;
+import and.clasificados.com.common.CircleTransformation;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.fragmentos.FragmentoFavoritos;
+import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
 
 /**
  * Created by Gabriela Mejia on 1/2/2016.
  */
 public class Mis extends AppCompatActivity {
-
+    Usuario login_user;
+    ImageView picture;
+    TextView user;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragmento_favoritos);
         agregarToolbar();
+        picture = (ImageView) findViewById(R.id.profile);
+        user = (TextView) findViewById(R.id.username);
+        login_user= PrefUtils.getCurrentUser(Mis.this);
+        if(login_user!=null){
+            if(login_user.provider.equals("local")){
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.profile3)              //aqui debe ir la url
+                        .transform(new CircleTransformation())
+                        .into(picture);
+            }else{
+                Picasso.with(getApplicationContext())
+                        .load("https://graph.facebook.com/"+login_user.facebookID + "/picture?type=large")
+                        .transform(new CircleTransformation())
+                        .into(picture);
+            }
+            picture.setVisibility(View.VISIBLE);
+            user.setVisibility(View.VISIBLE);
+            user.setText(login_user.name + " " + login_user.last);
+        }
         Fragment fragmentoGenerico = new FragmentoFavoritos();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager

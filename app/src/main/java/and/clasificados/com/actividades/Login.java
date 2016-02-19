@@ -1,5 +1,6 @@
 package and.clasificados.com.actividades;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -168,6 +169,19 @@ public class Login extends AppCompatActivity{
 
     private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
         String resultado="none";
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(Login.this);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage(getString(R.string.cargando));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+
         protected Boolean doInBackground(String... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
@@ -222,6 +236,7 @@ public class Login extends AppCompatActivity{
         }
 
         protected void onPostExecute(Boolean result) {
+            progressDialog.dismiss();
             if (result) {
                 Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
                 Intent i=new Intent(getApplicationContext(),MainActivity.class);

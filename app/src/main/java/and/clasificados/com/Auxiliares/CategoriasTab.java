@@ -1,6 +1,7 @@
 package and.clasificados.com.auxiliares;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -81,45 +82,32 @@ public class CategoriasTab extends Fragment {
         resultado = new ArrayList<>();
         int indiceSeccion = getArguments().getInt(INDICE_SECCION);
         String pasar = ""+indiceSeccion;
-        Log.i("indice recibido",pasar);
-        if(indiceSeccion>3){
-            LlenarLista llenar = new LlenarLista();
-            llenar.execute(pasar);
-        }else{
-           /* switch (indiceSeccion) {
-                case 4:
-                    adaptador = new AdaptadorCategorias(Clasificado.EMPLEOS);
-                    break;
-                case 5:
-                    adaptador = new AdaptadorCategorias(Clasificado.SERVICIOS);
-                    break;
-                case 6:
-                    adaptador = new AdaptadorCategorias(Clasificado.MIOS);
-                    break;
-                case 7:
-                    adaptador = new AdaptadorCategorias(Clasificado.FAVORITOS);
-                    break;
-            }
-            adaptador.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getContext(), Single.class));
-                }
-            });
-            reciclador.setAdapter(adaptador);
-            reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getActivity()));*/
-        }
+        LlenarLista llenar = new LlenarLista();
+        llenar.execute(pasar);
         return view;
     }
 
     private class LlenarLista extends AsyncTask<String,Integer,Boolean> {
         Clasificado c;
         String precio=null, titulo=null, url_imagen=null, categoria=null;
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage(getString(R.string.cargando));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+
         protected Boolean doInBackground(String... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.last+params[0]);
-            Log.i("direccion para get",get.toString());
             get.setHeader("content-type", "application/json");
             try
             {
@@ -150,6 +138,7 @@ public class CategoriasTab extends Fragment {
         }
 
         protected void onPostExecute(Boolean result) {
+            progressDialog.dismiss();
             if (result) {
                 adaptador =  new AdaptadorCategorias(resultado);
                 adaptador.setOnClickListener(new View.OnClickListener() {
