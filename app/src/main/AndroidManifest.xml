@@ -27,12 +27,6 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
-        android:name="and.clasificados.com.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="and.clasificados.com.permission.C2D_MESSAGE" />
-
-    <permission
         android:name="and.clasificados.com.Mapa.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
@@ -49,6 +43,20 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <!-- Layer SDK uses these for monitoring network state and receiving GCM -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
+    <!-- GCM permission for your app -->
+    <permission
+        android:name="and.clasificados.com.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="and.clasificados.com.permission.C2D_MESSAGE"/>
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -120,10 +128,49 @@
                 android:value="and.clasificados.com.MainActivity" />
         </activity>
         <activity
+            android:name=".actividades.Mensajes"
+            android:label="@string/nav_mensajes"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="and.clasificados.com.MainActivity" />
+        </activity>
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- Layer SDK has these for monitoring network, boot, and GCM -->
+        <receiver android:name="com.layer.sdk.services.LayerReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.ANY_DATA_STATE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.layer.sdk.services.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.layer.quick_start_android"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".layer.LayerPushReceiver">
+            <intent-filter>
+                <action android:name="com.layer.sdk.PUSH"/>
+                <category android:name="com.layer.quick_start_android"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="com.layer.quick_start_android"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- For GCM Push Notifications -->
+        <service android:name="com.layer.sdk.services.GcmIntentService"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

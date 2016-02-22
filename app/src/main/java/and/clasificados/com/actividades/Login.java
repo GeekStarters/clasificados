@@ -113,7 +113,7 @@ public class Login extends AppCompatActivity{
                                     user.facebookID = object.getString("id").toString();
                                     user.email = object.getString("email").toString();
                                     AutenticarUsuario t = new AutenticarUsuario();
-                                    t.execute(user.provider, user.facebookID, user.email);
+                                    t.execute(user.provider, user.facebookID);
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }
@@ -196,10 +196,7 @@ public class Login extends AppCompatActivity{
                 if(params[0]=="local"){
                     map.put("access", acceso);
                     map.put("password", clave);
-                    map.put("fb_user_id", null);
                 }else{
-                    map.put("access", params[2]);
-                    map.put("password", null);
                     map.put("fb_user_id", params[1]);
                 }
 

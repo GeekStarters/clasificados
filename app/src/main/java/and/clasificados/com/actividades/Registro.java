@@ -363,10 +363,7 @@ public class  Registro extends AppCompatActivity {
                 if(params[0]=="local"){
                     map.put("access", params[2]);
                     map.put("password", params[1]);
-                    map.put("fb_user_id", null);
                 }else{
-                    map.put("access", params[2]);
-                    map.put("password", null);
                     map.put("fb_user_id", params[2]);
                 }
 

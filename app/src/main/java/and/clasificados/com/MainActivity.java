@@ -11,26 +11,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.picasso.Picasso;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
 import and.clasificados.com.actividades.Login;
 import and.clasificados.com.actividades.Publicar;
@@ -39,11 +29,10 @@ import and.clasificados.com.common.CircleTransformation;
 import and.clasificados.com.fragmentos.Categorias;
 import and.clasificados.com.actividades.Mis;
 import and.clasificados.com.fragmentos.Inicio;
-import and.clasificados.com.fragmentos.Mensajes;
+import and.clasificados.com.actividades.Mensajes;
 import and.clasificados.com.fragmentos.MisPublicaciones;
 import and.clasificados.com.fragmentos.NoLogin;
 import and.clasificados.com.modelo.Usuario;
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -80,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            .into(picture);
                }else{
                    Picasso.with(getApplicationContext())
-                           .load("https://graph.facebook.com/"+login_user.facebookID + "/picture?type=large")
+                           .load("https://graph.facebook.com/"+login_user.facebookID +"/picture?type=large")
                            .transform(new CircleTransformation())
                            .into(picture);
                }
@@ -207,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this,Mis.class));
                 break;
             case R.id.item_mensajes:
-                fragmentoGenerico = new Mensajes();
+                startActivity(new Intent(this,Mensajes.class));
                 break;
             case R.id.item_categorias:
                 fragmentoGenerico = new Categorias();
