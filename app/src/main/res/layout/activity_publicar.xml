@@ -79,20 +79,44 @@
             </GridLayout>
 
             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="19dp"
+            android:columnCount="3"
+            android:rowCount="2"
+            android:id="@+id/gridLayout"
+            android:layout_below="@+id/gridLayout3"
+            android:layout_alignLeft="@+id/gridLayout3"
+            android:layout_alignStart="@+id/gridLayout3">
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/spinner_categoria"
+                android:visibility="visible"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_spinner"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/spinner_subcat"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_spinner"/>
+        </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="19dp"
-                android:columnCount="3"
-                android:rowCount="1"
-                android:id="@+id/gridLayout"
-                android:layout_below="@+id/gridLayout3"
-                android:layout_alignLeft="@+id/gridLayout3"
-                android:layout_alignStart="@+id/gridLayout3">
+                android:id="@+id/posicion"
+                android:layout_below="@+id/gridLayout"
+                android:layout_alignLeft="@+id/gridLayout"
+                android:layout_alignStart="@+id/gridLayout">
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:id="@+id/spinner_categoria"
+                    android:id="@+id/spinner_location"
                     android:visibility="visible"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_spinner"/>
@@ -100,16 +124,34 @@
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:id="@+id/spinner_subcat"
+                    android:id="@+id/spinner_municipio"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_spinner"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="19dp"
+                android:id="@+id/zona"
+                android:layout_below="@+id/posicion"
+                android:layout_alignLeft="@+id/posicion"
+                android:layout_alignStart="@+id/posicion">
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinner_zona"
+                    android:visibility="visible"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_spinner"/>
+
             </LinearLayout>
 
             <and.clasificados.com.views.EditTextLight
                 android:layout_width="350dp"
                 android:layout_height="200dp"
                 android:id="@+id/descripcion"
-                android:layout_below="@+id/gridLayout"
+                android:layout_below="@+id/zona"
                 android:layout_alignLeft="@+id/gridLayout3"
                 android:layout_alignStart="@+id/gridLayout3"
                 android:layout_marginTop="21dp"

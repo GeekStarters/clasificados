@@ -54,8 +54,11 @@ import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
 import and.clasificados.com.common.RoundedTransformation;
 import and.clasificados.com.modelo.Categoria;
+import and.clasificados.com.modelo.Localidad;
 import and.clasificados.com.modelo.Moneda;
+import and.clasificados.com.modelo.Municipio;
 import and.clasificados.com.modelo.SubCategoria;
+import and.clasificados.com.modelo.Zona;
 import and.clasificados.com.views.EditTextLight;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
@@ -64,14 +67,18 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     EditTextLight title,costo,descr;
     ImageView tomarFoto,galeria1,galeria2,galeria3,galeria4,galeria5,galeria6, vaciar, desdeGal;
     Button publicar, moneda;
-    String auto, categoria, subcategoria, idCurrency;
+    String auto, categoria, subcategoria, idCurrency, idProducto="173",idLocacion="root";
     ProgressDialog pDialog;
-    Spinner spinnerCat, spinnerSub;
+    Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun;
     GridLayout grid;
     private ArrayList<Categoria> categoriasLista;
     private ArrayList<SubCategoria> subCategoriasLista;
     private ArrayList<Moneda> monedaLista;
+    private ArrayList<Localidad> localidadesLista;
+    private ArrayList<Municipio> municipiosLista;
+    private ArrayList<Zona> zonasLista;
     Uri file;
+    boolean esInmueble=false;
     TextView contador;
     int num=0;
     final int GALERIA = 655;
@@ -86,6 +93,9 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         auto = i.getStringExtra("basic");
         spinnerCat = (Spinner) findViewById(R.id.spinner_categoria);
         spinnerSub = (Spinner) findViewById(R.id.spinner_subcat);
+        spinnerLoc = (Spinner) findViewById(R.id.spinner_location);
+        spinnerMun = (Spinner) findViewById(R.id.spinner_municipio);
+        spinnerZona = (Spinner) findViewById(R.id.spinner_zona);
         title = (EditTextLight)findViewById(R.id.titulo);
         costo = (EditTextLight)findViewById(R.id.costo);
         descr = (EditTextLight)findViewById(R.id.descripcion);
@@ -101,6 +111,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         grid = (GridLayout)findViewById(R.id.galeria_imagenes);
         contador=(TextView)findViewById(R.id.numfotografias);
         new ObtenerCategorias().execute();
+        new ObtenerLocalidades().execute();
         llenarGaleria(savedInstanceState);
         monedaLista = new ArrayList<Moneda>();
         llenarMoneda();
@@ -148,6 +159,12 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         };
         categoriasLista = new ArrayList<Categoria>();
         subCategoriasLista = new ArrayList<SubCategoria>();
+        localidadesLista = new ArrayList<Localidad>();
+        municipiosLista = new ArrayList<Municipio>();
+        zonasLista = new ArrayList<Zona>();
+        municipiosLista.add(new Municipio(null,"Municipios","NO"));
+        localidadesLista.add(new Localidad("1","Toda Guatemala"));
+        zonasLista.add(new Zona(null,"Zonas"));
         categoriasLista.add(new Categoria(null,"Categoria"));
         subCategoriasLista.add(new SubCategoria(null,"Subcategoria",null));
         vaciar.setOnClickListener(onclick);
@@ -157,6 +174,9 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         tomarFoto.setOnClickListener(onclick);
         spinnerCat.setOnItemSelectedListener(this);
         spinnerSub.setOnItemSelectedListener(this);
+        spinnerZona.setOnItemSelectedListener(this);
+        spinnerMun.setOnItemSelectedListener(this);
+        spinnerLoc.setOnItemSelectedListener(this);
     }
 
 
@@ -402,13 +422,43 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
             case R.id.spinner_categoria:
                 categoria = categoriasLista.get(position).getId();
                 String nombre = parent.getItemAtPosition(position).toString();
+                if(nombre.equals("Inmuebles")){
+                    esInmueble=true;
+                }
                 subCategoriasLista.clear();
-                subCategoriasLista.add(new SubCategoria(null,"Subcategoria",null));
+                subCategoriasLista.add(new SubCategoria(null, "Subcategoria", null));
                 ObtenerSubCategorias sub = new ObtenerSubCategorias();
                 sub.execute(nombre);
                 break;
             case R.id.spinner_subcat:
                 subcategoria = subCategoriasLista.get(position).getId();
+                break;
+            case R.id.spinner_location:
+                if(localidadesLista.get(position).getId().equals("1")){
+                    idLocacion = localidadesLista.get(position).getId();
+                }else{
+                    idLocacion=localidadesLista.get(position).getId();
+                    /*ObtenerMunicipio mun = new ObtenerMunicipio();
+                    mun.execute(localidadesLista.get(position).getId());*/
+                    poblarSpinnerMunicipios();
+                }
+                break;
+            case R.id.spinner_municipio:
+                if(esInmueble){
+                    poblarSpinnerZona();
+                    /*if(municipiosLista.get(position).getZona().equals("NO")){
+                        idLocacion = municipiosLista.get(position).getId();
+                    }else{
+                       ObtenerZona zo=new ObtenerZon();
+                        zo.execute(municipiosLista.get(position).getZona());
+                       spinnerZona.setEnabled(true);
+                    }*/
+                }/*else{
+                    idLocacion = municipiosLista.get(position).getId();
+                }*/
+                break;
+            case R.id.spinner_zona:
+               // idLocacion=zonasLista.get(position).getId();
                 break;
         }
     }
@@ -424,9 +474,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     }
 
     private class NuevoAnuncio extends AsyncTask<String,Integer,Boolean> {
-
+        String idAd=null;
         protected Boolean doInBackground(String... params) {
             boolean resul;
+            String message;
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost(Constants.nuevo_clasificado);
             post.setHeader("authorization", "Basic"+ " " +params[0] );
@@ -442,33 +493,29 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 map.put("title", titulo);
                 map.put("description", descripcion);
                 map.put("price", precio);
-                map.put("category_id",subcategoria);
-                map.put("currency_id",idCurrency);
+                map.put("category_id",Integer.parseInt(subcategoria));
+                map.put("currency_id",Integer.parseInt(idCurrency));
                 map.put("location_id","root");
-                StringEntity entity = new StringEntity(map.toString());
-                post.setEntity(entity);
+                map.put("product_id",Integer.parseInt(idProducto));
+                message = map.toString();
+                post.setHeader("Content-type", "application/json");
+                post.setHeader("authorization", "Basic" + " " + params[0]);
+                post.setEntity(new StringEntity(message, "UTF8"));
                 HttpResponse resp = httpClient.execute(post);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 String aux = respJSON.get("errors").toString();
+                JSONObject data= respJSON.getJSONObject("data");
                 if(aux.equals("[]")){
+                    idAd=data.getString("id");
+                    Log.i("Objeto",idAd);
                     resul=true;
                 }else{
-                   /* String error1=null,error2=null, resultado=null;
-                    String[] parts = aux.split(",");
-                    error1 = parts[0];
-                    error2 = parts[2];
-                    if(!error2.isEmpty()){
-                        resultado = error1.substring(13,error1.length()-1) + " ó " + error2.substring(12,error2.length()-1);
-                    }else{
-                        resultado = error1.substring(13,error1.length()-1);
-                    }*/
                     resul=false;
                 }
             }
             catch(Exception ex)
             {
                 Log.e("ServicioRest", "Error!", ex);
-                //Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
                 resul = false;
             }
 
@@ -480,6 +527,8 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
             if (result)
             {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }else{
+                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -534,6 +583,46 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
+    private class ObtenerLocalidades extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            String id=null, nombre=null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.localidades);
+            get.setHeader("content-type", "application/json");
+            try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("locations");
+                Localidad c;
+                for(int i=0; i<results.length(); i++)
+                {
+                    JSONObject info= results.getJSONObject(i);
+                    id=info.getString("id");
+                    nombre = info.getString("name");
+                    c= new Localidad(id, nombre);
+                    localidadesLista.add(c);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            poblarSpinnerLocalidades();
+        }
+    }
+
     private void poblarSpinnerCategorias() {
         List<String> campos = new ArrayList<String>();
         for (int i = 0; i < categoriasLista.size(); i++) {
@@ -544,6 +633,17 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         spinnerCat.setAdapter(spinnerAdapter);
     }
 
+    private void poblarSpinnerLocalidades() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < localidadesLista.size(); i++) {
+            campos.add(localidadesLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerLoc.setAdapter(spinnerAdapter);
+    }
+
+
     private void poblarSpinnerSubCategorias() {
         List<String> campos = new ArrayList<String>();
         for (int i = 0; i < subCategoriasLista.size(); i++) {
@@ -553,6 +653,27 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerSub.setAdapter(spinnerAdapter);
     }
+
+    private void poblarSpinnerMunicipios() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < municipiosLista.size(); i++) {
+            campos.add(municipiosLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerMun.setAdapter(spinnerAdapter);
+    }
+
+    private void poblarSpinnerZona() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < zonasLista.size(); i++) {
+            campos.add(zonasLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerZona.setAdapter(spinnerAdapter);
+    }
+
 
     private class ObtenerSubCategorias extends AsyncTask<String, Void, Void>{
 
