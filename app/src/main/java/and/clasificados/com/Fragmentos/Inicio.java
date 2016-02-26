@@ -1,6 +1,7 @@
 package and.clasificados.com.fragmentos;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +46,9 @@ import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
+import and.clasificados.com.modelo.Tab;
 import and.clasificados.com.services.AppAsynchTask;
+import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,8 +63,9 @@ public class Inicio extends Fragment {
     private AppBarLayout appBarLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    Activity context;
     RelativeLayout filtro;
+    ProgressDialog pDialog;
+    ArrayList<Tab> listaTabs;
 
     public Inicio() {
     }
@@ -78,13 +84,10 @@ public class Inicio extends Fragment {
             }
         });*/
         if (savedInstanceState == null) {
+            listaTabs=new ArrayList<Tab>();
             insertarTabs(container);
             viewPager = (ViewPager) view.findViewById(R.id.pager);
-            poblarViewPager(viewPager);
-            tabLayout.setupWithViewPager(viewPager);
-            context=getActivity();
-            setupTabIcons();
-            //new DataCategory(context).execute();
+            new ObtenerTabs().execute();
 
         }
         ImageView plus = (ImageView)view.findViewById(R.id.nuevo);
@@ -153,63 +156,19 @@ public class Inicio extends Fragment {
     }
 
 
-    private void setupTabIcons() {
-
-            LayoutInflater inflator1 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vOne = inflator1.inflate(R.layout.tabbar_view_new, null);
-            TextView tabOne = (TextView)vOne.findViewById(R.id.tab);
-            tabOne.setText(getString(R.string.titulo_tab_vehiculos));
-            ImageView img_tab1 = (ImageView)vOne.findViewById(R.id.img_tab);
+    private void setupTabIcons(ArrayList<Tab> lista) {
+        for(int i=0;i<lista.size();i++){
+            LayoutInflater inflador = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View vista = inflador.inflate(R.layout.tabbar_view_new,null);
+            TextView tabText = (TextView)vista.findViewById(R.id.tab);
+            tabText.setText(lista.get(i).getNombre());
+            ImageView tabIcon = (ImageView)vista.findViewById(R.id.img_tab);
             Picasso.with(getActivity())
-                    .load(R.drawable.icon_tabbar_vehiculo)
+                    .load(lista.get(i).getUrl_imagen())
                     .fit()
-                    .into(img_tab1);
-            tabLayout.getTabAt(0).setCustomView(vOne);
-
-            LayoutInflater inflator2 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vTwo = inflator2.inflate(R.layout.tabbar_view_new, null);
-            TextView tabTwo = (TextView)vTwo.findViewById(R.id.tab);
-            tabTwo.setText(getString(R.string.titulo_tab_inmuebles));
-            ImageView img_tab2 = (ImageView)vTwo.findViewById(R.id.img_tab);
-            Picasso.with(getActivity())
-                    .load(R.drawable.icon_tabbar_edificio)
-                    .fit()
-                    .into(img_tab2);
-            tabLayout.getTabAt(2).setCustomView(vTwo);
-
-            LayoutInflater inflator3 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vThree = inflator3.inflate(R.layout.tabbar_view_new, null);
-            TextView tabThree = (TextView)vThree.findViewById(R.id.tab);
-            tabThree.setText(getString(R.string.titulo_tab_productos));
-            ImageView img_tab3 = (ImageView)vThree.findViewById(R.id.img_tab);
-            Picasso.with(getActivity())
-                    .load(R.drawable.icon_tabbar_producto)
-                    .fit()
-                    .into(img_tab3);
-            tabLayout.getTabAt(1).setCustomView(vThree);
-
-            LayoutInflater inflator4 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vFour = inflator4.inflate(R.layout.tabbar_view_new, null);
-            TextView tabFour = (TextView)vFour.findViewById(R.id.tab);
-            tabFour.setText(getString(R.string.titulo_tab_empleos));
-            ImageView img_tab4 = (ImageView)vFour.findViewById(R.id.img_tab);
-            Picasso.with(getActivity())
-                    .load(R.drawable.icon_tabbar_empleo)
-                    .fit()
-                    .into(img_tab4);
-            tabLayout.getTabAt(3).setCustomView(vFour);
-
-            LayoutInflater inflator5 = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vFive = inflator5.inflate(R.layout.tabbar_view_new, null);
-            TextView tabFive = (TextView)vFive.findViewById(R.id.tab);
-            tabFive.setText(getString(R.string.titulo_tab_servicios));
-            ImageView img_tab5 = (ImageView)vFive.findViewById(R.id.img_tab);
-            Picasso.with(getActivity())
-                    .load(R.drawable.icon_tabbar_servicio)
-                    .fit()
-                    .into(img_tab5);
-            tabLayout.getTabAt(4).setCustomView(vFive);
-
+                    .into(tabIcon);
+            tabLayout.getTabAt(i).setCustomView(vista);
+        }
     }
 
     private void insertarTabs(ViewGroup container) {
@@ -219,16 +178,13 @@ public class Inicio extends Fragment {
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
         tabLayout.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF"));
         appBarLayout.addView(tabLayout);
-
     }
 
-    private void poblarViewPager(ViewPager viewPager) {
+    private void poblarViewPager(ViewPager viewPager,ArrayList<Tab> lista) {
         AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_vehiculos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(2), getString(R.string.titulo_tab_productos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(3), getString(R.string.titulo_tab_inmuebles));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_empleos));
-        adapter.addFragment(CategoriasTab.nuevaInstancia(1), getString(R.string.titulo_tab_servicios));
+        for (int i=0;i<lista.size();i++){
+            adapter.addFragment(CategoriasTab.nuevaInstancia(Integer.parseInt(lista.get(i).getId())), lista.get(i).getNombre());
+        }
         viewPager.setAdapter(adapter);
     }
 
@@ -275,77 +231,47 @@ public class Inicio extends Fragment {
     }
 
 
-    public class DataCategory extends AppAsynchTask<Void, String, String> {
-        Activity actividad;
-        String respuestaWS=null;
-
-
-        public DataCategory(Activity activity) {
-            super(activity);
-            // TODO Auto-generated constructor stub
-            actividad=activity;
-        }
+    private class ObtenerTabs extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected String customDoInBackground(Void... params)
-                throws NetworkException, ServerException, ParsingException,
-                TimeOutException, IOException, JSONException {
-
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httppost = new HttpGet(Constants.categories);
-
-
+        protected Void doInBackground(Void... arg0) {
+            String id=null, nombre=null, icono=null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.sitios);
+            get.setHeader("content-type", "application/json");
             try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONArray results = respJSON.getJSONArray("data");
+                Tab t;
+                for(int i=0; i<results.length(); i++)
+                {
+                    JSONObject info= results.getJSONObject(i);
+                    id=info.getString("id");
+                    nombre = info.getString("name");
+                    icono=info.getString("icon");
+                    t= new Tab(id, nombre,icono);
+                    listaTabs.add(t);
+                }
 
-                // Execute HTTP Post Request
-                //httppost.setHeader("Authorization",Constants.md5(Constants.KEY_HEADER));
-                HttpResponse response = httpclient.execute(httppost);
-
-                HttpEntity entity = response.getEntity();
-                InputStream instream = entity.getContent();
-                String result = Constants.convertStreamToString(instream);
-                System.out.println("result "+result);
-                /*JSONObject myObject = new JSONObject(result);
-                JSONObject myObjectItems = new JSONObject(myObject.getString("response"));
-                JSONArray myObjectitems  = new JSONArray(myObjectItems.getString("items"));
-                total_resultado=myObjectItems.getInt("items_total");
-                for(int i = 0; i < myObjectitems.length(); i++){
-                    JSONObject c = myObjectitems.getJSONObject(i);
-                    HashMap<String, String> map = new HashMap<String, String>();
-                    map.put("section", c.getString("section"));
-                    map.put("type", c.getString("type"));
-                    map.put("object_id", c.getString("object_id"));
-                    map.put("title", c.getString("title"));
-                    map.put("image", c.getString("image"));
-                    map.put("category_name", c.getString("category_name"));
-                    map.put("entry_creation_date", c.getString("entry_creation_date"));
-                    map.put("entry_start_date", c.getString("entry_start_date"));
-
-                }*/
-
-                respuestaWS="si";
-
-
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-            }/*catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
-            }*/
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-
-            return respuestaWS;
-
+            return null;
         }
 
         @Override
-        protected void customOnPostExecute(String result){
-
-
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            poblarViewPager(viewPager, listaTabs);
+            tabLayout.setupWithViewPager(viewPager);
+            setupTabIcons(listaTabs);
         }
-
-
     }
 
 }

@@ -39,6 +39,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:hint="@string/titulo"
+                android:singleLine="true"
                 android:background="@drawable/rounded_etext"
                 android:layout_marginTop="24dp"
                 android:layout_alignParentTop="true"
@@ -68,6 +69,8 @@
                     android:layout_height="40dp"
                     android:id="@+id/costo"
                     android:hint="@string/costo"
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"
                     android:background="@drawable/rounded_etext"
                     android:layout_row="0"
                     android:layout_column="2"
@@ -75,8 +78,8 @@
 
             </GridLayout>
 
-            <GridLayout
-                android:layout_width="350dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="19dp"
                 android:columnCount="3"
@@ -87,20 +90,20 @@
                 android:layout_alignStart="@+id/gridLayout3">
 
                 <Spinner
-                    android:layout_width="165dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spinner"
-                    android:layout_row="0"
-                    android:layout_column="0"
-                    android:background="@drawable/rounded_etext"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinner_categoria"
+                    android:visibility="visible"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_spinner"/>
+
                 <Spinner
-                    android:layout_width="165dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/spinner2"
-                    android:layout_row="0"
-                    android:layout_column="2"
-                    android:background="@drawable/rounded_etext"/>
-            </GridLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinner_subcat"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_spinner"/>
+            </LinearLayout>
 
             <and.clasificados.com.views.EditTextLight
                 android:layout_width="350dp"
@@ -126,7 +129,7 @@
                 android:background="@drawable/rounded_etext"
                 android:id="@+id/gridLayout2">
                 <and.clasificados.com.views.TextViewLight
-                    android:id="@+id/texto_descripcion"
+                    android:id="@+id/numfotografias"
                     android:layout_width="fill_parent"
                     android:layout_height="45dp"
                     android:textSize="14sp"
@@ -175,6 +178,7 @@
                 android:layout_height="match_parent"
                 android:columnCount="6"
                 android:rowCount="2"
+                android:id="@+id/galeria_imagenes"
                 android:layout_below="@+id/gridLayout2"
                 android:layout_alignLeft="@+id/gridLayout2"
                 android:layout_alignStart="@+id/gridLayout2"
@@ -186,45 +190,37 @@
                     android:layout_height="100dp"
                     android:id="@+id/anuncio1"
                     android:layout_row="0"
-                    android:layout_column="0"
-                    android:src="@drawable/iphone1"
-                    android:background="@drawable/border"/>
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/anuncio4"
-                    android:layout_row="1"
-                    android:layout_column="0"
-                    android:src="@drawable/iphone4"
-                    android:background="@drawable/border"/>
-
+                    android:layout_column="0" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/anuncio2"
                     android:layout_row="0"
-                    android:layout_column="2"
-                    android:src="@drawable/iphone2"
-                    android:background="@drawable/border"/>
-
+                    android:layout_column="2" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/anuncio3"
                     android:layout_row="0"
-                    android:layout_column="4"
-                    android:src="@drawable/iphone3"
-                    android:background="@drawable/border"/>
-
+                    android:layout_column="4"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/anuncio4"
+                    android:layout_row="1"
+                    android:layout_column="0"/>
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:id="@+id/anuncio5"
                     android:layout_row="1"
-                    android:layout_column="2"
-                    android:src="@drawable/iphone5"
-                    android:background="@drawable/border"/>
+                    android:layout_column="2"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/anuncio6"
+                    android:layout_row="1"
+                    android:layout_column="4"/>
             </GridLayout>
         </RelativeLayout>
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="debes">Debes iniciar sesion, para accesar a este contenido.</string>
+    <string name="select_moneda">Seleccione una moneda</string>
 </resources>

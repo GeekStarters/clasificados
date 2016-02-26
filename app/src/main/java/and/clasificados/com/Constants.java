@@ -23,6 +23,8 @@ public class Constants {
     public static String categories = URL+"categories";
     public static String last = URL+"ads/lasts/";
     public static String nuevo_clasificado=URL+"ads";
+    public static String sitios = URL+"sites";
+
 
 
     public static String convertStreamToString(InputStream is) {

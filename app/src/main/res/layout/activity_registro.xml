@@ -35,6 +35,7 @@
             android:background="@drawable/rounded_etext"
             android:layout_below="@+id/imageView5"
             android:layout_centerHorizontal="true"
+            android:singleLine="true"
             android:layout_marginTop="20dp"
             android:padding="4dp"/>
 
@@ -74,6 +75,7 @@
             android:background="@drawable/rounded_etext"
             android:layout_marginTop="19dp"
             android:layout_below="@+id/nombre"
+            android:singleLine="true"
             android:layout_alignLeft="@+id/nombre"
             android:layout_alignStart="@+id/nombre"
             android:padding="4dp"/>
@@ -86,6 +88,7 @@
             android:hint="@string/email"
             android:background="@drawable/rounded_etext"
             android:layout_below="@+id/apellido"
+            android:singleLine="true"
             android:layout_alignLeft="@+id/apellido"
             android:layout_alignStart="@+id/apellido"
             android:layout_marginTop="20dp"
@@ -97,6 +100,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:hint="@string/nombre_user"
+            android:singleLine="true"
             android:background="@drawable/rounded_etext"
             android:layout_below="@+id/email"
             android:layout_alignLeft="@+id/email"
@@ -110,6 +114,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:hint="@string/password"
+            android:singleLine="true"
             android:background="@drawable/rounded_etext"
             android:layout_below="@+id/user_name"
             android:layout_alignLeft="@+id/user_name"
@@ -124,6 +129,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:hint="@string/contra2"
+            android:singleLine="true"
             android:background="@drawable/rounded_etext"
             android:layout_below="@+id/contra"
             android:layout_alignLeft="@+id/contra"
