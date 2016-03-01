@@ -1,7 +1,6 @@
 package and.clasificados.com.actividades;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,23 +11,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
 
 import and.clasificados.com.Constants;
-import and.clasificados.com.auxiliares.AdaptadorCategorias;
 import and.clasificados.com.auxiliares.AdaptadorMensaje;
-import and.clasificados.com.auxiliares.DecoracionLineaDivisoria;
 import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
