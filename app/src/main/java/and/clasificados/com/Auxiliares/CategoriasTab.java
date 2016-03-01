@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class CategoriasTab extends Fragment {
     private RecyclerView reciclador;
     private LinearLayoutManager layoutManager;
     private AdaptadorCategorias adaptador;
-    private Context context;
+    private Activity context;
     private List<Clasificado> resultado;
 
     public CategoriasTab() {
@@ -75,6 +76,7 @@ public class CategoriasTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        context=getActivity();
         View view = inflater.inflate(R.layout.fragmento_grupo_items, container, false);
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -82,29 +84,21 @@ public class CategoriasTab extends Fragment {
         resultado = new ArrayList<>();
         int indiceSeccion = getArguments().getInt(INDICE_SECCION);
         String pasar = ""+indiceSeccion;
-        LlenarLista llenar = new LlenarLista();
+        LlenarLista llenar = new LlenarLista(context);
         llenar.execute(pasar);
         return view;
     }
 
-    private class LlenarLista extends AsyncTask<String,Integer,Boolean> {
+    private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
         Clasificado c;
-        String precio=null, titulo=null, url_imagen=null, categoria=null;
+        String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
 
-        ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setCancelable(true);
-            progressDialog.setMessage(getString(R.string.cargando));
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setProgress(0);
-            progressDialog.show();
+        public LlenarLista(Activity activity) {
+            super(activity);
         }
 
-        protected Boolean doInBackground(String... params) {
+        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.last+params[0]);
@@ -124,8 +118,10 @@ public class CategoriasTab extends Fragment {
                     precio = info.getString("currencySymbol")+" "+info.getString("price");
                     categoria = info.getString("subCategoryName");
                     JSONArray imagen = info.getJSONArray("images");
+                    vista = ad.getString("singleApiURL");
                     url_imagen = imagen.getString(0);
-                    c= new Clasificado(precio,categoria,titulo,url_imagen);
+                    c= new Clasificado(precio,categoria,titulo,url_imagen,vista);
+                    Log.i("Clasificado"+i+": ",c.toString());
                     resultado.add(c);
                 }
                 resul = true;
@@ -138,14 +134,17 @@ public class CategoriasTab extends Fragment {
             return resul;
         }
 
-        protected void onPostExecute(Boolean result) {
-            progressDialog.dismiss();
+        protected void customOnPostExecute(Boolean result) {
             if (result) {
                 adaptador =  new AdaptadorCategorias(resultado);
-                adaptador.setOnClickListener(new View.OnClickListener() {
+                adaptador.setOnItemClickListener(new AdaptadorCategorias.OnItemClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getContext(), Single.class));
+                    public void onItemClick(View v, int position) {
+                        String  single = ""+position;
+                        Log.i("URL",single);
+                        Intent o=new Intent(getContext(),Single.class);
+                        o.putExtra("URL",single);
+                        startActivity(o);
                     }
                 });
                 reciclador.setAdapter(adaptador);

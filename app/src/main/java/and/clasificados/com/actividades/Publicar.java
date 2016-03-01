@@ -1,9 +1,8 @@
 package and.clasificados.com.actividades;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +40,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -52,18 +49,26 @@ import java.util.List;
 import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
+import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.common.RoundedTransformation;
+import and.clasificados.com.exception.NetworkException;
+import and.clasificados.com.exception.ParsingException;
+import and.clasificados.com.exception.ServerException;
+import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.modelo.Categoria;
 import and.clasificados.com.modelo.Localidad;
 import and.clasificados.com.modelo.Moneda;
 import and.clasificados.com.modelo.Municipio;
 import and.clasificados.com.modelo.SubCategoria;
+import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.modelo.Zona;
+import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class Publicar extends AppCompatActivity implements IListDialogListener,AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
+    RelativeLayout divZona;
     EditTextLight title,costo,descr;
     ImageView tomarFoto,galeria1,galeria2,galeria3,galeria4,galeria5,galeria6, vaciar, desdeGal;
     Button publicar, moneda;
@@ -71,6 +76,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     ProgressDialog pDialog;
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun;
     GridLayout grid;
+    Activity context;
     private ArrayList<Categoria> categoriasLista;
     private ArrayList<SubCategoria> subCategoriasLista;
     private ArrayList<Moneda> monedaLista;
@@ -84,13 +90,15 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     final int GALERIA = 655;
     final int FOTOGRAFIA = 654;
     private static final int REQUEST_LIST_SIMPLE= 11;
+    Usuario login_user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publicar);
         agregarToolbar();
-        Intent i= getIntent();
-        auto = i.getStringExtra("basic");
+        login_user= PrefUtils.getCurrentUser(Publicar.this);
+        auto = login_user.auto;
+        context=this;
         spinnerCat = (Spinner) findViewById(R.id.spinner_categoria);
         spinnerSub = (Spinner) findViewById(R.id.spinner_subcat);
         spinnerLoc = (Spinner) findViewById(R.id.spinner_location);
@@ -110,12 +118,13 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         galeria6 = (ImageView) findViewById(R.id.anuncio6);
         grid = (GridLayout)findViewById(R.id.galeria_imagenes);
         contador=(TextView)findViewById(R.id.numfotografias);
-        new ObtenerCategorias().execute();
-        new ObtenerLocalidades().execute();
+        divZona = (RelativeLayout)findViewById(R.id.contentTwo);
         llenarGaleria(savedInstanceState);
         monedaLista = new ArrayList<Moneda>();
-        llenarMoneda();
         moneda=(Button)findViewById(R.id.currency);
+        new ObtenerCategorias(context).execute();
+        new ObtenerLocalidades(context).execute();
+        new ObtenerMoneda(context).execute();
         publicar = (Button) findViewById(R.id.button_publicar);
         View.OnClickListener onclick=new View.OnClickListener() {
             @Override
@@ -131,7 +140,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .show();
                         break;
                     case R.id.button_publicar:
-                        NuevoAnuncio a = new NuevoAnuncio();
+                        NuevoAnuncio a = new NuevoAnuncio(context);
                         a.execute(auto);
                         break;
                     case R.id.camera:
@@ -358,16 +367,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
-
-    private void llenarMoneda() {
-        monedaLista.add(new Moneda("1","Q"));
-        monedaLista.add(new Moneda("2","$USD"));
-    }
-
     private String[] obtenerMoneda(ArrayList<Moneda> lista){
         ArrayList<String> datos = new ArrayList<String>();
         for (int i = 0; i < lista.size(); i++) {
-            datos.add(lista.get(i).getNombre());
+            datos.add(lista.get(i).getSimbolo());
         }
         String[] campos = datos.toArray(new String[datos.size()]);
         return campos;
@@ -427,7 +430,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 }
                 subCategoriasLista.clear();
                 subCategoriasLista.add(new SubCategoria(null, "Subcategoria", null));
-                ObtenerSubCategorias sub = new ObtenerSubCategorias();
+                ObtenerSubCategorias sub = new ObtenerSubCategorias(context);
                 sub.execute(nombre);
                 break;
             case R.id.spinner_subcat:
@@ -445,6 +448,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 break;
             case R.id.spinner_municipio:
                 if(esInmueble){
+                    divZona.setVisibility(View.VISIBLE);
                     poblarSpinnerZona();
                     /*if(municipiosLista.get(position).getZona().equals("NO")){
                         idLocacion = municipiosLista.get(position).getId();
@@ -453,9 +457,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         zo.execute(municipiosLista.get(position).getZona());
                        spinnerZona.setEnabled(true);
                     }*/
-                }/*else{
-                    idLocacion = municipiosLista.get(position).getId();
-                }*/
+                }else{
+                    divZona.setVisibility(View.INVISIBLE);
+                   // idLocacion = municipiosLista.get(position).getId();
+                }
                 break;
             case R.id.spinner_zona:
                // idLocacion=zonasLista.get(position).getId();
@@ -473,9 +478,17 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
 
     }
 
-    private class NuevoAnuncio extends AsyncTask<String,Integer,Boolean> {
+    private class NuevoAnuncio extends AppAsynchTask<String,Integer,Boolean> {
         String idAd=null;
-        protected Boolean doInBackground(String... params) {
+        Activity actividad;
+
+        public NuevoAnuncio(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
             boolean resul;
             String message;
             HttpClient httpClient = new DefaultHttpClient();
@@ -487,8 +500,6 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 final String titulo = title.getText().toString();
                 final String precio = costo.getText().toString();
                 final String descripcion= descr.getText().toString();
-
-
                 JSONObject map = new JSONObject();
                 map.put("title", titulo);
                 map.put("description", descripcion);
@@ -522,7 +533,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
             return resul;
         }
 
-        protected void onPostExecute(Boolean result) {
+        protected void customOnPostExecute(Boolean result) {
 
             if (result)
             {
@@ -533,18 +544,17 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
-    private class ObtenerCategorias extends AsyncTask<Void, Void, Void>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(Publicar.this);
-            pDialog.setMessage("Cargando...");
-            pDialog.setCancelable(false);
-            pDialog.show();
+    private class ObtenerCategorias extends AppAsynchTask<Void, Void, Void>{
+
+        Activity actividad;
+        public ObtenerCategorias(Activity activity) {
+            super(activity);
+            actividad=activity;
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Void customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
             String id=null, nombre=null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.categories);
@@ -575,7 +585,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void customOnPostExecute(Void result) {
             super.onPostExecute(result);
             if (pDialog.isShowing())
                 pDialog.dismiss();
@@ -583,10 +593,17 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
-    private class ObtenerLocalidades extends AsyncTask<Void, Void, Void>{
+    private class ObtenerLocalidades extends AppAsynchTask<Void, Void, Void>{
+
+        Activity actividad;
+        public ObtenerLocalidades(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Void customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
             String id=null, nombre=null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.localidades);
@@ -618,67 +635,22 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void customOnPostExecute(Void result) {
             poblarSpinnerLocalidades();
         }
     }
 
-    private void poblarSpinnerCategorias() {
-        List<String> campos = new ArrayList<String>();
-        for (int i = 0; i < categoriasLista.size(); i++) {
-            campos.add(categoriasLista.get(i).getNombre());
+    private class ObtenerSubCategorias extends AppAsynchTask<String, Void, Void>{
+
+        Activity actividad;
+        public ObtenerSubCategorias(Activity activity) {
+            super(activity);
+            actividad=activity;
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
-        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerCat.setAdapter(spinnerAdapter);
-    }
-
-    private void poblarSpinnerLocalidades() {
-        List<String> campos = new ArrayList<String>();
-        for (int i = 0; i < localidadesLista.size(); i++) {
-            campos.add(localidadesLista.get(i).getNombre());
-        }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
-        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerLoc.setAdapter(spinnerAdapter);
-    }
-
-
-    private void poblarSpinnerSubCategorias() {
-        List<String> campos = new ArrayList<String>();
-        for (int i = 0; i < subCategoriasLista.size(); i++) {
-            campos.add(subCategoriasLista.get(i).getNombre());
-        }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
-        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerSub.setAdapter(spinnerAdapter);
-    }
-
-    private void poblarSpinnerMunicipios() {
-        List<String> campos = new ArrayList<String>();
-        for (int i = 0; i < municipiosLista.size(); i++) {
-            campos.add(municipiosLista.get(i).getNombre());
-        }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
-        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerMun.setAdapter(spinnerAdapter);
-    }
-
-    private void poblarSpinnerZona() {
-        List<String> campos = new ArrayList<String>();
-        for (int i = 0; i < zonasLista.size(); i++) {
-            campos.add(zonasLista.get(i).getNombre());
-        }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
-        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerZona.setAdapter(spinnerAdapter);
-    }
-
-
-    private class ObtenerSubCategorias extends AsyncTask<String, Void, Void>{
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Void customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
             String sub_id=null, sub_nombre=null, parent_id=null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.categories);
@@ -717,10 +689,107 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void customOnPostExecute(Void result) {
             super.onPostExecute(result);
             poblarSpinnerSubCategorias();
         }
+    }
+
+    private class ObtenerMoneda extends AppAsynchTask<Void, Void, Void>{
+
+        Activity actividad;
+        public ObtenerMoneda(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        @Override
+        protected Void customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
+            String id=null, nombre=null,simb=null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.moneda);
+            get.setHeader("content-type", "application/json");
+            try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONArray results = respJSON.getJSONArray("data");
+                Moneda c;
+                for(int i=0; i<results.length(); i++)
+                {
+                    JSONObject info= results.getJSONObject(i);
+                    id=info.getString("id");
+                    nombre = info.getString("name");
+                    simb=info.getString("symbol");
+                    c= new Moneda(id, nombre, simb);
+                    monedaLista.add(c);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void customOnPostExecute(Void result) {
+            obtenerMoneda(monedaLista);
+        }
+    }
+
+    private void poblarSpinnerCategorias() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < categoriasLista.size(); i++) {
+            campos.add(categoriasLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerCat.setAdapter(spinnerAdapter);
+    }
+
+    private void poblarSpinnerLocalidades() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < localidadesLista.size(); i++) {
+            campos.add(localidadesLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerLoc.setAdapter(spinnerAdapter);
+    }
+
+    private void poblarSpinnerSubCategorias() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < subCategoriasLista.size(); i++) {
+            campos.add(subCategoriasLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerSub.setAdapter(spinnerAdapter);
+    }
+
+    private void poblarSpinnerMunicipios() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < municipiosLista.size(); i++) {
+            campos.add(municipiosLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerMun.setAdapter(spinnerAdapter);
+    }
+
+    private void poblarSpinnerZona() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < zonasLista.size(); i++) {
+            campos.add(zonasLista.get(i).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerZona.setAdapter(spinnerAdapter);
     }
 
 }

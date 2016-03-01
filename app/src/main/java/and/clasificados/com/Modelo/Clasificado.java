@@ -14,6 +14,7 @@ public class Clasificado {
     private String categoria;
     private int idDrawable;
     private String url;
+    private String single;
 
     public Clasificado() {
     }
@@ -25,13 +26,13 @@ public class Clasificado {
         this.idDrawable = idDrawable;
     }
 
-    public Clasificado(String precio, String categoria, String anuncio, String url) {
+    public Clasificado(String precio, String categoria, String anuncio, String url, String single) {
         this.categoria=categoria;
         this.precio = precio;
         this.textoAnuncio = anuncio;
         this.url = url;
+        this.url=single;
     }
-
 
     public static final List<Clasificado> EMPLEOS = new ArrayList<Clasificado>();
     public static final List<Clasificado> SERVICIOS = new ArrayList<>();
@@ -64,6 +65,14 @@ public class Clasificado {
         MIOS.add(new Clasificado("Q."+5000.00, "Otros", "Laptop", R.drawable.celular));
         MIOS.add(new Clasificado("Q."+5002.00, "Otros", "Fontaneria", R.drawable.electricista));
 
+    }
+
+    public String getSingle() {
+        return single;
+    }
+
+    public void setSingle(String single) {
+        this.single = single;
     }
 
     public void setPrecio(String precio) {
@@ -102,4 +111,14 @@ public class Clasificado {
         return categoria;
     }
 
+    @Override
+    public String toString() {
+        return "Clasificado{" +
+                "precio='" + precio + '\'' +
+                ", textoAnuncio='" + textoAnuncio + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", url='" + url + '\'' +
+                ", single='" + single + '\'' +
+                '}';
+    }
 }

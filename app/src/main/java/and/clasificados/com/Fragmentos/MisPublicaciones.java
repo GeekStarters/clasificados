@@ -1,5 +1,6 @@
 package and.clasificados.com.fragmentos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import and.clasificados.com.actividades.Single;
 import and.clasificados.com.auxiliares.AdaptadorCategorias;
 import and.clasificados.com.auxiliares.DecoracionLineaDivisoria;
 import and.clasificados.com.modelo.Clasificado;
@@ -35,12 +37,11 @@ public class MisPublicaciones extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
         adaptador = new AdaptadorCategorias(Clasificado.FAVORITOS);
-        adaptador.setOnClickListener(new View.OnClickListener() {
+        adaptador.setOnItemClickListener(new AdaptadorCategorias.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(View v, int position) {
                 Toast.makeText(v.getContext(), "Click en mis publicaciones", Toast.LENGTH_SHORT).show();
-                /*Intent i = new Intent(v.getContext(), Single.class);
-                v.getContext().startActivity(i);*/
+
             }
         });
 

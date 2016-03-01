@@ -22,6 +22,7 @@ import and.clasificados.com.modelo.Clasificado;
  */
 public class NoLogin extends Fragment {
 
+    Button login;
     public NoLogin() {
     }
 
@@ -29,6 +30,13 @@ public class NoLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_nologin, container, false);
+        login=(Button) view.findViewById(R.id.button4);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),Login.class));
+            }
+        });
         return view;
     }
 }

@@ -1,10 +1,12 @@
 package and.clasificados.com.actividades;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -29,12 +31,16 @@ public class Single extends AppCompatActivity {
     private ArrayList<Integer> ImagesArray = new ArrayList<Integer>();
     ImageView contactar, ofertar,  tw,fb,wha, msg, sha;
     TextView reportar;
+    String url = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single);
         agregarToolbar();
+        Intent i = getIntent();
+        url = i.getStringExtra("single");
+        Log.i("SINGLE: ", url);
         init();
         contactar=(ImageView)findViewById(R.id.contactar);
         ofertar=(ImageView)findViewById(R.id.ofertar);

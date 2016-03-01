@@ -35,7 +35,7 @@
                     android:layout_centerHorizontal="true"
                     android:visibility="visible"/>
             </RelativeLayout>
-            </android.support.v7.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
     <RelativeLayout

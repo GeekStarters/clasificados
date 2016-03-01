@@ -1,5 +1,6 @@
 package and.clasificados.com.actividades;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -35,6 +36,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -42,7 +44,12 @@ import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
 import and.clasificados.com.auxiliares.PrefUtils;
+import and.clasificados.com.exception.NetworkException;
+import and.clasificados.com.exception.ParsingException;
+import and.clasificados.com.exception.ServerException;
+import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.modelo.Usuario;
+import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
@@ -53,10 +60,12 @@ public class Login extends AppCompatActivity{
     Button registro, sesion;
     TextView olvide;
     EditTextLight usuario, contra;
+    Activity context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=this;
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
@@ -82,7 +91,7 @@ public class Login extends AppCompatActivity{
                         registro();
                         break;
                     case R.id.button_session:
-                        AutenticarUsuario tarea = new AutenticarUsuario();
+                        AutenticarUsuario tarea = new AutenticarUsuario(context);
                         tarea.execute("local");
                         break;
                     case R.id.olvide:
@@ -112,7 +121,7 @@ public class Login extends AppCompatActivity{
                                     user.provider="facebook";
                                     user.facebookID = object.getString("id").toString();
                                     user.email = object.getString("email").toString();
-                                    AutenticarUsuario t = new AutenticarUsuario();
+                                    AutenticarUsuario t = new AutenticarUsuario(context);
                                     t.execute(user.provider, user.facebookID);
                                 }catch (Exception e){
                                     e.printStackTrace();
@@ -167,22 +176,18 @@ public class Login extends AppCompatActivity{
         startActivity(new Intent(this, Registro.class));
     }
 
-    private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
+    private class AutenticarUsuario extends AppAsynchTask<String,Integer,Boolean> {
         String resultado="none";
-        ProgressDialog progressDialog;
+        Activity actividad;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(Login.this);
-            progressDialog.setCancelable(true);
-            progressDialog.setMessage(getString(R.string.cargando));
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setProgress(0);
-            progressDialog.show();
+        public AutenticarUsuario(Activity activity) {
+            super(activity);
+            actividad=activity;
         }
 
-        protected Boolean doInBackground(String... params) {
+
+        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost(Constants.autenticar);
@@ -232,8 +237,7 @@ public class Login extends AppCompatActivity{
             return resul;
         }
 
-        protected void onPostExecute(Boolean result) {
-            progressDialog.dismiss();
+        protected void customOnPostExecute(Boolean result) {
             if (result) {
                 Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
                 Intent i=new Intent(getApplicationContext(),MainActivity.class);

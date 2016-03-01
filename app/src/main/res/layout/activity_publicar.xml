@@ -106,52 +106,60 @@
         </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="19dp"
                 android:id="@+id/posicion"
                 android:layout_below="@+id/gridLayout"
                 android:layout_alignLeft="@+id/gridLayout"
-                android:layout_alignStart="@+id/gridLayout">
-
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:id="@+id/spinner_location"
-                    android:visibility="visible"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_spinner"/>
-
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:id="@+id/spinner_municipio"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_spinner"/>
+                android:layout_alignStart="@+id/gridLayout"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/contentOne"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:id="@+id/spinner_location"
+                            android:visibility="visible"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_spinner"/>
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:id="@+id/spinner_municipio"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_spinner"/>
+                    </LinearLayout>
+                </RelativeLayout>
+                <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/contentTwo"
+                   android:layout_weight="1"
+                   android:paddingTop="20dp"
+                   android:visibility="invisible">
+                   <Spinner
+                       android:layout_width="wrap_content"
+                       android:layout_height="50dp"
+                       android:id="@+id/spinner_zona"
+                       android:visibility="visible"
+                       android:layout_weight="1"
+                       android:background="@drawable/rounded_spinner"/>
+               </RelativeLayout>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="19dp"
-                android:id="@+id/zona"
-                android:layout_below="@+id/posicion"
-                android:layout_alignLeft="@+id/posicion"
-                android:layout_alignStart="@+id/posicion">
 
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:id="@+id/spinner_zona"
-                    android:visibility="visible"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_spinner"/>
-
-            </LinearLayout>
 
             <and.clasificados.com.views.EditTextLight
                 android:layout_width="350dp"
                 android:layout_height="200dp"
                 android:id="@+id/descripcion"
-                android:layout_below="@+id/zona"
+                android:layout_below="@+id/posicion"
                 android:layout_alignLeft="@+id/gridLayout3"
                 android:layout_alignStart="@+id/gridLayout3"
                 android:layout_marginTop="21dp"
@@ -264,9 +272,32 @@
                     android:layout_row="1"
                     android:layout_column="4"/>
             </GridLayout>
-        </RelativeLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:layout_above="@+id/cont_footer"
+                android:background="#c2c2c2"
+                android:layout_below="@+id/galeria_imagenes"/>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="#ffffff"
+                android:id="@+id/cont_footer"
+                android:padding="3dp"
+                android:layout_alignParentBottom="true"
+                android:layout_height="45dp">
+                <and.clasificados.com.views.ButtonLight
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_publicar"
+                    android:background="@drawable/rounded_button_orange"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/publicar_mi"
+                    android:textColor="#FFFFFF"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
     </ScrollView>
 </LinearLayout>
-    <include layout="@layout/footer_publicar" />
-    </RelativeLayout>
+</RelativeLayout>

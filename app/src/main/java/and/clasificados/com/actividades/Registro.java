@@ -68,6 +68,7 @@ public class  Registro extends AppCompatActivity {
     private LoginButton fb;
     private CallbackManager callbackManager;
     TextView terminos;
+    Activity context;
     EditTextLight nombre, apellido,usuario, pass1, pass2,email;
     private static final String TAG = Registro.class.getSimpleName();
 
@@ -78,6 +79,7 @@ public class  Registro extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_registro);
         agregarToolbar();
+        context=this;
         registro = (Button)findViewById(R.id.registro);
         fb=(LoginButton)findViewById(R.id.button_fb2);
         fb.setText(getString(R.string.login_fb));
@@ -129,7 +131,7 @@ public class  Registro extends AppCompatActivity {
                                     user.name = partes[0];
                                     user.last = partes[1];
                                     user.provider = "facebook";
-                                    NuevoUsuario t = new NuevoUsuario();
+                                    NuevoUsuario t = new NuevoUsuario(context);
                                     t.execute(user.provider,user.facebookID,user.email,user.name,user.last);
                                   //  PrefUtils.setCurrentUser(user, Rn.this);
                                 }catch (Exception e){
@@ -213,7 +215,7 @@ public class  Registro extends AppCompatActivity {
                 focusView3.requestFocus();
                 focusView4.requestFocus();
             }else{
-                NuevoUsuario tarea = new NuevoUsuario();
+                NuevoUsuario tarea = new NuevoUsuario(context);
                 tarea.execute("local",user,correo,nom,apel,contra,contra2);
             }
         }catch (Exception e) {
@@ -240,24 +242,18 @@ public class  Registro extends AppCompatActivity {
     }
 
 
-    private class NuevoUsuario extends AsyncTask<String,Integer,Boolean> {
-        ProgressDialog progressDialog;
+    private class NuevoUsuario extends AppAsynchTask<String,Integer,Boolean> {
         String password = null, provider = null, user_name=null, error="";
+        Activity actividad;
 
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(Registro.this);
-            progressDialog.setCancelable(true);
-            progressDialog.setMessage(getString(R.string.cargando));
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setProgress(0);
-            progressDialog.show();
+        public NuevoUsuario(Activity activity) {
+            super(activity);
+            actividad=activity;
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost(Constants.registro);
@@ -315,14 +311,13 @@ public class  Registro extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void customOnPostExecute(Boolean result) {
             if (result)
             {
                 Toast.makeText(getApplicationContext(),getString(R.string.creado),Toast.LENGTH_LONG).show();
-                AutenticarUsuario t = new AutenticarUsuario();
+                AutenticarUsuario t = new AutenticarUsuario(actividad);
                 t.execute(provider, password, user_name);
             }else{
-                progressDialog.dismiss();
                 String[] aux_err = error.split(",");
                 String e1=aux_err[0];
                 String e2=aux_err[1];
@@ -336,22 +331,17 @@ public class  Registro extends AppCompatActivity {
             }
     }
 
-    private class AutenticarUsuario extends AsyncTask<String,Integer,Boolean> {
-        ProgressDialog progressDialog;
+    private class AutenticarUsuario extends AppAsynchTask<String,Integer,Boolean> {
         String resultado="none";
+        Activity actividad;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(Registro.this);
-            progressDialog.setCancelable(true);
-            progressDialog.setMessage(getString(R.string.cargando));
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setProgress(0);
-            progressDialog.show();
+        public AutenticarUsuario(Activity activity) {
+            super(activity);
+            actividad=activity;
         }
 
-        protected Boolean doInBackground(String... params) {
+        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost(Constants.autenticar);
@@ -399,8 +389,7 @@ public class  Registro extends AppCompatActivity {
             return resul;
         }
 
-        protected void onPostExecute(Boolean result) {
-            progressDialog.dismiss();
+        protected void customOnPostExecute(Boolean result) {
             if (result) {
                 Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
                 Intent i=new Intent(getApplicationContext(),MainActivity.class);

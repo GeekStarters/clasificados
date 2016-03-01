@@ -24,4 +24,13 @@
         android:layout_height="wrap_content"
         android:src="@drawable/header_login" />
 
-    </RelativeLayout>
+    <and.clasificados.com.views.ButtonLight
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_login"
+        android:id="@+id/button4"
+        android:layout_below="@+id/user"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_button"/>
+
+</RelativeLayout>

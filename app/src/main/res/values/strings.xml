@@ -89,6 +89,8 @@
     <string name="creado">Registro exitoso</string>
     <string name="select_moneda">Seleccione una moneda</string>
     <string name="fotografia">Fotografia</string>
+    <string name="title_activity_mensaje">Mensajes</string>
+    <string name="title_activity_main">Main</string>
 
 
 </resources>

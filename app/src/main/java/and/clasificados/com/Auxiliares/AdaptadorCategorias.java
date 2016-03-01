@@ -17,13 +17,13 @@ import and.clasificados.com.R;
 /**
  * Created by Gabriela Mejia on 1/2/2016.
  */
-public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategorias.ViewHolder> implements  View.OnClickListener {
+public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategorias.ViewHolder>{
 
 
     private final List<Clasificado> items;
-    private View.OnClickListener listener;
+    OnItemClickListener mItemClickListener;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Campos respectivos de un item
         public TextView nombre;
         public TextView precio;
@@ -36,9 +36,24 @@ public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategoria
             nombre = (TextView) v.findViewById(R.id.texto_anuncio);
             precio = (TextView) v.findViewById(R.id.precio_anuncio);
             imagen = (ImageView) v.findViewById(R.id.item_imagen);
+            v.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(v, getPosition());
+            }
         }
     }
 
+    public interface OnItemClickListener {
+        public void onItemClick(View view , int position);
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
 
     public AdaptadorCategorias(List<Clasificado> items) {
         this.items = items;
@@ -53,18 +68,7 @@ public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategoria
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_lista_categorias, viewGroup, false);
-        v.setOnClickListener(this);
         return new ViewHolder(v);
-    }
-
-    public void setOnClickListener(View.OnClickListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (listener != null)
-            listener.onClick(view);
     }
 
     @Override

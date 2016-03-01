@@ -7,14 +7,16 @@ public class Moneda {
 
     private String id;
     private String nombre;
+    private String simbolo;
 
     public Moneda(){
 
     }
 
-    public Moneda(String id, String nombre) {
+    public Moneda(String id, String nombre, String simbolo) {
         this.id = id;
         this.nombre = nombre;
+        this.simbolo=simbolo;
     }
 
     public String getId() {
@@ -33,11 +35,20 @@ public class Moneda {
         this.nombre = nombre;
     }
 
+    public String getSimbolo() {
+        return simbolo;
+    }
+
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
+    }
+
     @Override
     public String toString() {
         return "Moneda{" +
                 "id='" + id + '\'' +
                 ", nombre='" + nombre + '\'' +
+                ", simbolo='" + simbolo + '\'' +
                 '}';
     }
 }

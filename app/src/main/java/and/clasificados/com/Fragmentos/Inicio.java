@@ -1,7 +1,6 @@
 package and.clasificados.com.fragmentos;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,18 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -40,6 +32,9 @@ import org.json.JSONObject;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.R;
+import and.clasificados.com.actividades.Login;
+import and.clasificados.com.actividades.Mensajes;
+import and.clasificados.com.actividades.MiCuenta;
 import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.auxiliares.CategoriasTab;
 import and.clasificados.com.exception.NetworkException;
@@ -48,12 +43,9 @@ import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.modelo.Tab;
 import and.clasificados.com.services.AppAsynchTask;
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,9 +55,10 @@ public class Inicio extends Fragment {
     private AppBarLayout appBarLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    RelativeLayout filtro;
-    ProgressDialog pDialog;
     ArrayList<Tab> listaTabs;
+    Activity context;
+    ImageView plus;
+    TextView mensajes, miCuenta;
 
     public Inicio() {
     }
@@ -74,37 +67,52 @@ public class Inicio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_paginado, container, false);
-        final String strtext=getArguments().getString("auto");
-        /*filtro = (RelativeLayout) view.findViewById(R.id.filtro_vehiculos);
-        Button filtrar = (Button)filtro.findViewById(R.id.filtrado);
-        filtrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ocultar(v);
-            }
-        });*/
+        final String strtext = getArguments().getString("auto");
+        context = getActivity();
         if (savedInstanceState == null) {
-            listaTabs=new ArrayList<Tab>();
+            listaTabs = new ArrayList<Tab>();
             insertarTabs(container);
             viewPager = (ViewPager) view.findViewById(R.id.pager);
-            new ObtenerTabs().execute();
+            new ObtenerTabs(context).execute();
 
         }
-        ImageView plus = (ImageView)view.findViewById(R.id.nuevo);
-        plus.setOnClickListener(new View.OnClickListener() {
+        plus = (ImageView) view.findViewById(R.id.nuevo);
+        miCuenta = (TextView)view.findViewById(R.id.miCuenta);
+        mensajes = (TextView)view.findViewById(R.id.mensajes_button);
+        View.OnClickListener onclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert strtext != null;
                 if(strtext.equals("false")||strtext.isEmpty()){
-                    transicion();
-                }else {
-                    Intent i = new Intent(getContext(), Publicar.class);
-                    i.putExtra("basic",strtext);
-                    startActivity(i);
+                    switch (v.getId()) {
+                        case R.id.nuevo:
+                            transicion();
+                            break;
+                        case R.id.miCuenta:
+                            startActivity(new Intent(getContext(),Login.class));
+                            break;
+                        case R.id.mensajes_button:
+                            transicion();
+                            break;
+                    }
+                }else{
+                    switch (v.getId()) {
+                        case R.id.nuevo:
+                                startActivity(new Intent(getContext(), Publicar.class));
+                            break;
+                        case R.id.miCuenta:
+                                startActivity(new Intent(getContext(),MiCuenta.class));
+                            break;
+                        case R.id.mensajes_button:
+                            startActivity(new Intent(getContext(),Mensajes.class));
+                            break;
+                    }
+
                 }
             }
-        });
-
+        };
+        plus.setOnClickListener(onclick);
+        mensajes.setOnClickListener(onclick);
+        miCuenta.setOnClickListener(onclick);
         return view;
     }
 
@@ -116,45 +124,6 @@ public class Inicio extends Fragment {
                 .replace(R.id.main_content, fragmentoGenerico)
                 .commit();
     }
-
-    private void animar(boolean mostrar)
-    {
-        AnimationSet set = new AnimationSet(true);
-        Animation animation = null;
-        if (mostrar)
-        {
-            //desde la esquina inferior derecha a la superior izquierda
-            animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
-        }
-        else
-        {    //desde la esquina superior izquierda a la esquina inferior derecha
-            animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f);
-        }
-        //duración en milisegundos
-        animation.setDuration(500);
-        set.addAnimation(animation);
-        LayoutAnimationController controller = new LayoutAnimationController(set, 0.25f);
-        filtro.setLayoutAnimation(controller);
-        filtro.startAnimation(animation);
-    }
-
-    public void ocultar(View button)
-    {
-        if (filtro.getVisibility() == View.VISIBLE)
-        {
-            animar(false);
-            filtro.setVisibility(View.INVISIBLE);
-        }
-
-    }
-
-    public void mostrar(View button) {
-        if (filtro.getVisibility() == View.INVISIBLE) {
-            animar(false);
-            filtro.setVisibility(View.VISIBLE);
-        }
-    }
-
 
     private void setupTabIcons(ArrayList<Tab> lista) {
         for(int i=0;i<lista.size();i++){
@@ -231,10 +200,16 @@ public class Inicio extends Fragment {
     }
 
 
-    private class ObtenerTabs extends AsyncTask<Void, Void, Void> {
+    private class ObtenerTabs extends AppAsynchTask<Void, Void,Boolean> {
+    Activity actividad;
+        public ObtenerTabs(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected Boolean customDoInBackground(Void... arg0)   throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
             String id=null, nombre=null, icono=null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.sitios);
@@ -251,27 +226,29 @@ public class Inicio extends Fragment {
                     nombre = info.getString("name");
                     icono=info.getString("icon");
                     t= new Tab(id, nombre,icono);
+                    Log.i("Tab", t.toString());
                     listaTabs.add(t);
                 }
-
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
+                return false;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
+                return false;
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
             }
-
-            return null;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            poblarViewPager(viewPager, listaTabs);
-            tabLayout.setupWithViewPager(viewPager);
-            setupTabIcons(listaTabs);
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarViewPager(viewPager, listaTabs);
+                tabLayout.setupWithViewPager(viewPager);
+                setupTabIcons(listaTabs);
+            }
         }
     }
-
 }
