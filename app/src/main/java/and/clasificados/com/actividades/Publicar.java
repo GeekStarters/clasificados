@@ -1,6 +1,7 @@
 package and.clasificados.com.actividades;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,12 +12,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -538,6 +542,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
             if (result)
             {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                showShareDialog();
             }else{
                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
             }
@@ -790,6 +795,29 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
         spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerZona.setAdapter(spinnerAdapter);
+    }
+
+    protected void showShareDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(Publicar.this);
+        View promptView = layoutInflater.inflate(R.layout.share_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Publicar.this);
+        alertDialogBuilder.setView(promptView);
+        final CheckBox check = (CheckBox)promptView.findViewById(R.id.checkbox_dialog);
+        final Button b=(Button) promptView.findViewById(R.id.button_dialog);
+        alertDialogBuilder.setCancelable(true);
+        View.OnClickListener oncl=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "Se publico y fuimos a fb", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Solo se publico", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        b.setOnClickListener(oncl);
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 
 }

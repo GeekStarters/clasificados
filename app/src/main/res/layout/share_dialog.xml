@@ -17,16 +17,15 @@
         android:paddingRight="4dp"
         android:paddingLeft="4dp"/>
 
-    <and.clasificados.com.views.EditTextLight
-        android:id="@+id/edittext"
+    <CheckBox
+        android:id="@+id/checkbox_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/moneda"
-        android:inputType="numberDecimal"
-        android:textAlignment="center"
+        android:text="@string/share_onfb"
         android:paddingRight="4dp"
         android:paddingLeft="4dp"
-        android:background="@drawable/apptheme_textfield_activated_holo_light"/>
+        android:layout_alignment="center"
+        android:textAlignment="center"/>
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -34,10 +33,10 @@
     <and.clasificados.com.views.ButtonLight
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ofertar"
+        android:text="@string/aceptar"
         android:id="@+id/button_dialog"
         android:paddingLeft="5dp"
-        android:paddingRight="35dp"
+        android:paddingRight="5dp"
         android:textColor="#ffffff"
         android:background="@drawable/rounded_button_orange"
         android:layout_alignParentTop="true"

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -163,14 +164,15 @@ public class Single extends AppCompatActivity {
         View promptView = layoutInflater.inflate(R.layout.input_text_dialog, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Single.this);
         alertDialogBuilder.setView(promptView);
-
         final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
-        alertDialogBuilder.setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getApplicationContext(), "Oferta: " + editText.getText(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        final Button b=(Button) promptView.findViewById(R.id.button_dialog);
+        alertDialogBuilder.setCancelable(true);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Oferta: " + editText.getText(), Toast.LENGTH_LONG).show();
+            }
+        });
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }

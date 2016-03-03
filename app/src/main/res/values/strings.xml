@@ -97,6 +97,8 @@
     <string name="enviar_oferta">Envia una oferta para empezar una negociacion</string>
     <string name="ultimos">Ultimos Clasificados</string>
     <string name="adistancia">A 50 metros de ti</string>
+    <string name="share_onfb">Compartir clasificado en facebook.</string>
+    <string name="aceptar">Aceptar</string>
 
 
 </resources>
