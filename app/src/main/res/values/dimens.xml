@@ -27,4 +27,5 @@
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="tab_label">9sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
+    <dimen name="label">16sp</dimen>
 </resources>

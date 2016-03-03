@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+            <!--TAB-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="@dimen/tab_min_height"
+                android:id="@+id/tabLayout">
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_tab"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:adjustViewBounds="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icon_tabbar_vehiculo"
+                        android:layout_alignParentTop="true"
+                        android:layout_above="@+id/tab"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp" />
+
+                    <and.clasificados.com.views.TextViewLight
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tab"
+                        android:text="@string/titulo_tab_vehiculos"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/tab_label"/>
+                </RelativeLayout>
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_tab2"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:adjustViewBounds="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icon_tabbar_edificio"
+                        android:layout_alignParentTop="true"
+                        android:layout_above="@+id/tab2"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp" />
+
+                    <and.clasificados.com.views.TextViewLight
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tab2"
+                        android:text="@string/titulo_tab_inmuebles"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/tab_label"/>
+                </RelativeLayout>
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_tab3"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:adjustViewBounds="true"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icon_tabbar_producto"
+                        android:layout_alignParentTop="true"
+                        android:layout_above="@+id/tab3"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
+                        android:paddingBottom="2dp" />
+
+                    <and.clasificados.com.views.TextViewLight
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tab3"
+                        android:text="@string/titulo_tab_productos"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/tab_label"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <!--Ultimos-->
+            <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tabLayout"
+        android:id="@+id/ultimos"
+        android:paddingRight="20dp">
+        <and.clasificados.com.views.TextViewBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ultimos"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textSize="@dimen/label"
+            />
+        <and.clasificados.com.views.TextViewLight
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/adistancia"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="@dimen/tab_label"
+            android:background="@drawable/rounded_etext"
+            />
+
+    </LinearLayout>
+            <!--LISTA-->
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/reciclador_principal"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:transcriptMode="alwaysScroll"
+                android:layout_weight="1"
+                android:layout_below="@+id/ultimos"
+                android:layout_height="wrap_content"
+                android:paddingBottom="50dp"/>
+    <include layout="@layout/footer"/>
+</RelativeLayout>
+

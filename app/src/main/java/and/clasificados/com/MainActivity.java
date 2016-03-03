@@ -14,7 +14,7 @@ import and.clasificados.com.modelo.Usuario;
 public class MainActivity extends AppCompatActivity {
 
     String auto=null;
-    Usuario login_user;
+    Usuario login_user=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         login_user=PrefUtils.getCurrentUser(MainActivity.this);
         Fragment fragmentoGenerico =new Inicio();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if(login_user.provider!=null){
+        if(login_user!=null){
             auto=login_user.auto;
         }else{
             auto="false";

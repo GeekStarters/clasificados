@@ -2,4 +2,8 @@
 <resources>
     <string name="debes">Debes iniciar sesion, para accesar a este contenido.</string>
     <string name="select_moneda">Seleccione una moneda</string>
+    <string name="install_wha">Debes tener Whatsapp instalado.</string>
+    <string name="install_mesg">Debes tener Facebook Messenger instalado.</string>
+    <string name="send_to">Compartir en</string>
+    <string name="enviar_oferta">Envia una oferta para empezar una negociacion</string>
 </resources>

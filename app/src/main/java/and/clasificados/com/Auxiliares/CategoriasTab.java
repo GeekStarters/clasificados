@@ -118,10 +118,9 @@ public class CategoriasTab extends Fragment {
                     precio = info.getString("currencySymbol")+" "+info.getString("price");
                     categoria = info.getString("subCategoryName");
                     JSONArray imagen = info.getJSONArray("images");
-                    vista = ad.getString("singleApiURL");
                     url_imagen = imagen.getString(0);
+                    vista = ad.getString("singleApiURL");
                     c= new Clasificado(precio,categoria,titulo,url_imagen,vista);
-                    Log.i("Clasificado"+i+": ",c.toString());
                     resultado.add(c);
                 }
                 resul = true;
@@ -134,16 +133,15 @@ public class CategoriasTab extends Fragment {
             return resul;
         }
 
-        protected void customOnPostExecute(Boolean result) {
+        protected void customOnPostExecute(final Boolean result) {
             if (result) {
                 adaptador =  new AdaptadorCategorias(resultado);
                 adaptador.setOnItemClickListener(new AdaptadorCategorias.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        String  single = ""+position;
-                        Log.i("URL",single);
-                        Intent o=new Intent(getContext(),Single.class);
-                        o.putExtra("URL",single);
+                        String  single = resultado.get(position).getSingle();
+                        Intent o=new Intent(context,Single.class);
+                        o.putExtra("single",single);
                         startActivity(o);
                     }
                 });

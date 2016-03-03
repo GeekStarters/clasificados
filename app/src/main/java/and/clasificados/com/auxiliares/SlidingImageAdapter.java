@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import and.clasificados.com.R;
+import and.clasificados.com.common.RoundedTransformation;
 
 /**
  * Created by Gabriela Mejia on 10/2/2016.
@@ -18,12 +21,12 @@ import and.clasificados.com.R;
 public class SlidingImageAdapter  extends PagerAdapter {
 
 
-    private ArrayList<Integer> IMAGES;
+    private ArrayList<String> IMAGES;
     private LayoutInflater inflater;
     private Context context;
 
 
-    public SlidingImageAdapter(Context context,ArrayList<Integer> IMAGES) {
+    public SlidingImageAdapter(Context context,ArrayList<String> IMAGES) {
         this.context = context;
         this.IMAGES=IMAGES;
         inflater = LayoutInflater.from(context);
@@ -46,10 +49,10 @@ public class SlidingImageAdapter  extends PagerAdapter {
         assert imageLayout != null;
         final ImageView imageView = (ImageView) imageLayout
                 .findViewById(R.id.image);
-
-
-        imageView.setImageResource(IMAGES.get(position));
-
+        Picasso.with(context)
+                .load(IMAGES.get(position))
+                .fit()
+                .into(imageView);
         view.addView(imageLayout, 0);
 
         return imageLayout;

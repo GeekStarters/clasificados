@@ -11,12 +11,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,11 +39,14 @@ import and.clasificados.com.actividades.Login;
 import and.clasificados.com.actividades.Mensajes;
 import and.clasificados.com.actividades.MiCuenta;
 import and.clasificados.com.actividades.Publicar;
+import and.clasificados.com.actividades.Single;
+import and.clasificados.com.auxiliares.AdaptadorCategorias;
 import and.clasificados.com.auxiliares.CategoriasTab;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
+import and.clasificados.com.modelo.Clasificado;
 import and.clasificados.com.modelo.Tab;
 import and.clasificados.com.services.AppAsynchTask;
 
@@ -52,36 +58,51 @@ import java.util.List;
  * Created by Gabriela Mejia on 1/2/2016.
  */
 public class Inicio extends Fragment {
-    private AppBarLayout appBarLayout;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    ArrayList<Tab> listaTabs;
-    Activity context;
-    ImageView plus;
+    ImageView plus, vehiculo, producto,edificio;
     TextView mensajes, miCuenta;
+    private RecyclerView reciclador;
+    private LinearLayoutManager layoutManager;
+    private AdaptadorCategorias adaptador;
+    private Activity context;
+    private List<Clasificado> resultado;
 
     public Inicio() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragmento_paginado, container, false);
+        View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         final String strtext = getArguments().getString("auto");
         context = getActivity();
-        if (savedInstanceState == null) {
-            listaTabs = new ArrayList<Tab>();
-            insertarTabs(container);
-            viewPager = (ViewPager) view.findViewById(R.id.pager);
-            new ObtenerTabs(context).execute();
-
-        }
+        vehiculo = (ImageView)view.findViewById(R.id.img_tab);
+        producto = (ImageView)view.findViewById(R.id.img_tab3);
+        edificio=(ImageView)view.findViewById(R.id.img_tab2);
+        reciclador = (RecyclerView) view.findViewById(R.id.reciclador_principal);
+        layoutManager = new LinearLayoutManager(getActivity());
+        reciclador.setLayoutManager(layoutManager);
+        LlenarLista llenar = new LlenarLista(context);
+        llenar.execute("1");
         plus = (ImageView) view.findViewById(R.id.nuevo);
         miCuenta = (TextView)view.findViewById(R.id.miCuenta);
         mensajes = (TextView)view.findViewById(R.id.mensajes_button);
         View.OnClickListener onclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.img_tab:
+                        Toast.makeText(getActivity(), "Desplegara un filtro de vehiculos", Toast.LENGTH_LONG).show();
+                        new LlenarLista(context).execute("1");
+                        break;
+                    case R.id.img_tab2:
+                        Toast.makeText(getActivity(), "Desplegara un filtro de inmuebles", Toast.LENGTH_LONG).show();
+                        new LlenarLista(context).execute("3");
+                        break;
+                    case R.id.img_tab3:
+                        Toast.makeText(getActivity(), "Desplegara un filtro de productos", Toast.LENGTH_LONG).show();
+                        new LlenarLista(context).execute("2");
+                        break;
+                }
                 if(strtext.equals("false")||strtext.isEmpty()){
                     switch (v.getId()) {
                         case R.id.nuevo:
@@ -106,13 +127,15 @@ public class Inicio extends Fragment {
                             startActivity(new Intent(getContext(),Mensajes.class));
                             break;
                     }
-
                 }
             }
         };
         plus.setOnClickListener(onclick);
         mensajes.setOnClickListener(onclick);
         miCuenta.setOnClickListener(onclick);
+        vehiculo.setOnClickListener(onclick);
+        producto.setOnClickListener(onclick);
+        edificio.setOnClickListener(onclick);
         return view;
     }
 
@@ -125,129 +148,65 @@ public class Inicio extends Fragment {
                 .commit();
     }
 
-    private void setupTabIcons(ArrayList<Tab> lista) {
-        for(int i=0;i<lista.size();i++){
-            LayoutInflater inflador = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View vista = inflador.inflate(R.layout.tabbar_view_new,null);
-            TextView tabText = (TextView)vista.findViewById(R.id.tab);
-            tabText.setText(lista.get(i).getNombre());
-            ImageView tabIcon = (ImageView)vista.findViewById(R.id.img_tab);
-            Picasso.with(getActivity())
-                    .load(lista.get(i).getUrl_imagen())
-                    .fit()
-                    .into(tabIcon);
-            tabLayout.getTabAt(i).setCustomView(vista);
-        }
-    }
+    private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
+        Clasificado c;
+        String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
 
-    private void insertarTabs(ViewGroup container) {
-        View padre = (View) container.getParent();
-        appBarLayout = (AppBarLayout) padre.findViewById(R.id.appbar                                      );
-        tabLayout = new TabLayout(getActivity());
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
-        tabLayout.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF"));
-        appBarLayout.addView(tabLayout);
-    }
-
-    private void poblarViewPager(ViewPager viewPager,ArrayList<Tab> lista) {
-        AdaptadorSecciones adapter = new AdaptadorSecciones(getFragmentManager());
-        for (int i=0;i<lista.size();i++){
-            adapter.addFragment(CategoriasTab.nuevaInstancia(Integer.parseInt(lista.get(i).getId())), lista.get(i).getNombre());
-        }
-        viewPager.setAdapter(adapter);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        appBarLayout.removeView(tabLayout);
-    }
-
-
-
-    /**
-     * Un {@link FragmentStatePagerAdapter} que gestiona las secciones, fragmentos y
-     * títulos de las pestañas
-     */
-    public class AdaptadorSecciones extends FragmentStatePagerAdapter {
-        private final List<Fragment> fragmentos = new ArrayList<>();
-        private final List<String> titulosFragmentos = new ArrayList<>();
-
-        public AdaptadorSecciones(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentos.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentos.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            fragmentos.add(fragment);
-            titulosFragmentos.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titulosFragmentos.get(position);
-        }
-
-    }
-
-
-    private class ObtenerTabs extends AppAsynchTask<Void, Void,Boolean> {
-    Activity actividad;
-        public ObtenerTabs(Activity activity) {
+        public LlenarLista(Activity activity) {
             super(activity);
-            actividad=activity;
         }
 
-        @Override
-        protected Boolean customDoInBackground(Void... arg0)   throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException{
-            String id=null, nombre=null, icono=null;
+            boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(Constants.sitios);
+            HttpGet get = new HttpGet(Constants.last+params[0]);
             get.setHeader("content-type", "application/json");
-            try {
+            try
+            {
+                resultado = new ArrayList<>();
                 HttpResponse resp = httpClient.execute(get);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                JSONArray results = respJSON.getJSONArray("data");
-                Tab t;
+                JSONObject data  = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("results");
                 for(int i=0; i<results.length(); i++)
                 {
-                    JSONObject info= results.getJSONObject(i);
-                    id=info.getString("id");
-                    nombre = info.getString("name");
-                    icono=info.getString("icon");
-                    t= new Tab(id, nombre,icono);
-                    Log.i("Tab", t.toString());
-                    listaTabs.add(t);
+                    JSONObject ad = results.getJSONObject(i);
+                    System.out.println(ad.toString());
+                    JSONObject info = ad.getJSONObject("info");
+                    titulo=info.getString("title");
+                    precio = info.getString("currencySymbol")+" "+info.getString("price");
+                    categoria = info.getString("subCategoryName");
+                    JSONArray imagen = info.getJSONArray("images");
+                    url_imagen = imagen.getString(0);
+                    vista = ad.getString("singleApiURL");
+                    c= new Clasificado(precio,categoria,titulo,url_imagen,vista);
+                    resultado.add(c);
                 }
-                return true;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return false;
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-                return false;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
+                resul = true;
             }
+            catch(Exception ex)
+            {
+                Log.e("ServicioRest","Error!", ex);
+                resul=false;
+            }
+            return resul;
         }
 
-        @Override
-        protected void customOnPostExecute(Boolean result) {
-            if(result){
-                poblarViewPager(viewPager, listaTabs);
-                tabLayout.setupWithViewPager(viewPager);
-                setupTabIcons(listaTabs);
+        protected void customOnPostExecute(final Boolean result) {
+            if (result) {
+                adaptador =  new AdaptadorCategorias(resultado);
+                adaptador.setOnItemClickListener(new AdaptadorCategorias.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        String  single = resultado.get(position).getSingle();
+                        Intent o=new Intent(context,Single.class);
+                        o.putExtra("single",single);
+                        startActivity(o);
+                    }
+                });
+                reciclador.setAdapter(adaptador);
+                reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getActivity()));
             }
         }
     }

@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="32dp"
-            android:text="@string/titulo_anuncio"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge" />
         <and.clasificados.com.views.TextViewLight
             android:id="@+id/texto_precio"
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="32dp"
-            android:text="@string/precio"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorPrimary"/>
         <and.clasificados.com.views.TextViewLight
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/lorem"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium" />
         <and.clasificados.com.views.TextViewLight
             android:id="@+id/mapa"

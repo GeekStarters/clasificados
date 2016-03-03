@@ -31,7 +31,7 @@ public class Clasificado {
         this.precio = precio;
         this.textoAnuncio = anuncio;
         this.url = url;
-        this.url=single;
+        this.single=single;
     }
 
     public static final List<Clasificado> EMPLEOS = new ArrayList<Clasificado>();
