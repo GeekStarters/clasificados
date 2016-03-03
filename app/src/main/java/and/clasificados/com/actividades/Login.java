@@ -44,7 +44,7 @@ import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
 
-public class Login extends AppCompatActivity{
+public class Login extends AppCompatActivity {
     Usuario user;
     private LoginButton fb;
     private CallbackManager callbackManager;
@@ -56,12 +56,12 @@ public class Login extends AppCompatActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context=this;
+        context = this;
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
         agregarToolbar();
-        if(PrefUtils.getCurrentUser(Login.this) != null){
+        if (PrefUtils.getCurrentUser(Login.this) != null) {
             Intent homeIntent = new Intent(Login.this, MainActivity.class);
             startActivity(homeIntent);
             finish();
@@ -109,12 +109,12 @@ public class Login extends AppCompatActivity{
                                 Log.e("response: ", response + "");
                                 try {
                                     user = new Usuario();
-                                    user.provider="facebook";
+                                    user.provider = "facebook";
                                     user.facebookID = object.getString("id").toString();
                                     user.email = object.getString("email").toString();
                                     AutenticarUsuario t = new AutenticarUsuario(context);
                                     t.execute(user.provider, user.facebookID);
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
 
@@ -162,37 +162,35 @@ public class Login extends AppCompatActivity{
     }
 
 
-
     public void registro() {
         startActivity(new Intent(this, Registro.class));
     }
 
-    private class AutenticarUsuario extends AppAsynchTask<String,Integer,Boolean> {
-        String resultado="none";
+    private class AutenticarUsuario extends AppAsynchTask<String, Integer, Boolean> {
+        String resultado = "none";
         Activity actividad;
 
         public AutenticarUsuario(Activity activity) {
             super(activity);
-            actividad=activity;
+            actividad = activity;
         }
 
 
-        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
-                TimeOutException, IOException, JSONException{
+        protected Boolean customDoInBackground(String... params) throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost(Constants.autenticar);
             post.setHeader("content-type", "application/json");
-            try
-            {
+            try {
                 final String acceso = usuario.getText().toString();
-                final String clave= contra.getText().toString();
+                final String clave = contra.getText().toString();
                 JSONObject map = new JSONObject();
                 map.put("provider", params[0]);
-                if(params[0]=="local"){
+                if (params[0] == "local") {
                     map.put("access", acceso);
                     map.put("password", clave);
-                }else{
+                } else {
                     map.put("fb_user_id", params[1]);
                 }
 
@@ -201,27 +199,25 @@ public class Login extends AppCompatActivity{
                 HttpResponse resp = httpClient.execute(post);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 String aux = respJSON.get("errors").toString();
-                if(aux.equals("[]")){
-                    resul=true;
-                    JSONObject data  = respJSON.getJSONObject("data");
+                if (aux.equals("[]")) {
+                    resul = true;
+                    JSONObject data = respJSON.getJSONObject("data");
                     user = new Usuario();
-                    user.provider=params[0];
-                    user.name=data.getString("first_name");
-                    user.last=data.getString("last_name");
-                    user.pic=respJSON.getString("imagesDomain")+data.getString("picture_profile");
-                    user.auto= data.getString("basic_authentication");
-                    user.email=data.getString("email");
-                    user.facebookID=data.getString("fb_user_id");
-                    user.token=data.getString("token");
+                    user.provider = params[0];
+                    user.name = data.getString("first_name");
+                    user.last = data.getString("last_name");
+                    user.pic = respJSON.getString("imagesDomain") + data.getString("picture_profile");
+                    user.auto = data.getString("basic_authentication");
+                    user.email = data.getString("email");
+                    user.facebookID = data.getString("fb_user_id");
+                    user.token = data.getString("token");
                     PrefUtils.setCurrentUser(user, Login.this);
-                }else{
+                } else {
                     resultado = aux.substring(13, aux.length() - 12);
-                    user=null;
-                    resul=false;
+                    user = null;
+                    resul = false;
                 }
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 Log.e("ServicioRest", "Error!", ex);
                 resul = false;
             }
@@ -230,11 +226,11 @@ public class Login extends AppCompatActivity{
 
         protected void customOnPostExecute(Boolean result) {
             if (result) {
-                Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
-                Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                Toast.makeText(getApplicationContext(), getString(R.string.bienvenido), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
-            }else{
-                Toast.makeText(getApplicationContext(),resultado,Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
             }
         }
     }

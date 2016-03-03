@@ -6,13 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import and.clasificados.com.R;
 import and.clasificados.com.common.RoundedTransformation;
 import and.clasificados.com.modelo.Clasificado;
-import and.clasificados.com.R;
 
 /**
  * Created by Gabriela Mejia on 1/2/2016.

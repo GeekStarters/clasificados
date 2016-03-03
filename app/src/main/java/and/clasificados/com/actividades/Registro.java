@@ -1,26 +1,18 @@
 package and.clasificados.com.actividades;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -30,11 +22,8 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -44,8 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
@@ -55,11 +42,9 @@ import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
-import and.clasificados.com.fragmentos.Inicio;
 import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 
 public class  Registro extends AppCompatActivity {

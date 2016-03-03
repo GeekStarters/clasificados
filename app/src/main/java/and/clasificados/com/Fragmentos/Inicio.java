@@ -1,16 +1,10 @@
 package and.clasificados.com.fragmentos;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,10 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -32,6 +23,10 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.R;
@@ -41,18 +36,12 @@ import and.clasificados.com.actividades.MiCuenta;
 import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.actividades.Single;
 import and.clasificados.com.auxiliares.AdaptadorCategorias;
-import and.clasificados.com.auxiliares.CategoriasTab;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.modelo.Clasificado;
-import and.clasificados.com.modelo.Tab;
 import and.clasificados.com.services.AppAsynchTask;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Gabriela Mejia on 1/2/2016.

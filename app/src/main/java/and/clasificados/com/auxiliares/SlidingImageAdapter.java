@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import and.clasificados.com.R;
-import and.clasificados.com.common.RoundedTransformation;
 
 /**
  * Created by Gabriela Mejia on 10/2/2016.

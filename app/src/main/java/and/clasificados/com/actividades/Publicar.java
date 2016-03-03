@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -68,7 +67,6 @@ import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.modelo.Zona;
 import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 public class Publicar extends AppCompatActivity implements IListDialogListener,AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 

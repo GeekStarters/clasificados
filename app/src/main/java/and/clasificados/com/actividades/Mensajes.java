@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 import and.clasificados.com.Constants;
+import and.clasificados.com.R;
 import and.clasificados.com.auxiliares.AdaptadorMensaje;
 import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.exception.NetworkException;
@@ -28,7 +29,6 @@ import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.modelo.Clasificado;
 import and.clasificados.com.modelo.Mensaje;
-import and.clasificados.com.R;
 import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
 
@@ -51,8 +51,8 @@ public class Mensajes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragmento_grupo_mensaje);
         agregarToolbar();
-        context=this;
-        login_user= PrefUtils.getCurrentUser(Mensajes.this);
+        context = this;
+        login_user = PrefUtils.getCurrentUser(Mensajes.this);
         auto = login_user.auto;
         reciclador = (RecyclerView) findViewById(R.id.reciclador);
         layoutManager = new LinearLayoutManager(this);
@@ -73,26 +73,25 @@ public class Mensajes extends AppCompatActivity {
     }
 
 
-    private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
+    private class LlenarLista extends AppAsynchTask<String, Integer, Boolean> {
         Clasificado c;
-        String precio=null, titulo=null, url_imagen=null, categoria=null;
+        String precio = null, titulo = null, url_imagen = null, categoria = null;
         Activity actividad;
 
         public LlenarLista(Activity activity) {
             super(activity);
-            actividad=activity;
+            actividad = activity;
         }
 
-        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(String... params) throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.mensajes);
             get.setHeader("content-type", "application/json");
-            get.setHeader("authorization", "Basic"+ " " +params[0]);
+            get.setHeader("authorization", "Basic" + " " + params[0]);
             Log.i("direccion", get.toString());
-            try
-            {
+            try {
 
                /* HttpResponse resp = httpClient.execute(get);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
@@ -112,18 +111,16 @@ public class Mensajes extends AppCompatActivity {
                     resultado.add(c);
                 }*/
                 resul = true;
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 Log.e("ServicioRest", "Error!", ex);
-                resul=false;
+                resul = false;
             }
             return resul;
         }
 
         protected void customOnPostExecute(Boolean result) {
             if (result) {
-                adaptador =  new AdaptadorMensaje(Mensaje.MENSAJES);
+                adaptador = new AdaptadorMensaje(Mensaje.MENSAJES);
                 adaptador.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

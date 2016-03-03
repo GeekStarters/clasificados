@@ -1,6 +1,5 @@
 package and.clasificados.com.fragmentos;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,11 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import and.clasificados.com.actividades.Single;
+import and.clasificados.com.R;
 import and.clasificados.com.auxiliares.AdaptadorCategorias;
 import and.clasificados.com.auxiliares.DecoracionLineaDivisoria;
 import and.clasificados.com.modelo.Clasificado;
-import and.clasificados.com.R;
 
 /**
  * Created by Gabriela Mejia on 1/2/2016.

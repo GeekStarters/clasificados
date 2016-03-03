@@ -44,6 +44,7 @@ public class MiCuenta extends AppCompatActivity {
     Usuario login_user;
     ImageView picture;
     TextView user;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,16 +52,16 @@ public class MiCuenta extends AppCompatActivity {
         agregarToolbar();
         picture = (ImageView) findViewById(R.id.profile);
         user = (TextView) findViewById(R.id.username);
-        login_user= PrefUtils.getCurrentUser(MiCuenta.this);
-        if(login_user!=null){
-            if(login_user.provider.equals("local")){
+        login_user = PrefUtils.getCurrentUser(MiCuenta.this);
+        if (login_user != null) {
+            if (login_user.provider.equals("local")) {
                 Picasso.with(getApplicationContext())
                         .load(R.drawable.profile3)              //aqui debe ir la url
                         .transform(new CircleTransformation())
                         .into(picture);
-            }else{
+            } else {
                 Picasso.with(getApplicationContext())
-                        .load("https://graph.facebook.com/"+login_user.facebookID + "/picture?type=large")
+                        .load("https://graph.facebook.com/" + login_user.facebookID + "/picture?type=large")
                         .transform(new CircleTransformation())
                         .into(picture);
             }
@@ -76,7 +77,6 @@ public class MiCuenta extends AppCompatActivity {
                 .commit();
         setTitle("");
     }
-
 
 
     private void agregarToolbar() {
@@ -100,13 +100,13 @@ public class MiCuenta extends AppCompatActivity {
 
     public class DataCategory extends AppAsynchTask<Void, String, String> {
         Activity actividad;
-        String respuestaWS=null;
+        String respuestaWS = null;
 
 
         public DataCategory(Activity activity) {
             super(activity);
             // TODO Auto-generated constructor stub
-            actividad=activity;
+            actividad = activity;
         }
 
         @Override
@@ -127,7 +127,7 @@ public class MiCuenta extends AppCompatActivity {
                 HttpEntity entity = response.getEntity();
                 InputStream instream = entity.getContent();
                 String result = Constants.convertStreamToString(instream);
-                System.out.println("result "+result);
+                System.out.println("result " + result);
                 /*JSONObject myObject = new JSONObject(result);
                 JSONObject myObjectItems = new JSONObject(myObject.getString("response"));
                 JSONArray myObjectitems  = new JSONArray(myObjectItems.getString("items"));
@@ -146,7 +146,7 @@ public class MiCuenta extends AppCompatActivity {
 
                 }*/
 
-                respuestaWS="si";
+                respuestaWS = "si";
 
 
             } catch (ClientProtocolException e) {
@@ -163,7 +163,7 @@ public class MiCuenta extends AppCompatActivity {
         }
 
         @Override
-        protected void customOnPostExecute(String result){
+        protected void customOnPostExecute(String result) {
 
 
         }
