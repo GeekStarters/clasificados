@@ -10,12 +10,12 @@ import and.clasificados.com.R;
  */
 public class Mensaje {
     private int imagen;
-    private String nombre;
+    private String nombre_item;
     private String mensaje;
     private int idDrawable;
 
-    public Mensaje(int idDrawable, String nombre, String mensaje) {
-        this.nombre = nombre;
+    public Mensaje(int idDrawable, String nombre_item, String mensaje) {
+        this.nombre_item = nombre_item;
         this.mensaje = mensaje;
         this.idDrawable=idDrawable;
     }
@@ -23,10 +23,10 @@ public class Mensaje {
     public static final List<Mensaje> MENSAJES= new ArrayList<Mensaje>();
 
     static {
-        MENSAJES.add(new Mensaje(R.drawable.profile2, "Lorem Ipsum","Lorem ipsum sit dolor lorem ipsum"));
-        MENSAJES.add(new Mensaje(R.drawable.profile2, "Lorem Ipsum","Lorem ipsum sit dolor lorem ipsum"));
-        MENSAJES.add(new Mensaje(R.drawable.profile2, "Lorem Ipsum","Lorem ipsum sit dolor lorem ipsum"));
-        MENSAJES.add(new Mensaje(R.drawable.profile2, "Lorem Ipsum","Lorem ipsum sit dolor lorem ipsum"));
+        MENSAJES.add(new Mensaje(R.drawable.profile2, "Mazda 3","Lorem ipsum sit dolor lorem ipsum"));
+        MENSAJES.add(new Mensaje(R.drawable.profile2, "iPhone 3","Lorem ipsum sit dolor lorem ipsum"));
+        MENSAJES.add(new Mensaje(R.drawable.profile2, "Alquiler Casa","Lorem ipsum sit dolor lorem ipsum"));
+        MENSAJES.add(new Mensaje(R.drawable.profile2, "Laptop","Lorem ipsum sit dolor lorem ipsum"));
         MENSAJES.add(new Mensaje(R.drawable.profile2, "Lorem Ipsum","Lorem ipsum sit dolor lorem ipsum"));
     }
 
@@ -36,7 +36,7 @@ public class Mensaje {
     }
 
     public String getNombre() {
-        return nombre;
+        return nombre_item;
     }
 
     public String getMensaje() {

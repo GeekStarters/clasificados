@@ -133,30 +133,50 @@
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_facebook"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/fb" />
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_twitter"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/tw"/>
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_whats"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/wha"/>
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_messenger"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/msg"/>
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_share"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/sha"/>
     </GridLayout>
 </RelativeLayout>
@@ -188,7 +208,8 @@
                     android:layout_height="75dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/button_contactar"
-                    android:id="@+id/contactar" />
+                    android:id="@+id/contactar"
+                    android:layout_marginLeft="5dp"/>
                 <ImageView
                     android:layout_width="170dp"
                     android:layout_height="75dp"
@@ -197,7 +218,8 @@
                     android:id="@+id/ofertar"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="5dp"/>
 
                 <and.clasificados.com.views.TextViewBold
                     android:layout_width="wrap_content"

@@ -15,6 +15,7 @@ public class Clasificado {
     private int idDrawable;
     private String url;
     private String single;
+    private String slug;
 
     public Clasificado() {
     }
@@ -26,12 +27,13 @@ public class Clasificado {
         this.idDrawable = idDrawable;
     }
 
-    public Clasificado(String precio, String categoria, String anuncio, String url, String single) {
+    public Clasificado(String precio, String categoria, String anuncio, String url, String single, String slug){
         this.categoria=categoria;
         this.precio = precio;
         this.textoAnuncio = anuncio;
         this.url = url;
         this.single=single;
+        this.slug=slug;
     }
 
     public static final List<Clasificado> EMPLEOS = new ArrayList<Clasificado>();
@@ -69,6 +71,14 @@ public class Clasificado {
 
     public String getSingle() {
         return single;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public void setSingle(String single) {

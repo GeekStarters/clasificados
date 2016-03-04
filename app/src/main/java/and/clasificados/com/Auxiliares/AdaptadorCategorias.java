@@ -52,6 +52,10 @@ public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategoria
         public void onItemClick(View view , int position);
     }
 
+    public interface OnItemLongClickListener {
+        public boolean onItemLongClicked(int position);
+    }
+
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }

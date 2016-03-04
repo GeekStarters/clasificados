@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,18 +34,30 @@ import com.avast.android.dialogs.fragment.ListDialogFragment;
 import com.avast.android.dialogs.iface.IListDialogListener;
 import com.squareup.picasso.Picasso;
 
+
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,7 +100,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     private ArrayList<Localidad> localidadesLista;
     private ArrayList<Municipio> municipiosLista;
     private ArrayList<Zona> zonasLista;
+    private ArrayList<String> encoded, name;
     Uri file;
+    File f;
+    String nombre=null;
     boolean esInmueble=false;
     TextView contador;
     int num=0;
@@ -125,7 +143,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         monedaLista = new ArrayList<Moneda>();
         moneda=(Button)findViewById(R.id.currency);
         new ObtenerCategorias(context).execute();
-        new ObtenerLocalidades(context).execute();
+       // new ObtenerLocalidades(context).execute();
         new ObtenerMoneda(context).execute();
         publicar = (Button) findViewById(R.id.button_publicar);
         View.OnClickListener onclick=new View.OnClickListener() {
@@ -149,8 +167,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                        if(num>=6){
                            Toast.makeText(getApplicationContext(),"Solo puede agregar 6 fotografias",Toast.LENGTH_LONG).show();
                        }else{
-                           File photo =new File(Environment.getExternalStorageDirectory(),String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg");
-                           file=Uri.fromFile(photo);
+                           getFileUri();
                            intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
                            startActivityForResult(intent,FOTOGRAFIA);
                        }
@@ -168,6 +185,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 }
             }
         };
+        name = new ArrayList<>();
         categoriasLista = new ArrayList<Categoria>();
         subCategoriasLista = new ArrayList<SubCategoria>();
         localidadesLista = new ArrayList<Localidad>();
@@ -190,7 +208,11 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         spinnerLoc.setOnItemSelectedListener(this);
     }
 
-
+    private void getFileUri() {
+        nombre = String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg";
+        f=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+File.separator+nombre);
+        file=Uri.fromFile(f);
+    }
 
     private void llenarGaleria(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -240,8 +262,8 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
 
     @Override
     public void onActivityResult(int RequestCode, int ResultCode, Intent intent) {
-        if (RequestCode==FOTOGRAFIA){
-            if(ResultCode == RESULT_OK){
+        if (RequestCode==FOTOGRAFIA &&ResultCode == RESULT_OK){
+                name.add(file.getPath());
                 switch (num){
                     case 0:
                         Picasso.with(getApplicationContext())
@@ -298,14 +320,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                 }
-            }
-            else{
-                Toast.makeText(getApplicationContext(),"fotografia No tomada", Toast.LENGTH_SHORT).show();
-            }
-        }else if(RequestCode==GALERIA){
-            if(ResultCode == RESULT_OK){
+            } else if(RequestCode==GALERIA && ResultCode == RESULT_OK){
                 Uri selectedImage = intent.getData();
-                    switch (num){
+                name.add(selectedImage.getPath());
+            switch (num){
                         case 0:
                             Picasso.with(getApplicationContext())
                                     .load(selectedImage)
@@ -361,12 +379,9 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                             contador.setText(num+" "+getString(R.string.fotografias));
                             break;
                     }
-            }
-            else{
+            } else{
                 Toast.makeText(getApplicationContext(),"fotografia No tomada", Toast.LENGTH_SHORT).show();
             }
-
-        }
     }
 
     private String[] obtenerMoneda(ArrayList<Moneda> lista){
@@ -589,10 +604,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
 
         @Override
         protected void customOnPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-                poblarSpinnerCategorias();
+            poblarSpinnerCategorias();
         }
     }
 
@@ -693,7 +705,6 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
 
         @Override
         protected void customOnPostExecute(Void result) {
-            super.onPostExecute(result);
             poblarSpinnerSubCategorias();
         }
     }
@@ -748,7 +759,9 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     private void poblarSpinnerCategorias() {
         List<String> campos = new ArrayList<String>();
         for (int i = 0; i < categoriasLista.size(); i++) {
+            Log.i("Categoria",categoriasLista.get(i).toString());
             campos.add(categoriasLista.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
         spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
@@ -817,5 +830,66 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+
+    private void encodedImage(){
+        encoded = new ArrayList<>();
+        for (int i=0;i<name.size();i++){
+            Bitmap bm = BitmapFactory.decodeFile(name.get(i));
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, output); //bm is the bitmap object
+            byte[] bytes = output.toByteArray();
+            String encode = Base64.encodeToString(bytes,0);
+            encoded.add(encode);
+        }
+    }
+
+    private class SubirFoto extends AppAsynchTask<String,Void,Boolean>{
+
+        Activity actividad;
+        public SubirFoto(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        @Override
+        protected Boolean customDoInBackground(String... params)
+                throws NetworkException, ServerException, ParsingException, TimeOutException, IOException, JSONException {
+            Boolean resul;
+            encodedImage();
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost post = new HttpPost(Constants.upload_foto);
+                post.setHeader("authorization", "Basic" + " " + params[0]);
+                post.setHeader("Content-Type", "multipart/form-data");
+                HttpEntity builder = MultipartEntityBuilder.create()
+                        .addTextBody("ad_id", params[1])
+                        .addTextBody("priority", "1")
+                        .addTextBody("category_id",params[2])
+                        .build();
+
+                post.setEntity(builder);
+                HttpResponse resp = httpClient.execute(post);
+                HttpEntity responseEntity = resp.getEntity();
+
+
+
+
+                resul=true;
+            }catch (Exception ex){
+                Log.e("ServicioRest", "Error!", ex);
+                resul = false;
+            }
+            return resul;
+
+        }
+
+        @Override
+        protected void customOnPostExecute(Boolean result) {
+
+        }
+
+    }
+
+
 
 }

@@ -26,7 +26,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:padding="2dp"
-            android:textColor="#000000" />
+            android:textColor="@color/colorPrimary" />
         <and.clasificados.com.views.TextViewLight
             android:id="@+id/item_mensaje"
             android:layout_width="wrap_content"

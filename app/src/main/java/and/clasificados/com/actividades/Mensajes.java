@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
@@ -49,32 +50,37 @@ public class Mensajes extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragmento_grupo_mensaje);
+        setContentView(R.layout.activity_mensajes);
         agregarToolbar();
         context = this;
         login_user = PrefUtils.getCurrentUser(Mensajes.this);
         auto = login_user.auto;
-        reciclador = (RecyclerView) findViewById(R.id.reciclador);
+        reciclador = (RecyclerView) findViewById(R.id.reciclador_mensajes);
         layoutManager = new LinearLayoutManager(this);
         reciclador.setLayoutManager(layoutManager);
         LlenarLista llenar = new LlenarLista(context);
         llenar.execute(auto);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_mensaje, menu);
+        return true;
+    }
+
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_equis);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_custom);
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
-        setTitle(R.string.title_activity_mensaje);
     }
 
 
     private class LlenarLista extends AppAsynchTask<String, Integer, Boolean> {
-        Clasificado c;
+        Mensaje c;
         String precio = null, titulo = null, url_imagen = null, categoria = null;
         Activity actividad;
 

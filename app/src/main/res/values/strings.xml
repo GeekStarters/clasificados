@@ -99,6 +99,10 @@
     <string name="adistancia">A 50 metros de ti</string>
     <string name="share_onfb">Compartir clasificado en facebook.</string>
     <string name="aceptar">Aceptar</string>
+    <string name="nav_archivar">Archivar</string>
+    <string name="selecc">Seleccione una opcion</string>
+    <string name="title_activity_modificar">Modificar</string>
+    <string name="modificar_mi">Modificar mi clasificadao</string>
 
 
 </resources>

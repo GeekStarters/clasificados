@@ -6,4 +6,6 @@
     <string name="install_mesg">Debes tener Facebook Messenger instalado.</string>
     <string name="send_to">Compartir en</string>
     <string name="enviar_oferta">Envia una oferta para empezar una negociacion</string>
+    <string name="selecc">Seleccione una opcion</string>
+    <string name="modificar_mi">Modificar mi clasificadao</string>
 </resources>

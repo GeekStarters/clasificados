@@ -169,7 +169,8 @@ public class Inicio extends Fragment {
                     JSONArray imagen = info.getJSONArray("images");
                     url_imagen = imagen.getString(0);
                     vista = ad.getString("singleApiURL");
-                    c= new Clasificado(precio,categoria,titulo,url_imagen,vista);
+                    String slug=info.getString("slug");
+                    c= new Clasificado(precio,categoria,titulo,url_imagen,vista, slug);
                     resultado.add(c);
                 }
                 resul = true;

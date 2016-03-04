@@ -26,6 +26,7 @@ public class Constants {
     public static String localidades = URL+"locations";
     public static String mensajes = URL+"conversations";
     public static String moneda=URL+"currencies";
+    public static String upload_foto=nuevo_clasificado+"/pictures-upload";
 
 
     public static String convertStreamToString(InputStream is) {
