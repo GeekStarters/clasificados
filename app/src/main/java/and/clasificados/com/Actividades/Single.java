@@ -3,6 +3,7 @@ package and.clasificados.com.actividades;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -18,12 +19,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.apache.http.HttpResponse;
@@ -61,10 +68,16 @@ public class Single extends AppCompatActivity {
     TextView tit, pre, descr;
     GoogleMap mapa;
     Usuario login_user;
+    ShareDialog shareDialog;
+    //logeo fb
+    public static CallbackManager callbackManager;
+    AccessToken accesstoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_single);
         agregarToolbar();
         context=this;
@@ -91,6 +104,9 @@ public class Single extends AppCompatActivity {
         wha=(ImageView)findViewById(R.id.wha);
         msg=(ImageView)findViewById(R.id.msg);
         sha=(ImageView)findViewById(R.id.sha);
+
+        shareDialog = new ShareDialog(context);
+
         View.OnClickListener onclick= new View.OnClickListener()
         {
             @Override
@@ -119,10 +135,22 @@ public class Single extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Esto desplegara un alert para reportar el anuncio", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.fb:
-                        Toast.makeText(getApplicationContext(),"Esto desplegara un intent a facebook", Toast.LENGTH_LONG).show();
+
+
+                        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                                //.setContentTitle(Constants.NAME_APP)
+                                .setContentUrl(Uri.parse(url))
+                                .build();
+
+                        shareDialog.show(linkContent);
+
+                        //Toast.makeText(getApplicationContext(),"Esto desplegara un intent a facebook", Toast.LENGTH_LONG).show();
                      break;
                     case R.id.tw:
-                        Toast.makeText(getApplicationContext(),"Esto desplegara un intent a twitter", Toast.LENGTH_LONG).show();
+                        TweetComposer.Builder builder = new TweetComposer.Builder(context)
+                                .text(url);
+                        builder.show();
+                       // Toast.makeText(getApplicationContext(),"Esto desplegara un intent a twitter", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.wha:
                         sendIntent.setPackage("com.whatsapp");
@@ -156,6 +184,12 @@ public class Single extends AppCompatActivity {
         sha.setOnClickListener(onclick);
         reportar.setOnClickListener(onclick);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     protected void showInputDialog() {
