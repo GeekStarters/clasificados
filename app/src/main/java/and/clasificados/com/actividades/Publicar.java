@@ -726,7 +726,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
-    private class ObtenerMoneda extends AppAsynchTask<Void, Void, Void>{
+    private class ObtenerMoneda extends AppAsynchTask<Void, Void, Boolean>{
 
         Activity actividad;
         public ObtenerMoneda(Activity activity) {
@@ -735,9 +735,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
 
         @Override
-        protected Void customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException {
             String id=null, nombre=null,simb=null;
+            Boolean resul = null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.moneda);
             get.setHeader("content-type", "application/json");
@@ -754,22 +755,28 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                     simb=info.getString("symbol");
                     c= new Moneda(id, nombre, simb);
                     monedaLista.add(c);
+                    resul=true;
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (IOException e) {
                 e.printStackTrace();
+                resul=false;
             }
 
-            return null;
+            return resul;
         }
 
         @Override
-        protected void customOnPostExecute(Void result) {
-            obtenerMoneda(monedaLista);
+        protected void customOnPostExecute(Boolean result) {
+            if (result) {
+                obtenerMoneda(monedaLista);
+            }
         }
     }
 

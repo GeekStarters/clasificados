@@ -47,7 +47,7 @@ import and.clasificados.com.services.AppAsynchTask;
  * Created by Gabriela Mejia on 1/2/2016.
  */
 public class Inicio extends Fragment {
-    ImageView plus, vehiculo, producto,edificio;
+    ImageView plus, vehiculo, producto,edificio, footerL,footerR;
     TextView mensajes, miCuenta;
     private RecyclerView reciclador;
     private LinearLayoutManager layoutManager;
@@ -67,6 +67,8 @@ public class Inicio extends Fragment {
         vehiculo = (ImageView)view.findViewById(R.id.img_tab);
         producto = (ImageView)view.findViewById(R.id.img_tab3);
         edificio=(ImageView)view.findViewById(R.id.img_tab2);
+        footerL=(ImageView)view.findViewById(R.id.footer_left);
+        footerR=(ImageView)view.findViewById(R.id.footer_right);
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador_principal);
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
@@ -103,6 +105,12 @@ public class Inicio extends Fragment {
                         case R.id.mensajes_button:
                             transicion();
                             break;
+                        case R.id.footer_left:
+                            startActivity(new Intent(getContext(),Login.class));
+                            break;
+                        case R.id.footer_right:
+                            transicion();
+                            break;
                     }
                 }else{
                     switch (v.getId()) {
@@ -114,6 +122,12 @@ public class Inicio extends Fragment {
                             break;
                         case R.id.mensajes_button:
                             startActivity(new Intent(getContext(),Mensajes.class));
+                            break;
+                        case R.id.footer_left:
+                            startActivity(new Intent(getContext(),MiCuenta.class));
+                            break;
+                        case R.id.footer_right:
+                            startActivity(new Intent(getContext(), Mensajes.class));
                             break;
                     }
                 }

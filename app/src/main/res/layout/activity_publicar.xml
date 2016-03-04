@@ -113,7 +113,8 @@
                 android:layout_below="@+id/gridLayout"
                 android:layout_alignLeft="@+id/gridLayout"
                 android:layout_alignStart="@+id/gridLayout"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="invisible">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +161,7 @@
                 android:layout_width="350dp"
                 android:layout_height="200dp"
                 android:id="@+id/descripcion"
-                android:layout_below="@+id/posicion"
+                android:layout_below="@+id/gridLayout"
                 android:layout_alignLeft="@+id/gridLayout3"
                 android:layout_alignStart="@+id/gridLayout3"
                 android:layout_marginTop="21dp"
