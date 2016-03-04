@@ -5,15 +5,15 @@
     android:background="#FFFFFF"
     android:layout_height="fill_parent">
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent">
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/img_tab"
             android:adjustViewBounds="true"
-            android:src="@drawable/favoritos"
-            android:layout_weight="1" />
+            android:src="@drawable/favoritos_small"
+            android:layout_weight="1"/>
         <and.clasificados.com.views.TextViewLight
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

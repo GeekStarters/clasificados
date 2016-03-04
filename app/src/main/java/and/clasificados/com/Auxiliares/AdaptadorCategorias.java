@@ -81,7 +81,7 @@ public class AdaptadorCategorias extends RecyclerView.Adapter<AdaptadorCategoria
         Clasificado item = items.get(i);
         if(item.getUrl()==null){
             Picasso.with(viewHolder.itemView.getContext())
-                    .load(item.getIdDrawable())
+                    .load(R.mipmap.ic_launcher)
                     .transform(new RoundedTransformation(15, 0))
                     .fit()
                     .into(viewHolder.imagen);

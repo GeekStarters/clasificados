@@ -83,7 +83,7 @@ import and.clasificados.com.modelo.Zona;
 import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
 
-public class Publicar extends AppCompatActivity implements IListDialogListener,AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
+public class Publicar extends AppCompatActivity implements IListDialogListener,AdapterView.OnItemSelectedListener {
 
     RelativeLayout divZona;
     EditTextLight title,costo,descr;
@@ -260,62 +260,73 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         super.onSaveInstanceState(bundle);
     }
 
+    public static Bitmap decodeSampledBitmapFromFile(String path,
+                                                     int reqWidth, int reqHeight) { // BEST QUALITY MATCH
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        // Calculate inSampleSize
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        int inSampleSize = 1;
+
+        if (height > reqHeight) {
+            inSampleSize = Math.round((float)height / (float)reqHeight);
+        }
+
+        int expectedWidth = width / inSampleSize;
+
+        if (expectedWidth > reqWidth) {
+            //if(Math.round((float)width / (float)reqWidth) > inSampleSize) // If bigger SampSize..
+            inSampleSize = Math.round((float)width / (float)reqWidth);
+        }
+
+
+        options.inSampleSize = inSampleSize;
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(path, options);
+    }
+
     @Override
     public void onActivityResult(int RequestCode, int ResultCode, Intent intent) {
         if (RequestCode==FOTOGRAFIA &&ResultCode == RESULT_OK){
-                name.add(file.getPath());
+            name.add(file.getPath());
                 switch (num){
                     case 0:
-                        Picasso.with(getApplicationContext())
-                                .load(file)
-                                .transform(new RoundedTransformation(15,0))
-                                .fit()
-                                .into(galeria1);
+                        galeria1.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografia));
                         break;
                     case 1:
-                        Picasso.with(getApplicationContext())
-                                .load(file)
-                                .transform(new RoundedTransformation(15,0))
-                                .fit()
-                                .into(galeria2);
+                        galeria2.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 2:
-                        Picasso.with(getApplicationContext())
-                                .load(file)
-                                .transform(new RoundedTransformation(15,0))
-                                .fit()
-                                .into(galeria3);
+                        galeria3.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(),680,480));
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 3:
-                        Picasso.with(getApplicationContext())
-                                .load(file)
-                                .transform(new RoundedTransformation(15,0))
-                                .fit()
-                                .into(galeria4);
+                        galeria4.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 4:
-                        Picasso.with(getApplicationContext())
-                                .load(file)
-                                .transform(new RoundedTransformation(15,0))
-                                .fit()
-                                .into(galeria5);
+                        galeria5.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 5:
-                        Picasso.with(getApplicationContext())
-                                .load(file)
-                                .transform(new RoundedTransformation(15,0))
-                                .fit()
-                                .into(galeria6);
+                        galeria6.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(),680,480));
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
@@ -452,7 +463,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 break;
             case R.id.spinner_subcat:
                 subcategoria = subCategoriasLista.get(position).getId();
-                break;
+                break;/*
             case R.id.spinner_location:
                 if(localidadesLista.get(position).getId().equals("1")){
                     idLocacion = localidadesLista.get(position).getId();
@@ -460,7 +471,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                     idLocacion=localidadesLista.get(position).getId();
                     /*ObtenerMunicipio mun = new ObtenerMunicipio();
                     mun.execute(localidadesLista.get(position).getId());*/
-                    poblarSpinnerMunicipios();
+                    /*poblarSpinnerMunicipios();
                 }
                 break;
             case R.id.spinner_municipio:
@@ -474,24 +485,19 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         zo.execute(municipiosLista.get(position).getZona());
                        spinnerZona.setEnabled(true);
                     }*/
-                }else{
+               /* }else{
                     divZona.setVisibility(View.INVISIBLE);
                    // idLocacion = municipiosLista.get(position).getId();
                 }
                 break;
             case R.id.spinner_zona:
                // idLocacion=zonasLista.get(position).getId();
-                break;
+                break;*/
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
 
@@ -562,7 +568,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
-    private class ObtenerCategorias extends AppAsynchTask<Void, Void, Void>{
+    private class ObtenerCategorias extends AppAsynchTask<Void, Void, Boolean>{
 
         Activity actividad;
         public ObtenerCategorias(Activity activity) {
@@ -571,9 +577,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
 
         @Override
-        protected Void customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException {
-            String id=null, nombre=null;
+
+           boolean resul=false; String id=null, nombre=null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.categories);
             get.setHeader("content-type", "application/json");
@@ -582,29 +589,33 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                     JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                     JSONArray results = respJSON.getJSONArray("data");
                     Categoria c;
-                    for(int i=0; i<results.length(); i++)
-                    {
-                        JSONObject info= results.getJSONObject(i);
-                        id=info.getString("id");
+                    for(int i=0; i<results.length(); i++) {
+                        JSONObject info = results.getJSONObject(i);
+                        id = info.getString("id");
                         nombre = info.getString("name");
-                        c= new Categoria(id, nombre);
+                        c = new Categoria(id, nombre);
                         categoriasLista.add(c);
                     }
-
+                    resul=true;
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    resul=false;
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
+                    resul=false;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    resul=false;
                 }
 
-            return null;
+            return resul;
         }
 
         @Override
-        protected void customOnPostExecute(Void result) {
-            poblarSpinnerCategorias();
+        protected void customOnPostExecute(Boolean result) {
+           if(result){
+               poblarSpinnerCategorias();
+           }
         }
     }
 
@@ -655,7 +666,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
-    private class ObtenerSubCategorias extends AppAsynchTask<String, Void, Void>{
+    private class ObtenerSubCategorias extends AppAsynchTask<String, Void, Boolean>{
 
         Activity actividad;
         public ObtenerSubCategorias(Activity activity) {
@@ -664,9 +675,10 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
 
         @Override
-        protected Void customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException{
             String sub_id=null, sub_nombre=null, parent_id=null;
+            Boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.categories);
             get.setHeader("content-type", "application/json");
@@ -691,21 +703,26 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         }
                     }
                 }
-
+                resul=true;
             } catch (JSONException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (IOException e) {
                 e.printStackTrace();
+                resul=false;
             }
 
-            return null;
+            return resul;
         }
 
         @Override
-        protected void customOnPostExecute(Void result) {
-            poblarSpinnerSubCategorias();
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarSpinnerSubCategorias();
+            }
         }
     }
 
@@ -889,7 +906,5 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
 
     }
-
-
 
 }

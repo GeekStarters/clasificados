@@ -86,8 +86,13 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
         reciclador.setLayoutManager(layoutManager);
         login_user=PrefUtils.getCurrentUser(context);
         resultado = new ArrayList<>();
-        int indiceSeccion = getArguments().getInt(INDICE_SECCION);
-        String pasar = ""+indiceSeccion;
+        String pasar=null;
+        if(login_user!=null){
+            pasar = login_user.auto;
+        }else{
+            int indiceSeccion = getArguments().getInt(INDICE_SECCION);
+            pasar = ""+indiceSeccion;
+        }
         LlenarLista llenar = new LlenarLista(context);
         llenar.execute(pasar);
         return view;
@@ -221,7 +226,8 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
                 TimeOutException, IOException, JSONException{
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(Constants.last+params[0]);
+            HttpGet get = new HttpGet(Constants.mis_p);
+            get.setHeader("authorization", "Basic"+ " " +params[0] );
             get.setHeader("content-type", "application/json");
             try
             {
@@ -238,9 +244,13 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
                     precio = info.getString("currencySymbol")+" "+info.getString("price");
                     categoria = info.getString("subCategoryName");
                     JSONArray imagen = info.getJSONArray("images");
-                    url_imagen = imagen.getString(0);
+                    if(imagen.length()>0){
+                        url_imagen = imagen.getString(0);
+                    }else {
+                        url_imagen=null;
+                    }
                     String slug = info.getString("slug");
-                    vista = ad.getString("singleApiURL");
+                 //   vista = ad.getString("singleApiURL");
                     c= new Clasificado(precio,categoria,titulo,url_imagen,vista,slug);
                     resultado.add(c);
                 }
