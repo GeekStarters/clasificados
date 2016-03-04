@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -111,11 +114,15 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     final int FOTOGRAFIA = 654;
     private static final int REQUEST_LIST_SIMPLE= 11;
     Usuario login_user;
+    private static final int REQUEST_CODE = 0x11;
+    String[] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publicar);
         agregarToolbar();
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE); // without sdk version check
         login_user= PrefUtils.getCurrentUser(Publicar.this);
         auto = login_user.auto;
         context=this;
@@ -212,6 +219,19 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         nombre = String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg";
         f=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+File.separator+nombre);
         file=Uri.fromFile(f);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // save file
+            } else {
+                Toast.makeText(getApplicationContext(), "PERMISSION_DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void llenarGaleria(Bundle savedInstanceState) {
