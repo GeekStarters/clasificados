@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/filtro_productos"
     android:layout_alignParentTop="true"
-    android:visibility="gone"
+    android:visibility="visible"
     android:layout_width="match_parent"
     android:paddingTop="10dp"
     android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner3"
+        android:id="@+id/spinnercatfiltro"
         android:layout_below="@+id/gridLayout5"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -39,15 +39,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        android:id="@+id/spinner4"
-        android:layout_below="@+id/spinner3"
+        android:id="@+id/spinnersubfiltro"
+        android:layout_below="@+id/spinnercatfiltro"
         android:layout_centerHorizontal="true" />
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/spinner4">
+        android:layout_below="@+id/spinnersubfiltro">
 
         <ImageView
             android:layout_width="wrap_content"

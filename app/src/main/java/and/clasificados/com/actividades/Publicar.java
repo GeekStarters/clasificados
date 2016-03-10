@@ -92,10 +92,9 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     EditTextLight title,costo,descr;
     ImageView tomarFoto,galeria1,galeria2,galeria3,galeria4,galeria5,galeria6, vaciar, desdeGal;
     Button publicar, moneda;
-    String auto, categoria, subcategoria, idCurrency, idProducto="173",idLocacion="root";
-    ProgressDialog pDialog;
+    String auto, categoria, subcategoria, idCurrency="1", idProducto="173",idLocacion="root";
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun;
-    GridLayout grid;
+    //GridLayout grid;
     Activity context;
     private ArrayList<Categoria> categoriasLista;
     private ArrayList<SubCategoria> subCategoriasLista;
@@ -143,7 +142,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         galeria4 = (ImageView) findViewById(R.id.anuncio4);
         galeria5 = (ImageView) findViewById(R.id.anuncio5);
         galeria6 = (ImageView) findViewById(R.id.anuncio6);
-        grid = (GridLayout)findViewById(R.id.galeria_imagenes);
+      //  grid = (GridLayout)findViewById(R.id.galeria_imagenes);
         contador=(TextView)findViewById(R.id.numfotografias);
         divZona = (RelativeLayout)findViewById(R.id.contentTwo);
         llenarGaleria(savedInstanceState);
@@ -184,7 +183,14 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         startActivityForResult(intent,GALERIA);
                         break;
                     case R.id.delete:
-                        grid.setVisibility(View.INVISIBLE);
+        //                grid.setVisibility(View.GONE);
+                        galeria1.setImageResource(R.drawable.blanco);
+                        galeria2.setImageResource(R.drawable.blanco);
+                        galeria3.setImageResource(R.drawable.blanco);
+                        galeria4.setImageResource(R.drawable.blanco);
+                        galeria5.setImageResource(R.drawable.blanco);
+                        galeria6.setImageResource(R.drawable.blanco);
+                        name.clear();
                         num=0;
                         contador.setText(getString(R.string.fotografia));
                         break;
@@ -280,73 +286,63 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         super.onSaveInstanceState(bundle);
     }
 
-    public static Bitmap decodeSampledBitmapFromFile(String path,
-                                                     int reqWidth, int reqHeight) { // BEST QUALITY MATCH
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        int inSampleSize = 1;
-
-        if (height > reqHeight) {
-            inSampleSize = Math.round((float)height / (float)reqHeight);
-        }
-
-        int expectedWidth = width / inSampleSize;
-
-        if (expectedWidth > reqWidth) {
-            //if(Math.round((float)width / (float)reqWidth) > inSampleSize) // If bigger SampSize..
-            inSampleSize = Math.round((float)width / (float)reqWidth);
-        }
-
-
-        options.inSampleSize = inSampleSize;
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(path, options);
-    }
-
     @Override
     public void onActivityResult(int RequestCode, int ResultCode, Intent intent) {
         if (RequestCode==FOTOGRAFIA &&ResultCode == RESULT_OK){
             name.add(file.getPath());
                 switch (num){
                     case 0:
-                        galeria1.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
+          //              grid.setVisibility(View.VISIBLE);
+                        Picasso.with(getApplicationContext())
+                                .load(file)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria1);
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografia));
                         break;
                     case 1:
-                        galeria2.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
+                        Picasso.with(getApplicationContext())
+                                .load(file)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria2);
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 2:
-                        galeria3.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(),680,480));
+                        Picasso.with(getApplicationContext())
+                                .load(file)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria3);
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 3:
-                        galeria4.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
+                        Picasso.with(getApplicationContext())
+                                .load(file)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria4);
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 4:
-                        galeria5.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(), 680, 480));
+                        Picasso.with(getApplicationContext())
+                                .load(file)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria5);
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 5:
-                        galeria6.setImageBitmap(decodeSampledBitmapFromFile(file.getPath(),680,480));
+                        Picasso.with(getApplicationContext())
+                                .load(file)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria6);
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
@@ -356,6 +352,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 name.add(selectedImage.getPath());
             switch (num){
                         case 0:
+            //                grid.setVisibility(View.VISIBLE);
                             Picasso.with(getApplicationContext())
                                     .load(selectedImage)
                                     .transform(new RoundedTransformation(15,0))
@@ -453,13 +450,23 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.clean:
-                grid.setVisibility(View.INVISIBLE);
                 num=0;
                 contador.setText(getString(R.string.fotografia));
                 title.setText("");
                 descr.setText("");
                 costo.setText("");
-                moneda.setText("Q");
+                moneda.setText("Q.");
+                idCurrency="1";
+              //  grid.setVisibility(View.GONE);
+                galeria1.setImageResource(R.drawable.blanco);
+                galeria2.setImageResource(R.drawable.blanco);
+                galeria3.setImageResource(R.drawable.blanco);
+                galeria4.setImageResource(R.drawable.blanco);
+                galeria5.setImageResource(R.drawable.blanco);
+                galeria6.setImageResource(R.drawable.blanco);
+                spinnerCat.setSelection(0);
+                spinnerSub.setSelection(0);
+                name.clear();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

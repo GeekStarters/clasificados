@@ -2,6 +2,7 @@ package and.clasificados.com.fragmentos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -32,11 +34,17 @@ import java.util.List;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.R;
+import and.clasificados.com.actividades.Login;
+import and.clasificados.com.actividades.Mensajes;
+import and.clasificados.com.actividades.MiCuenta;
+import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.auxiliares.CategoriasTab;
+import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
+import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
 
 /**
@@ -47,6 +55,9 @@ public class Cuenta extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     Activity context;
+    ImageView plus,footerL,footerR;
+    TextView mensajes, miCuenta;
+    private Usuario login_user=null;
 
     public Cuenta() {
     }
@@ -55,6 +66,12 @@ public class Cuenta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_paginado, container, false);
+        plus = (ImageView) view.findViewById(R.id.nuevo);
+        miCuenta = (TextView)view.findViewById(R.id.miCuenta);
+        mensajes = (TextView)view.findViewById(R.id.mensajes_button);
+        footerL=(ImageView)view.findViewById(R.id.footer_left);
+        footerR=(ImageView)view.findViewById(R.id.footer_right);
+        login_user= PrefUtils.getCurrentUser(context);
         if (savedInstanceState == null) {
             insertarTabs(container);
             viewPager = (ViewPager) view.findViewById(R.id.pager);
@@ -64,11 +81,66 @@ public class Cuenta extends Fragment {
             setupTabIcons();
             //new DataCategory(context).execute();
 
-        }
+        }View.OnClickListener onclick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(login_user.auto.equals(null)||login_user.auto.isEmpty()){
+                    switch (v.getId()) {
+                        case R.id.nuevo:
+                            transicion();
+                            break;
+                        case R.id.miCuenta:
+                            startActivity(new Intent(getContext(),Login.class));
+                            break;
+                        case R.id.mensajes_button:
+                            transicion();
+                            break;
+                        case R.id.footer_left:
+                            startActivity(new Intent(getContext(),Login.class));
+                            break;
+                        case R.id.footer_right:
+                            transicion();
+                            break;
+                    }
+                }else{
+                    switch (v.getId()) {
+                        case R.id.nuevo:
+                            startActivity(new Intent(getContext(), Publicar.class));
+                            break;
+                        case R.id.miCuenta:
+                            startActivity(new Intent(getContext(),MiCuenta.class));
+                            break;
+                        case R.id.mensajes_button:
+                            startActivity(new Intent(getContext(),Mensajes.class));
+                            break;
+                        case R.id.footer_left:
+                            startActivity(new Intent(getContext(),MiCuenta.class));
+                            break;
+                        case R.id.footer_right:
+                            startActivity(new Intent(getContext(), Mensajes.class));
+                            break;
+                    }
+                }
+            }
+        };
+        footerL.setOnClickListener(onclick);
+        footerR.setOnClickListener(onclick);
+        plus.setOnClickListener(onclick);
+        mensajes.setOnClickListener(onclick);
+        miCuenta.setOnClickListener(onclick);
 
         return view;
     }
 
+
+    private void transicion() {
+        Fragment fragmentoGenerico = new NoLogin();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.main_content, fragmentoGenerico)
+                .commit();
+    }
 
     private void setupTabIcons() {
 
