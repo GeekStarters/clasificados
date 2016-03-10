@@ -193,7 +193,6 @@ public class Login extends AppCompatActivity {
                 } else {
                     map.put("fb_user_id", params[1]);
                 }
-
                 StringEntity entity = new StringEntity(map.toString());
                 post.setEntity(entity);
                 HttpResponse resp = httpClient.execute(post);
@@ -209,6 +208,7 @@ public class Login extends AppCompatActivity {
                     user.pic = respJSON.getString("imagesDomain") + data.getString("picture_profile");
                     user.auto = data.getString("basic_authentication");
                     user.email = data.getString("email");
+                    user.phone=data.getString("phone");
                     user.facebookID = data.getString("fb_user_id");
                     user.token = data.getString("token");
                     PrefUtils.setCurrentUser(user, Login.this);

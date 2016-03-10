@@ -118,17 +118,12 @@ public class  Registro extends AppCompatActivity {
                                     user.provider = "facebook";
                                     NuevoUsuario t = new NuevoUsuario(context);
                                     t.execute(user.provider,user.facebookID,user.email,user.name,user.last);
-                                  //  PrefUtils.setCurrentUser(user, Rn.this);
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }
-                             //   Toast.makeText(Login.this,"welcome "+user.name,Toast.LENGTH_LONG).show();
                                 finish();
-
                             }
-
                         });
-
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,email,gender, birthday");
                 request.setParameters(parameters);
@@ -228,7 +223,7 @@ public class  Registro extends AppCompatActivity {
 
 
     private class NuevoUsuario extends AppAsynchTask<String,Integer,Boolean> {
-        String password = null, provider = null, user_name=null, error="";
+        String error="";
         Activity actividad;
 
         public NuevoUsuario(Activity activity) {
@@ -251,7 +246,7 @@ public class  Registro extends AppCompatActivity {
                 map.put("last_name", params[4]);
                 map.put("user_name", params[1]);
                 map.put("email", params[2]);
-                map.put("phone",null);
+                map.put("phone", null);
                 if(params[0]=="facebook"){
                     map.put("password", null);
                     map.put("password_confirmation", null);
@@ -261,22 +256,28 @@ public class  Registro extends AppCompatActivity {
                     map.put("password_confirmation", params[6]);
                     map.put("fb_user_id",null);
                 }
-
                 StringEntity entity = new StringEntity(map.toString());
                 post.setEntity(entity);
                 HttpResponse resp = httpClient.execute(post);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                respJSON.has("errors");
                 String aux = respJSON.get("errors").toString();
                 System.out.println(aux);
                 if(aux.equals("[]")){
                     resul=true;
-                    provider = params[0];
-                    user_name=params[1];
-                    if(provider.equals("local")){
-                        password=params[5];
-                    }else{
-                        password=null;
-                    }
+                    JSONObject data  = respJSON.getJSONObject("data");
+                    user = new Usuario();
+                    user.provider=params[0];
+                    user.name=data.getString("first_name");
+                    user.last=data.getString("last_name");
+                    user.pic = respJSON.getString("imagesDomain") + data.getString("picture_profile");
+                    user.auto= data.getString("basic_authentication");
+                    user.email=data.getString("email");
+                    user.phone=data.getString("phone");
+                    user.facebookID=data.getString("fb_user_id");
+                    user.token=data.getString("token");
+                    Log.i("Usuario", user.toString());
+                    PrefUtils.setCurrentUser(user, Registro.this);
                 }else{
                     JSONArray errores = respJSON.getJSONArray("errors");
                     for(int i=0; i<errores.length();i++){
@@ -299,9 +300,9 @@ public class  Registro extends AppCompatActivity {
         protected void customOnPostExecute(Boolean result) {
             if (result)
             {
-                Toast.makeText(getApplicationContext(),getString(R.string.creado),Toast.LENGTH_LONG).show();
-                AutenticarUsuario t = new AutenticarUsuario(actividad);
-                t.execute(provider, password, user_name);
+                Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
+                Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);
             }else{
                 String[] aux_err = error.split(",");
                 String e1=aux_err[0];
@@ -314,75 +315,6 @@ public class  Registro extends AppCompatActivity {
                 }
 
             }
-    }
-
-    private class AutenticarUsuario extends AppAsynchTask<String,Integer,Boolean> {
-        String resultado="none";
-        Activity actividad;
-
-        public AutenticarUsuario(Activity activity) {
-            super(activity);
-            actividad=activity;
-        }
-
-        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
-                TimeOutException, IOException, JSONException{
-            boolean resul;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost(Constants.autenticar);
-            post.setHeader("content-type", "application/json");
-            try
-            {
-                JSONObject map = new JSONObject();
-                map.put("provider", params[0]);
-                if(params[0]=="local"){
-                    map.put("access", params[2]);
-                    map.put("password", params[1]);
-                }else{
-                    map.put("fb_user_id", params[2]);
-                }
-
-                StringEntity entity = new StringEntity(map.toString());
-                post.setEntity(entity);
-                HttpResponse resp = httpClient.execute(post);
-                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                String aux = respJSON.get("errors").toString();
-                if(aux.equals("[]")){
-                    resul=true;
-                    JSONObject data  = respJSON.getJSONObject("data");
-                    user = new Usuario();
-                    user.provider=params[0];
-                    user.name=data.getString("first_name");
-                    user.last=data.getString("last_name");
-                    user.pic=respJSON.getString("imagesDomain")+data.getString("picture_profile");
-                    user.auto= data.getString("basic_authentication");
-                    user.email=data.getString("email");
-                    user.facebookID=data.getString("fb_user_id");
-                    user.token=data.getString("token");
-                    PrefUtils.setCurrentUser(user, Registro.this);
-                }else{
-                    resultado = aux.substring(13, aux.length() - 12);
-                    user=null;
-                    resul=false;
-                }
-            }
-            catch(Exception ex)
-            {
-                Log.e("ServicioRest", "Error!", ex);
-                resul = false;
-            }
-            return resul;
-        }
-
-        protected void customOnPostExecute(Boolean result) {
-            if (result) {
-                Toast.makeText(getApplicationContext(),getString(R.string.bienvenido),Toast.LENGTH_LONG).show();
-                Intent i=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(i);
-            }else{
-                Toast.makeText(getApplicationContext(),resultado,Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
 }

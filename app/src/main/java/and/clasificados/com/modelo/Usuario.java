@@ -12,4 +12,5 @@ public class Usuario {
     public String pic;
     public String auto;
     public String token;
+    public String phone;
 }

@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,9 @@ import and.clasificados.com.services.AppAsynchTask;
 public class Inicio extends Fragment {
     ImageView plus, vehiculo, producto,edificio, footerL,footerR;
     TextView mensajes, miCuenta;
+    Button fV, fP, fI;
     private RecyclerView reciclador;
+    private RelativeLayout filtro_v, filtro_p, filtro_i, filtros_super;
     private LinearLayoutManager layoutManager;
     private AdaptadorCategorias adaptador;
     private Activity context;
@@ -61,17 +65,28 @@ public class Inicio extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
+        final View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         final String strtext = getArguments().getString("auto");
         context = getActivity();
+        fV = (Button)view.findViewById(R.id.f_v);
+        fP=(Button)view.findViewById(R.id.f_p);
+        fI=(Button)view.findViewById(R.id.f_i);
         vehiculo = (ImageView)view.findViewById(R.id.img_tab);
         producto = (ImageView)view.findViewById(R.id.img_tab3);
         edificio=(ImageView)view.findViewById(R.id.img_tab2);
         footerL=(ImageView)view.findViewById(R.id.footer_left);
         footerR=(ImageView)view.findViewById(R.id.footer_right);
+        filtros_super= (RelativeLayout)view.findViewById(R.id.filtros);
+        filtro_v=(RelativeLayout)view.findViewById(R.id.filtro_vehiculos);
+        filtro_p=(RelativeLayout)view.findViewById(R.id.filtro_productos);
+        filtro_i=(RelativeLayout)view.findViewById(R.id.filtro_inmuebles);
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador_principal);
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
+        filtro_i.setVisibility(View.GONE);
+        filtro_p.setVisibility(View.GONE);
+        filtro_v.setVisibility(View.GONE);
+        filtros_super.setVisibility(View.GONE);
         LlenarLista llenar = new LlenarLista(context);
         llenar.execute("1");
         plus = (ImageView) view.findViewById(R.id.nuevo);
@@ -82,14 +97,26 @@ public class Inicio extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.img_tab:
+                        filtros_super.setVisibility(View.VISIBLE);
+                        filtro_i.setVisibility(View.GONE);
+                        filtro_p.setVisibility(View.GONE);
+                        filtro_v.setVisibility(View.VISIBLE);
                         Toast.makeText(getActivity(), "Desplegara un filtro de vehiculos", Toast.LENGTH_LONG).show();
                         new LlenarLista(context).execute("1");
                         break;
                     case R.id.img_tab2:
+                        filtros_super.setVisibility(View.VISIBLE);
+                        filtro_i.setVisibility(View.VISIBLE);
+                        filtro_p.setVisibility(View.GONE);
+                        filtro_v.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "Desplegara un filtro de inmuebles", Toast.LENGTH_LONG).show();
                         new LlenarLista(context).execute("3");
                         break;
                     case R.id.img_tab3:
+                        filtros_super.setVisibility(View.VISIBLE);
+                        filtro_i.setVisibility(View.GONE);
+                        filtro_p.setVisibility(View.VISIBLE);
+                        filtro_v.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "Desplegara un filtro de productos", Toast.LENGTH_LONG).show();
                         new LlenarLista(context).execute("2");
                         break;
@@ -111,6 +138,24 @@ public class Inicio extends Fragment {
                         case R.id.footer_right:
                             transicion();
                             break;
+                        case R.id.f_v:
+                            filtro_i.setVisibility(View.GONE);
+                            filtro_p.setVisibility(View.GONE);
+                            filtro_v.setVisibility(View.GONE);
+                            filtros_super.setVisibility(View.GONE);
+                            break;
+                        case R.id.f_i:
+                            filtro_i.setVisibility(View.GONE);
+                            filtro_p.setVisibility(View.GONE);
+                            filtro_v.setVisibility(View.GONE);
+                            filtros_super.setVisibility(View.GONE);
+                            break;
+                        case R.id.f_p:
+                            filtro_i.setVisibility(View.GONE);
+                            filtro_p.setVisibility(View.GONE);
+                            filtro_v.setVisibility(View.GONE);
+                            filtros_super.setVisibility(View.GONE);
+                            break;
                     }
                 }else{
                     switch (v.getId()) {
@@ -129,6 +174,24 @@ public class Inicio extends Fragment {
                         case R.id.footer_right:
                             startActivity(new Intent(getContext(), Mensajes.class));
                             break;
+                        case R.id.f_v:
+                            filtro_i.setVisibility(View.GONE);
+                            filtro_p.setVisibility(View.GONE);
+                            filtro_v.setVisibility(View.GONE);
+                            filtros_super.setVisibility(View.GONE);
+                            break;
+                        case R.id.f_i:
+                            filtro_i.setVisibility(View.GONE);
+                            filtro_p.setVisibility(View.GONE);
+                            filtro_v.setVisibility(View.GONE);
+                            filtros_super.setVisibility(View.GONE);
+                            break;
+                        case R.id.f_p:
+                            filtro_i.setVisibility(View.GONE);
+                            filtro_p.setVisibility(View.GONE);
+                            filtro_v.setVisibility(View.GONE);
+                            filtros_super.setVisibility(View.GONE);
+                            break;
                     }
                 }
             }
@@ -139,6 +202,10 @@ public class Inicio extends Fragment {
         vehiculo.setOnClickListener(onclick);
         producto.setOnClickListener(onclick);
         edificio.setOnClickListener(onclick);
+        fI.setOnClickListener(onclick);
+        fV.setOnClickListener(onclick);
+        fP.setOnClickListener(onclick);
+
         return view;
     }
 

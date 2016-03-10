@@ -103,6 +103,10 @@
     <string name="selecc">Seleccione una opcion</string>
     <string name="title_activity_modificar">Modificar</string>
     <string name="modificar_mi">Modificar mi clasificadao</string>
+    <string name="buscar_prod">Buscar productos</string>
+    <string name="cat4">Alquiler</string>
+    <string name="cat5">Proyectos</string>
+    <string name="cat6">En Venta</string>
 
 
 </resources>

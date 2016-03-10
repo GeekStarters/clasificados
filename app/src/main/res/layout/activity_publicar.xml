@@ -90,7 +90,7 @@
             android:layout_alignStart="@+id/gridLayout3">
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/spinner_categoria"
                 android:drawSelectorOnTop="true"
@@ -99,7 +99,7 @@
                 android:background="@drawable/rounded_spinner"/>
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/spinner_subcat"
                 android:layout_weight="1"

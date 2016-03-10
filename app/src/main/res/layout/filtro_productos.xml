@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/filtro_productos"
+    android:layout_alignParentTop="true"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:paddingTop="10dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:paddingBottom="@dimen/espacio_norma_1">
+
+    <GridLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridLayout5"
+        android:layout_centerHorizontal="true">
+
+        <and.clasificados.com.views.AutoCompleteTextViewLight
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/buscar_prod"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:id="@+id/button3"
+            android:layout_column="0"
+            android:background="@drawable/rounded_etext"/>
+    </GridLayout>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner3"
+        android:layout_below="@+id/gridLayout5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="4dp"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/spinner4"
+        android:layout_below="@+id/spinner3"
+        android:layout_centerHorizontal="true" />
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/spinner4">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_column="0"
+            android:padding="2dp"
+            android:background="@drawable/rounded_etext"
+            android:src="@drawable/recharge"/>
+
+        <and.clasificados.com.views.ButtonLight
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/filtro"
+            android:id="@+id/f_p"
+            android:textColor="#ffffff"
+            android:background="@drawable/rounded_button_pressed"
+            android:layout_column="1"/>
+    </GridLayout>
+
+</RelativeLayout>
