@@ -60,6 +60,7 @@ public class MiCuenta extends AppCompatActivity {
                         .transform(new CircleTransformation())
                         .into(picture);
             } else {
+                System.out.println("https://graph.facebook.com/" + login_user.facebookID + "/picture?type=large");
                 Picasso.with(getApplicationContext())
                         .load("https://graph.facebook.com/" + login_user.facebookID + "/picture?type=large")
                         .transform(new CircleTransformation())

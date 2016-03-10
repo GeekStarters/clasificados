@@ -19,6 +19,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -282,7 +283,11 @@ public class  Registro extends AppCompatActivity {
                     JSONArray errores = respJSON.getJSONArray("errors");
                     for(int i=0; i<errores.length();i++){
                         JSONObject ad = errores.getJSONObject(i);
-                        error=error+","+ad.getString("message");
+                        if(i==0){
+                            error=ad.getString("message");
+                        }else{
+                            error=error+","+ad.getString("message");
+                        }
                     }
                     resul=false;
                 }
@@ -304,16 +309,12 @@ public class  Registro extends AppCompatActivity {
                 Intent i=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
             }else{
+                System.out.println(error);
                 String[] aux_err = error.split(",");
-                String e1=aux_err[0];
-                String e2=aux_err[1];
-                if(e2.equals(null)){
-                    Toast.makeText(getApplicationContext(),e1,Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(getApplicationContext(),e1,Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(),e2,Toast.LENGTH_LONG).show();
+                for(int j=0;j<aux_err.length;j++){
+                    Toast.makeText(getApplicationContext(),aux_err[j],Toast.LENGTH_LONG).show();
                 }
-
+                LoginManager.getInstance().logOut();
             }
     }
 

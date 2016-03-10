@@ -118,7 +118,7 @@ public class Login extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                finish();
+                                //finish();
 
                             }
 
@@ -163,6 +163,7 @@ public class Login extends AppCompatActivity {
 
 
     public void registro() {
+        finish();
         startActivity(new Intent(this, Registro.class));
     }
 
