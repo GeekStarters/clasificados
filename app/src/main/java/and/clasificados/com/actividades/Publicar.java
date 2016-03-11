@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -167,8 +168,35 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .show();
                         break;
                     case R.id.button_publicar:
-                        NuevoAnuncio a = new NuevoAnuncio(context);
-                        a.execute(auto);
+                        View focusView=null; View focusView1=null;
+                        String t = title.getText().toString();
+                        String p = costo.getText().toString();
+                        boolean bloqueo=true;
+                        if(t.isEmpty()) {
+                            title.setError("Debe asignar un titulo");
+                            focusView = title;
+                            bloqueo = false;
+                        }
+                        if(p.isEmpty()) {
+                            costo.setError("Debe asignar un costo.");
+                            focusView1=costo;
+                            bloqueo=false;
+                        }
+                        if(spinnerCat.getSelectedItemPosition()==0){
+                            Toast.makeText(getApplicationContext(),"Debe seleccionar una categoria", Toast.LENGTH_LONG).show();
+                            bloqueo=false;
+                        }
+                        if (spinnerSub.getSelectedItemPosition()==0) {
+                            Toast.makeText(getApplicationContext(), "Debe seleccionar una sub categoria", Toast.LENGTH_LONG).show();
+                            bloqueo = false;
+                        }
+                        if(bloqueo){
+                            NuevoAnuncio a = new NuevoAnuncio(context);
+                            a.execute(auto);
+                        }else{
+                            focusView.requestFocus();
+                            focusView1.requestFocus();
+                        }
                         break;
                     case R.id.camera:
                        if(num>=6){
@@ -529,6 +557,8 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
 
     }
 
+
+
     private class NuevoAnuncio extends AppAsynchTask<String,Integer,Boolean> {
         String idAd=null;
         Activity actividad;
@@ -540,7 +570,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
 
         protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException{
-            boolean resul;
+            boolean resul = false;
             String message;
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost post = new HttpPost(Constants.nuevo_clasificado);
@@ -551,31 +581,31 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 final String titulo = title.getText().toString();
                 final String precio = costo.getText().toString();
                 final String descripcion= descr.getText().toString();
-                JSONObject map = new JSONObject();
-                map.put("title", titulo);
-                map.put("description", descripcion);
-                map.put("price", precio);
-                map.put("category_id",Integer.parseInt(subcategoria));
-                map.put("currency_id",Integer.parseInt(idCurrency));
-                map.put("location_id","root");
-                map.put("product_id",Integer.parseInt(idProducto));
-                message = map.toString();
-                post.setHeader("Content-type", "application/json");
-                post.setHeader("authorization", "Basic" + " " + params[0]);
-                post.setEntity(new StringEntity(message, "UTF8"));
-                HttpResponse resp = httpClient.execute(post);
-                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                String aux = respJSON.get("errors").toString();
-                JSONObject data= respJSON.getJSONObject("data");
-                if(aux.equals("[]")){
-                    idAd=data.getString("id");
-                    Log.i("Objeto",idAd);
-                    resul=true;
-                }else{
-                    resul=false;
-                }
-            }
-            catch(Exception ex)
+
+                    JSONObject map = new JSONObject();
+                    map.put("title", titulo);
+                    map.put("description", descripcion);
+                    map.put("price", precio);
+                    map.put("category_id",Integer.parseInt(subcategoria));
+                    map.put("currency_id",Integer.parseInt(idCurrency));
+                    map.put("location_id","root");
+                    map.put("product_id",Integer.parseInt(idProducto));
+                    message = map.toString();
+                    post.setHeader("Content-type", "application/json");
+                    post.setHeader("authorization", "Basic" + " " + params[0]);
+                    post.setEntity(new StringEntity(message, "UTF8"));
+                    HttpResponse resp = httpClient.execute(post);
+                    JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                    String aux = respJSON.get("errors").toString();
+                    JSONObject data= respJSON.getJSONObject("data");
+                    if(aux.equals("[]")){
+                        idAd=data.getString("id");
+                        Log.i("Objeto",idAd);
+                        resul=true;
+                    }else{
+                        resul=false;
+                    }
+                } catch(Exception ex)
             {
                 Log.e("ServicioRest", "Error!", ex);
                 resul = false;
@@ -594,7 +624,11 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
             }
         }
+
+
+
     }
+
 
     private class ObtenerCategorias extends AppAsynchTask<Void, Void, Boolean>{
 

@@ -24,9 +24,9 @@
             android:text="@string/cat4"
             android:id="@+id/button2"
             android:padding="4dp"
-            android:textColor="@drawable/state"
             android:layout_weight="1"
-            android:background="@drawable/button_state"/>
+            android:textColor="#ffffff"
+            android:background="@drawable/rounded_button_pressed"/>
 
         <and.clasificados.com.views.ButtonLight
             android:layout_width="match_parent"
