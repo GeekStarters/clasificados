@@ -91,7 +91,8 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     RelativeLayout divZona;
     EditTextLight title,costo,descr;
     ImageView tomarFoto,galeria1,galeria2,galeria3,galeria4,galeria5,galeria6, vaciar, desdeGal;
-    Button publicar, moneda;
+    Button publicar;
+    TextView moneda;
     String auto, categoria, subcategoria, idCurrency="1", idProducto="173",idLocacion="root";
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun;
     //GridLayout grid;
@@ -147,7 +148,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         divZona = (RelativeLayout)findViewById(R.id.contentTwo);
         llenarGaleria(savedInstanceState);
         monedaLista = new ArrayList<Moneda>();
-        moneda=(Button)findViewById(R.id.currency);
+        moneda=(TextView)findViewById(R.id.currency);
         new ObtenerCategorias(context).execute();
        // new ObtenerLocalidades(context).execute();
         new ObtenerMoneda(context).execute();

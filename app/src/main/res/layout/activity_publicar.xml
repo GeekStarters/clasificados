@@ -45,9 +45,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:padding="4dp"/>
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="19dp"
                 android:orientation="horizontal"
                 android:id="@+id/gridLayout3"
@@ -55,28 +55,59 @@
                 android:layout_alignRight="@+id/titulo"
                 android:layout_alignEnd="@+id/titulo">
 
-                <and.clasificados.com.views.ButtonLight
-                    android:layout_width="75dp"
-                    android:layout_height="51dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_weight="1"
-                    android:id="@+id/currency"
-                    android:padding="4dp"
-                    android:text="@string/moneda"
-                    android:background="@drawable/rounded_etextg"/>
+
+
+
+
+
+
+
+
+
                 <and.clasificados.com.views.EditTextLight
-                    android:layout_width="300dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="50dp"
                     android:id="@+id/costo"
                     android:hint="@string/costo"
                     android:singleLine="true"
-                    android:layout_weight="1"
+                    android:layout_marginLeft="-2dp"
                     android:layout_alignParentTop="true"
                     android:inputType="numberDecimal"
                     android:background="@drawable/rounded_etext"
-                    android:padding="4dp"/>
+                    android:layout_toRightOf="@+id/tabs_one"
+                    android:layout_toEndOf="@+id/tabs_one"
+                    android:paddingLeft="6dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="4dp" />
+                <RelativeLayout
+                    android:layout_width="60dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/tabs_one"
+                    android:layout_marginRight="-2dp"
+                    android:background="@drawable/radius_left_tabs_selected"
+                    android:layout_alignParentLeft="true">
 
-            </LinearLayout>
+
+                    <and.clasificados.com.views.TextViewBold
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/moneda"
+                        android:gravity="center"
+                        android:id="@+id/currency"
+                        android:layout_marginTop="1.5dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:background="#CCCCCC"
+                        android:textColor="#000" />
+                </RelativeLayout>
+
+
+
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -88,27 +119,41 @@
                 android:layout_alignStart="@+id/gridLayout3">
 
             <Spinner
-                android:layout_width="150dp"
-                android:layout_height="65dp"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
                 android:id="@+id/spinner_categoria"
-                android:layout_marginRight="2dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
                 android:drawSelectorOnTop="true"
                 android:layout_alignParentTop="true"
                 android:visibility="visible"
-                android:background="@drawable/rounded_spinner"/>
+                android:background="@drawable/rounded_spinner"
+                android:layout_toLeftOf="@+id/tx_linea_media"
+                android:layout_toStartOf="@+id/tx_linea_media" />
 
             <Spinner
-                android:layout_width="150dp"
-                android:layout_height="65dp"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
                 android:id="@+id/spinner_subcat"
                 android:visibility="visible"
                 android:background="@drawable/rounded_spinner"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/tx_linea_media"
+                android:layout_toEndOf="@+id/tx_linea_media" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text=" "
+                    android:id="@+id/tx_linea_media"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+
+
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
