@@ -115,7 +115,7 @@ public class Inicio extends Fragment {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
-                    case R.id.img_tab:
+                    /*case R.id.img_tab:
                         filtros_super.setVisibility(View.VISIBLE);
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.GONE);
@@ -132,7 +132,7 @@ public class Inicio extends Fragment {
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.VISIBLE);
                         filtro_v.setVisibility(View.GONE);
-                        break;
+                        break;*/
                 }
                 if(strtext.equals("false")||strtext.isEmpty()){
                     switch (v.getId()) {
