@@ -109,19 +109,25 @@
                         android:textSize="@dimen/tab_label"/>
                 </RelativeLayout>
             </LinearLayout>
+
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tabLayout">
-<RelativeLayout
+
+ <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/filtros"
     android:visibility="gone">
+
     <include layout="@layout/filtro_vehiculos"/>
     <include layout="@layout/filtro_productos"/>
     <include layout="@layout/filtro_inmuebles"/>
 </RelativeLayout>
+
 
         <!--Ultimos-->
         <LinearLayout

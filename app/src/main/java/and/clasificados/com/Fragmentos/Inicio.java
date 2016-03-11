@@ -56,12 +56,13 @@ public class Inicio extends Fragment {
     ImageView plus, vehiculo, producto,edificio, footerL,footerR;
     TextView mensajes, miCuenta;
     Button fV, fP, fI;
-    Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun;
+    Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun, spinnerMarca,spinnerModelo,spinnerTipoA, spinnerTipoI;
     private RecyclerView reciclador;
     private RelativeLayout filtro_v, filtro_p, filtro_i, filtros_super;
     private LinearLayoutManager layoutManager;
     private AdaptadorCategorias adaptador;
     private Activity context;
+    ArrayList <String> marca,modelo, tipoA, tipoI,depa,muni, zona, cate, sub;
     private List<Clasificado> resultado;
     private List<Categoria> categoriasLista;
 
@@ -74,14 +75,23 @@ public class Inicio extends Fragment {
         final View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         final String strtext = getArguments().getString("auto");
         context = getActivity();
+        llenarListasSpinner();
         fV = (Button)view.findViewById(R.id.f_v);
         fP=(Button)view.findViewById(R.id.f_p);
         fI=(Button)view.findViewById(R.id.f_i);
+        spinnerMarca=(Spinner)view.findViewById(R.id.spinner_marca);
+        spinnerModelo=(Spinner)view.findViewById(R.id.spinner_modelo);
+        spinnerTipoA=(Spinner)view.findViewById(R.id.spinner_tipo);
+        spinnerTipoI=(Spinner)view.findViewById(R.id.spinner3);
+        spinnerLoc=(Spinner)view.findViewById(R.id.spinner4);
+        spinnerMun=(Spinner)view.findViewById(R.id.spinner5);
+        spinnerZona=(Spinner)view.findViewById(R.id.spinner6);
+        spinnerCat = (Spinner)view.findViewById(R.id.spinnercatfiltro);
+        spinnerSub = (Spinner)view.findViewById(R.id.spinnersubfiltro);
+        cargarSpinners();
         vehiculo = (ImageView)view.findViewById(R.id.img_tab);
         producto = (ImageView)view.findViewById(R.id.img_tab3);
         edificio=(ImageView)view.findViewById(R.id.img_tab2);
-        spinnerCat = (Spinner)view.findViewById(R.id.spinnercatfiltro);
-        spinnerSub = (Spinner)view.findViewById(R.id.spinnersubfiltro);
         footerL=(ImageView)view.findViewById(R.id.footer_left);
         footerR=(ImageView)view.findViewById(R.id.footer_right);
         filtros_super= (RelativeLayout)view.findViewById(R.id.filtros);
@@ -110,24 +120,18 @@ public class Inicio extends Fragment {
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.GONE);
                         filtro_v.setVisibility(View.VISIBLE);
-                      //  Toast.makeText(getActivity(), "Desplegara un filtro de vehiculos", Toast.LENGTH_LONG).show();
-                        new LlenarLista(context).execute("1");
                         break;
                     case R.id.img_tab2:
                         filtros_super.setVisibility(View.VISIBLE);
                         filtro_i.setVisibility(View.VISIBLE);
                         filtro_p.setVisibility(View.GONE);
                         filtro_v.setVisibility(View.GONE);
-                        //Toast.makeText(getActivity(), "Desplegara un filtro de inmuebles", Toast.LENGTH_LONG).show();
-                        new LlenarLista(context).execute("3");
                         break;
                     case R.id.img_tab3:
                         filtros_super.setVisibility(View.VISIBLE);
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.VISIBLE);
                         filtro_v.setVisibility(View.GONE);
-                        //Toast.makeText(getActivity(), "Desplegara un filtro de productos", Toast.LENGTH_LONG).show();
-                        new LlenarLista(context).execute("2");
                         break;
                 }
                 if(strtext.equals("false")||strtext.isEmpty()){
@@ -152,18 +156,21 @@ public class Inicio extends Fragment {
                             filtro_p.setVisibility(View.GONE);
                             filtro_v.setVisibility(View.GONE);
                             filtros_super.setVisibility(View.GONE);
+                            new LlenarLista(context).execute("1");
                             break;
                         case R.id.f_i:
                             filtro_i.setVisibility(View.GONE);
                             filtro_p.setVisibility(View.GONE);
                             filtro_v.setVisibility(View.GONE);
                             filtros_super.setVisibility(View.GONE);
+                            new LlenarLista(context).execute("3");
                             break;
                         case R.id.f_p:
                             filtro_i.setVisibility(View.GONE);
                             filtro_p.setVisibility(View.GONE);
                             filtro_v.setVisibility(View.GONE);
                             filtros_super.setVisibility(View.GONE);
+                            new LlenarLista(context).execute("2");
                             break;
                     }
                 }else{
@@ -188,18 +195,21 @@ public class Inicio extends Fragment {
                             filtro_p.setVisibility(View.GONE);
                             filtro_v.setVisibility(View.GONE);
                             filtros_super.setVisibility(View.GONE);
+                            new LlenarLista(context).execute("1");
                             break;
                         case R.id.f_i:
                             filtro_i.setVisibility(View.GONE);
                             filtro_p.setVisibility(View.GONE);
                             filtro_v.setVisibility(View.GONE);
                             filtros_super.setVisibility(View.GONE);
+                            new LlenarLista(context).execute("3");
                             break;
                         case R.id.f_p:
                             filtro_i.setVisibility(View.GONE);
                             filtro_p.setVisibility(View.GONE);
                             filtro_v.setVisibility(View.GONE);
                             filtros_super.setVisibility(View.GONE);
+                            new LlenarLista(context).execute("2");
                             break;
                     }
                 }
@@ -218,6 +228,83 @@ public class Inicio extends Fragment {
         fP.setOnClickListener(onclick);
 
         return view;
+    }
+
+    private void cargarSpinners() {
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, marca);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerMarca.setAdapter(spinnerAdapter);
+        ArrayAdapter<String> spinnerAdapter2 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, modelo);
+        spinnerAdapter2.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerModelo.setAdapter(spinnerAdapter2);
+        ArrayAdapter<String> spinnerAdapter3 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, tipoA);
+        spinnerAdapter3.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerTipoA.setAdapter(spinnerAdapter3);
+        ArrayAdapter<String> spinnerAdapter4 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, tipoI);
+        spinnerAdapter4.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerTipoI.setAdapter(spinnerAdapter4);
+        ArrayAdapter<String> spinnerAdapter5 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, depa);
+        spinnerAdapter5.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerLoc.setAdapter(spinnerAdapter5);
+        ArrayAdapter<String> spinnerAdapter6 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, muni);
+        spinnerAdapter6.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerMun.setAdapter(spinnerAdapter6);
+        ArrayAdapter<String> spinnerAdapter7 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, zona);
+        spinnerAdapter7.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerZona.setAdapter(spinnerAdapter7);
+        ArrayAdapter<String> spinnerAdapter8 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, cate);
+        spinnerAdapter8.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerCat.setAdapter(spinnerAdapter8);
+        ArrayAdapter<String> spinnerAdapter9 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, sub);
+        spinnerAdapter9.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerSub.setAdapter(spinnerAdapter9);
+    }
+
+    private void llenarListasSpinner() {
+        marca = new ArrayList<>();
+        marca.add("Marca");
+        marca.add("Honda");
+        marca.add("Toyota");
+        marca.add("Nissan");
+        modelo = new ArrayList<>();
+        modelo.add("Modelo");
+        modelo.add("RX1");
+        modelo.add("XY2");
+        modelo.add("yxa2");
+        tipoA = new ArrayList<>();
+        tipoA.add("Nuevos");
+        tipoA.add("Usados");
+        tipoI = new ArrayList<>();
+        tipoI.add("Tipo de Inmueble");
+        tipoI.add("Oficina");
+        tipoI.add("Casa");
+        tipoI.add("Edificio");
+        tipoI.add("Terreno");
+        depa = new ArrayList<>();
+        depa.add("Departamento");
+        depa.add("Ciudad de Guatemala");
+        depa.add("Quezaltenango");
+        muni = new ArrayList<>();
+        muni.add("Municipio");
+        muni.add("Guatemala");
+        muni.add("Otro municipio");
+        muni.add("Otro municipio");
+        zona = new ArrayList<>();
+        zona.add("Zona");
+        zona.add("Zona 1");
+        zona.add("Zona 2");
+        zona.add("Zona 3");
+        cate = new ArrayList<>();
+        cate.add("Categoria");
+        cate.add("Celulares");
+        cate.add("Hogar");
+        cate.add("Mascotas");
+        sub = new ArrayList<>();
+        sub.add("Subcategoria");
+        sub.add("Subcategoria 1");
+        sub.add("Subcategoria 2");
+        sub.add("Subcategoria 3");
+        sub.add("Subcategoria 4");
     }
 
     private void transicion() {

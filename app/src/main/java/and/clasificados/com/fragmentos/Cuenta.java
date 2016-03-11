@@ -66,12 +66,13 @@ public class Cuenta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmento_paginado, container, false);
+        final String strtext = getArguments().getString("auto");
         plus = (ImageView) view.findViewById(R.id.nuevo);
         miCuenta = (TextView)view.findViewById(R.id.miCuenta);
         mensajes = (TextView)view.findViewById(R.id.mensajes_button);
         footerL=(ImageView)view.findViewById(R.id.footer_left);
         footerR=(ImageView)view.findViewById(R.id.footer_right);
-        login_user= PrefUtils.getCurrentUser(context);
+
         if (savedInstanceState == null) {
             insertarTabs(container);
             viewPager = (ViewPager) view.findViewById(R.id.pager);
@@ -84,7 +85,7 @@ public class Cuenta extends Fragment {
         }View.OnClickListener onclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(login_user.auto.equals(null)||login_user.auto.isEmpty()){
+                if(strtext.equals("false")||strtext.isEmpty()){
                     switch (v.getId()) {
                         case R.id.nuevo:
                             transicion();
@@ -107,14 +108,8 @@ public class Cuenta extends Fragment {
                         case R.id.nuevo:
                             startActivity(new Intent(getContext(), Publicar.class));
                             break;
-                        case R.id.miCuenta:
-                            startActivity(new Intent(getContext(),MiCuenta.class));
-                            break;
                         case R.id.mensajes_button:
                             startActivity(new Intent(getContext(),Mensajes.class));
-                            break;
-                        case R.id.footer_left:
-                            startActivity(new Intent(getContext(),MiCuenta.class));
                             break;
                         case R.id.footer_right:
                             startActivity(new Intent(getContext(), Mensajes.class));

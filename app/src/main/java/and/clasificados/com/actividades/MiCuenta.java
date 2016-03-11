@@ -44,6 +44,7 @@ public class MiCuenta extends AppCompatActivity {
     Usuario login_user;
     ImageView picture;
     TextView user;
+    String auto=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MiCuenta extends AppCompatActivity {
         user = (TextView) findViewById(R.id.username);
         login_user = PrefUtils.getCurrentUser(MiCuenta.this);
         if (login_user != null) {
+            auto=login_user.auto;
             if (login_user.provider.equals("local")) {
                 Picasso.with(getApplicationContext())
                         .load(R.drawable.profile3)              //aqui debe ir la url
@@ -69,8 +71,13 @@ public class MiCuenta extends AppCompatActivity {
             picture.setVisibility(View.VISIBLE);
             user.setVisibility(View.VISIBLE);
             user.setText(login_user.name + " " + login_user.last);
+        }else{
+            auto="false";
         }
+        Bundle bundle=new Bundle();
         Fragment fragmentoGenerico = new Cuenta();
+        bundle.putString("auto", auto);
+        fragmentoGenerico.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager
                 .beginTransaction()

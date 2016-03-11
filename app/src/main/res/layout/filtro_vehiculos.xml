@@ -5,79 +5,87 @@
     android:visibility="gone"
     android:layout_width="match_parent"
     android:paddingTop="10dp"
+    android:paddingLeft="@dimen/espacio_norma_1"
+    android:paddingRight="@dimen/espacio_norma_1"
     android:layout_height="wrap_content"
     android:background="#ffffff"
     android:paddingBottom="@dimen/espacio_norma_1">
 
-    <GridLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gridLayout5"
         android:layout_centerHorizontal="true">
 
         <and.clasificados.com.views.ButtonLight
-            android:layout_width="110dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/cat1"
             android:id="@+id/button2"
             android:padding="4dp"
             android:textColor="@drawable/state"
-            android:layout_column="1"
             android:background="@drawable/button_state"/>
 
         <and.clasificados.com.views.ButtonLight
-            android:layout_width="110dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/cat2"
             android:padding="4dp"
             android:id="@+id/button"
             android:textColor="@drawable/state"
-            android:layout_column="2"
             android:background="@drawable/button_state"
             />
 
         <and.clasificados.com.views.ButtonLight
-            android:layout_width="110dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/cat3"
             android:padding="4dp"
             android:id="@+id/button3"
             android:textColor="@drawable/state"
-            android:layout_column="0"
             android:background="@drawable/button_state"/>
-    </GridLayout>
+    </LinearLayout>
 
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/spinner_marca"
         android:layout_below="@+id/gridLayout5"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:padding="4dp"/>
+        android:padding="4dp"
+        android:background="@drawable/rounded_spinner"/>
+
 
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:padding="4dp"
-        android:id="@+id/spinner4"
-        android:layout_below="@+id/spinner3"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/spinner_modelo"
+        android:layout_below="@+id/spinner_marca"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_spinner"/>
+
 
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner5"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/spinner_tipo"
         android:padding="4dp"
-        android:layout_below="@+id/spinner4"
-        android:layout_alignRight="@+id/spinner4"
-        android:layout_alignEnd="@+id/spinner4" />
+        android:layout_below="@+id/spinner_modelo"
+        android:layout_alignRight="@+id/spinner_modelo"
+        android:layout_alignEnd="@+id/spinner_modelo"
+        android:background="@drawable/rounded_spinner"/>
+
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/spinner5">
+        android:layout_below="@+id/spinner_tipo">
 
         <ImageView
             android:layout_width="wrap_content"

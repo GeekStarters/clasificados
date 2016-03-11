@@ -588,7 +588,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
             if (result)
             {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                showShareDialog();
+                //showShareDialog();
             }else{
                 Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
             }
