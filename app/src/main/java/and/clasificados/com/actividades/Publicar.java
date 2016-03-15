@@ -3,6 +3,7 @@ package and.clasificados.com.actividades;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -175,27 +176,23 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         if(t.isEmpty()) {
                             title.setError("Debe asignar un titulo");
                             focusView = title;
-                            bloqueo = false;
-                        }
-                        if(p.isEmpty()) {
+                            focusView.requestFocus();
+                            bloqueo=false;
+                        }else if(p.isEmpty()) {
                             costo.setError("Debe asignar un costo.");
                             focusView1=costo;
+                            focusView1.requestFocus();
                             bloqueo=false;
-                        }
-                        if(spinnerCat.getSelectedItemPosition()==0){
-                            Toast.makeText(getApplicationContext(),"Debe seleccionar una categoria", Toast.LENGTH_LONG).show();
+                        }else if(spinnerCat.getSelectedItemPosition()==0){
+                            showAlertDialogC();
                             bloqueo=false;
-                        }
-                        if (spinnerSub.getSelectedItemPosition()==0) {
-                            Toast.makeText(getApplicationContext(), "Debe seleccionar una sub categoria", Toast.LENGTH_LONG).show();
+                        }else if (spinnerSub.getSelectedItemPosition()==0) {
+                            showAlertDialogS();
                             bloqueo = false;
                         }
                         if(bloqueo){
                             NuevoAnuncio a = new NuevoAnuncio(context);
                             a.execute(auto);
-                        }else{
-                            focusView.requestFocus();
-                            focusView1.requestFocus();
                         }
                         break;
                     case R.id.camera:
@@ -892,6 +889,36 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
         spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerZona.setAdapter(spinnerAdapter);
+    }
+
+    protected void showAlertDialogC() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.select_cat));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    protected void showAlertDialogS() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.select_sub));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     protected void showShareDialog() {

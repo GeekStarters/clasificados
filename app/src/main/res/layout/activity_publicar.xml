@@ -7,22 +7,22 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="and.clasificados.com.actividades.Publicar">
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="match_parent">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:paddingBottom="@dimen/espacio_norma_1"
         >
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:paddingLeft="@dimen/espacio_norma_1"
             android:paddingRight="@dimen/espacio_norma_1"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent">
 
             <and.clasificados.com.views.EditTextLight
                 android:id="@+id/titulo"
@@ -281,6 +281,7 @@
                 android:rowCount="2"
                 android:id="@+id/galeria_imagenes"
                 android:visibility="visible"
+                android:layout_marginBottom="55dp"
                 android:horizontalSpacing="5dp"
                 android:verticalSpacing="5dp"
                 android:layout_below="@+id/gridLayout2"
@@ -330,10 +331,10 @@
                     android:layout_row="1"
                     android:layout_column="4"/>
             </GridLayout>
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dp"
-                android:layout_above="@+id/cont_footer"
                 android:background="#c2c2c2"
                 android:layout_below="@+id/galeria_imagenes"/>
 
@@ -343,19 +344,17 @@
                 android:id="@+id/cont_footer"
                 android:padding="3dp"
                 android:layout_alignParentBottom="true"
-                android:layout_height="45dp">
+                android:layout_height="match_parent">
                 <and.clasificados.com.views.ButtonLight
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/button_publicar"
                     android:background="@drawable/rounded_button_orange"
-                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:text="@string/publicar_mi"
                     android:textColor="#FFFFFF"/>
             </RelativeLayout>
-
         </RelativeLayout>
     </ScrollView>
-</LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

@@ -4,29 +4,45 @@
     android:layout_alignParentTop="true"
     android:visibility="gone"
     android:layout_width="match_parent"
-    android:paddingTop="10dp"
-    android:paddingLeft="@dimen/espacio_norma_1"
-    android:paddingRight="@dimen/espacio_norma_1"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:layout_height="wrap_content"
     android:background="#ffffff"
     android:paddingBottom="@dimen/espacio_norma_1">
-
-    <GridLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/triangle"
+        android:id="@+id/selector_tab"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/gridLayout5"
+        android:layout_toEndOf="@+id/gridLayout5"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="-128dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:id="@+id/gridLayout5"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/selector_tab"
+        android:layout_marginTop="10dp">
 
         <and.clasificados.com.views.AutoCompleteTextViewLight
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:hint="@string/buscar_prod"
+            android:layout_weight="1"
             android:padding="10dp"
+            android:drawableLeft="@drawable/search"
+            android:layout_marginTop="10dp"
             android:textAlignment="center"
             android:id="@+id/button3"
             android:layout_column="0"
-            android:background="@drawable/rounded_etext"/>
-    </GridLayout>
+            android:background="@drawable/rounded_etext_grey"/>
+    </LinearLayout>
 
     <Spinner
         android:layout_width="match_parent"
@@ -35,6 +51,7 @@
         android:layout_below="@+id/gridLayout5"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
         android:padding="4dp"
         android:background="@drawable/rounded_spinner"/>
 
@@ -49,29 +66,36 @@
         android:background="@drawable/rounded_spinner"/>
 
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/spinnersubfiltro">
+        android:layout_below="@+id/spinnersubfiltro"
+        android:id="@+id/gridLayout6"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:id="@+id/imageView"
-            android:layout_column="0"
-            android:padding="2dp"
+            android:padding="3dp"
             android:background="@drawable/rounded_etext"
-            android:src="@drawable/recharge"/>
+            android:src="@drawable/recharge"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="10"/>
 
         <and.clasificados.com.views.ButtonLight
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/filtro"
             android:id="@+id/f_p"
             android:textColor="#ffffff"
+            android:padding="3dp"
+            android:layout_marginLeft="15dp"
             android:background="@drawable/rounded_button_pressed"
-            android:layout_column="1"/>
-    </GridLayout>
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </RelativeLayout>

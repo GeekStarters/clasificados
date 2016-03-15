@@ -4,50 +4,116 @@
     android:layout_alignParentTop="true"
     android:visibility="gone"
     android:layout_width="match_parent"
-    android:paddingTop="10dp"
-    android:paddingLeft="@dimen/espacio_norma_1"
-    android:paddingRight="@dimen/espacio_norma_1"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:layout_height="wrap_content"
     android:background="#ffffff"
     android:paddingBottom="@dimen/espacio_norma_1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@drawable/triangle"
+        android:id="@+id/selector_tab"
+        android:layout_alignParentTop="true" />
+
+    <RelativeLayout
         android:id="@+id/gridLayout5"
-        android:layout_centerHorizontal="true">
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#fff"
+        android:layout_below="@+id/selector_tab"
+        android:layout_marginTop="10dp">
+        <RelativeLayout
+            android:id="@+id/tabs_todas"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-2dp"
+            android:layout_toLeftOf="@+id/tabs_categoria"
+            android:background="@drawable/radius_left_tabs_selected_2">
 
-        <and.clasificados.com.views.ButtonLight
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/cat1"
-            android:id="@+id/button2"
-            android:padding="4dp"
-            android:textColor="#ffffff"
-            android:background="@drawable/rounded_button_pressed"/>
+            <and.clasificados.com.views.TextViewLight
+                android:id="@+id/tx_tabs_todas"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="1.5dp"
+                android:background="#008AC4"
+                android:gravity="center"
+                android:text="@string/cat1"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#fff"
+                android:textSize="10sp" />
+        </RelativeLayout>
 
-        <and.clasificados.com.views.ButtonLight
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/cat2"
-            android:padding="4dp"
-            android:id="@+id/button"
-            android:textColor="@drawable/state"
-            android:background="@drawable/button_state"
-            />
 
-        <and.clasificados.com.views.ButtonLight
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/cat3"
-            android:padding="4dp"
-            android:id="@+id/button3"
-            android:textColor="@drawable/state"
-            android:background="@drawable/button_state"/>
-    </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/tabs_categoria"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-50dp"
+            android:layout_toLeftOf="@+id/tx_medium"
+            android:background="@drawable/radius_tabs">
+
+            <and.clasificados.com.views.TextViewLight
+                android:id="@+id/tx_tabs_categoria"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="1.5dp"
+                android:gravity="center"
+                android:text="@string/cat2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#008AC4"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tx_medium"
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="45dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RelativeLayout
+            android:id="@+id/tabs_ciudad"
+            android:layout_width="85dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tx_medium"
+            android:layout_toRightOf="@+id/tx_medium"
+            android:background="@drawable/radius_tabs_right">
+
+            <and.clasificados.com.views.TextViewLight
+                android:id="@+id/tx_tabs_ciudad"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="1.5dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:text="@string/cat3"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#008AC4"
+                android:textSize="10sp" />
+        </RelativeLayout>
+    </RelativeLayout>
 
     <Spinner
         android:layout_width="match_parent"
@@ -81,29 +147,36 @@
         android:background="@drawable/rounded_spinner"/>
 
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/spinner_tipo">
+        android:orientation="horizontal"
+        android:layout_below="@+id/spinner_tipo"
+        android:layout_marginTop="8dp"
+        android:id="@+id/linearLayout">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:id="@+id/imageView"
-            android:layout_column="0"
-            android:padding="2dp"
+            android:padding="3dp"
             android:background="@drawable/rounded_etext"
-            android:src="@drawable/recharge"/>
+            android:src="@drawable/recharge"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="10"/>
 
         <and.clasificados.com.views.ButtonLight
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/filtro"
             android:id="@+id/f_v"
             android:textColor="#ffffff"
+            android:padding="3dp"
+            android:layout_marginLeft="15dp"
             android:background="@drawable/rounded_button_pressed"
-            android:layout_column="1"/>
-    </GridLayout>
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </RelativeLayout>
