@@ -2,6 +2,7 @@ package and.clasificados.com.fragmentos;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,7 +41,10 @@ import and.clasificados.com.actividades.Mensajes;
 import and.clasificados.com.actividades.MiCuenta;
 import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.actividades.Single;
+import and.clasificados.com.auxiliares.AdaptadorCategoria;
 import and.clasificados.com.auxiliares.AdaptadorCategorias;
+import and.clasificados.com.auxiliares.Footer;
+import and.clasificados.com.auxiliares.RecyclerViewOnItemClickListener;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
@@ -56,6 +60,7 @@ public class Inicio extends Fragment {
     ImageView plus, vehiculo, producto,edificio, footerL,footerR;
     TextView mensajes, miCuenta;
     Button fV, fP, fI;
+    private boolean hasMore;
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun, spinnerMarca,spinnerModelo,spinnerTipoA, spinnerTipoI;
     private RecyclerView reciclador;
     private RelativeLayout filtro_v, filtro_p, filtro_i, filtros_super;
@@ -65,6 +70,9 @@ public class Inicio extends Fragment {
     ArrayList <String> marca,modelo, tipoA, tipoI,depa,muni, zona, cate, sub;
     private List<Clasificado> resultado;
     private List<Categoria> categoriasLista;
+    private static int current_page = 1;
+    private int ival = 1;
+    private int loadLimit = 10;
 
     public Inicio() {
     }
@@ -75,10 +83,13 @@ public class Inicio extends Fragment {
         final View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         final String strtext = getArguments().getString("auto");
         context = getActivity();
+        hasMore = true;
+        //Fltros 1
         llenarListasSpinner();
         fV = (Button)view.findViewById(R.id.f_v);
         fP=(Button)view.findViewById(R.id.f_p);
         fI=(Button)view.findViewById(R.id.f_i);
+        //Spinners
         spinnerMarca=(Spinner)view.findViewById(R.id.spinner_marca);
         spinnerModelo=(Spinner)view.findViewById(R.id.spinner_modelo);
         spinnerTipoA=(Spinner)view.findViewById(R.id.spinner_tipo);
@@ -89,15 +100,19 @@ public class Inicio extends Fragment {
         spinnerCat = (Spinner)view.findViewById(R.id.spinnercatfiltro);
         spinnerSub = (Spinner)view.findViewById(R.id.spinnersubfiltro);
         cargarSpinners();
+        //Tabs
         vehiculo = (ImageView)view.findViewById(R.id.img_tab);
         producto = (ImageView)view.findViewById(R.id.img_tab3);
         edificio=(ImageView)view.findViewById(R.id.img_tab2);
+        //Footer
         footerL=(ImageView)view.findViewById(R.id.footer_left);
         footerR=(ImageView)view.findViewById(R.id.footer_right);
+        //Filtros 2
         filtros_super= (RelativeLayout)view.findViewById(R.id.filtros);
         filtro_v=(RelativeLayout)view.findViewById(R.id.filtro_vehiculos);
         filtro_p=(RelativeLayout)view.findViewById(R.id.filtro_productos);
         filtro_i=(RelativeLayout)view.findViewById(R.id.filtro_inmuebles);
+
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador_principal);
         layoutManager = new LinearLayoutManager(getActivity());
         reciclador.setLayoutManager(layoutManager);
@@ -381,6 +396,7 @@ public class Inicio extends Fragment {
 
     private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
         Clasificado c;
+        String nextLink;
         String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
 
         public LlenarLista(Activity activity) {
@@ -400,6 +416,9 @@ public class Inicio extends Fragment {
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 JSONObject data  = respJSON.getJSONObject("data");
                 JSONArray results = data.getJSONArray("results");
+                JSONObject page=data.getJSONObject("paging");
+                nextLink=page.getString("getNextLink");
+                hasMore=true;
                 for(int i=0; i<results.length(); i++)
                 {
                     JSONObject ad = results.getJSONObject(i);
@@ -419,7 +438,7 @@ public class Inicio extends Fragment {
             }
             catch(Exception ex)
             {
-                Log.e("ServicioRest","Error!", ex);
+                Log.e("ServicioRest", "Error!", ex);
                 resul=false;
             }
             return resul;
@@ -427,19 +446,120 @@ public class Inicio extends Fragment {
 
         protected void customOnPostExecute(final Boolean result) {
             if (result) {
-                adaptador =  new AdaptadorCategorias(resultado);
-                adaptador.setOnItemClickListener(new AdaptadorCategorias.OnItemClickListener() {
+               reciclador.setAdapter(new AdaptadorCategoria(resultado, new RecyclerViewOnItemClickListener() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        String  single = resultado.get(position).getSingle();
-                        Intent o=new Intent(context,Single.class);
-                        o.putExtra("single",single);
-                        startActivity(o);
+                    public void onClick(View v, int position) {
+                            String  single = resultado.get(position).getSingle();
+                            Intent o=new Intent(context,Single.class);
+                            o.putExtra("single", single);
+                            startActivity(o);
+
+                    }
+                }));
+                reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getActivity()));
+                reciclador.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        if (hasMore && !(hasFooter())) {
+                            LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                            //position starts at 0
+                            if (layoutManager.findLastCompletelyVisibleItemPosition() == layoutManager.getItemCount() - 2) {
+                                NuevaLista asyncTask = new NuevaLista();
+                                asyncTask.execute(nextLink);
+                            }
+                        }
                     }
                 });
-                reciclador.setAdapter(adaptador);
-                reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getActivity()));
+
             }
         }
     }
+
+    private boolean hasFooter() {
+        return resultado.get(resultado.size() - 1) instanceof Footer;
+    }
+
+    private class NuevaLista extends AsyncTask<String, Void, Boolean> {
+        List<Clasificado> resi;
+        Clasificado c;
+        String nextLink;
+        String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
+
+        @Override
+        protected void onPreExecute() {
+            resultado.add(new Footer());
+            reciclador.getAdapter().notifyItemInserted(resultado.size() - 1);
+        }
+
+        @Override
+        protected Boolean doInBackground(String ... params) {
+            boolean resul;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.last+"2");
+            // HttpGet get = new HttpGet(params[0]);
+            get.setHeader("content-type", "application/json");
+            try
+            {
+                Thread.sleep(3000);
+                resi = new ArrayList<>();
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data  = respJSON.getJSONObject("data");
+                try{
+                JSONArray results = data.getJSONArray("results");
+                try{
+                JSONObject page=data.getJSONObject("paging");
+                nextLink=page.getString("getNextLink");
+                hasMore=true;
+                }catch (Exception ex){
+                    Log.e("Paginas", "Error!", ex);
+                    hasMore=false;
+                }
+                for(int i=0; i<results.length(); i++)
+                {
+                    JSONObject ad = results.getJSONObject(i);
+                    System.out.println(ad.toString());
+                    JSONObject info = ad.getJSONObject("info");
+                    titulo=info.getString("title");
+                    precio = info.getString("currencySymbol")+" "+info.getString("price");
+                    categoria = info.getString("subCategoryName");
+                    JSONArray imagen = info.getJSONArray("images");
+                    url_imagen = imagen.getString(0);
+                    vista = ad.getString("singleApiURL");
+                    String slug=info.getString("slug");
+                    c= new Clasificado(precio,categoria,titulo,url_imagen,vista, slug);
+                    resi.add(c);
+                }
+                    resul = true;
+                }catch (Exception er){
+                    Log.e("Paginas", "Error!", er);
+                    hasMore=false;
+                    resul=false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.e("ServicioRest", "Error!", ex);
+                resul=false;
+            }
+            return resul;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(result){
+                int size = resultado.size();
+                resultado.remove(size - 1);//removes footer
+                resultado.addAll(resi);
+                reciclador.getAdapter().notifyItemRangeChanged(size - 1, resultado.size() - size);
+            }else {
+                int size = resultado.size();
+                resultado.remove(size - 1);//removes footer
+            }
+
+        }
+
+    }
+
 }
