@@ -21,12 +21,12 @@ import and.clasificados.com.modelo.Clasificado;
  * Created by Gabriela Mejia on 16/3/2016.
  */
 public class AdaptadorCategoria extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-private List<Clasificado> data;
+private List<Item> data;
     private RecyclerViewOnItemClickListener recyclerViewOnItemClickListener;
 
 private static final int TYPE_CLASIFICADO = 0;
 private static final int TYPE_FOOTER = 1;
-    public AdaptadorCategoria(@NonNull List<Clasificado> data, RecyclerViewOnItemClickListener recyclerViewOnItemClickListener) {
+    public AdaptadorCategoria(@NonNull List<Item> data, RecyclerViewOnItemClickListener recyclerViewOnItemClickListener) {
         this.data = data;
         this.recyclerViewOnItemClickListener = recyclerViewOnItemClickListener;
     }
@@ -105,6 +105,7 @@ public static class ViewHolder extends RecyclerView.ViewHolder
         nombre = (TextView) v.findViewById(R.id.texto_anuncio);
         precio = (TextView) v.findViewById(R.id.precio_anuncio);
         imagen = (ImageView) v.findViewById(R.id.item_imagen);
+        this.recyclerViewOnItemClickListener = recyclerViewOnItemClickListener;
         v.setOnClickListener(this);
     }
 

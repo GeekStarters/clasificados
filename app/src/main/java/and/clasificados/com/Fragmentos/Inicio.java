@@ -44,6 +44,7 @@ import and.clasificados.com.actividades.Single;
 import and.clasificados.com.auxiliares.AdaptadorCategoria;
 import and.clasificados.com.auxiliares.AdaptadorCategorias;
 import and.clasificados.com.auxiliares.Footer;
+import and.clasificados.com.auxiliares.Item;
 import and.clasificados.com.auxiliares.RecyclerViewOnItemClickListener;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
@@ -68,7 +69,8 @@ public class Inicio extends Fragment {
     private AdaptadorCategorias adaptador;
     private Activity context;
     ArrayList <String> marca,modelo, tipoA, tipoI,depa,muni, zona, cate, sub;
-    private List<Clasificado> resultado;
+    private List<Item> resultado;
+    private List<Clasificado> clasificados;
     private List<Categoria> categoriasLista;
     private static int current_page = 1;
     private int ival = 1;
@@ -411,6 +413,7 @@ public class Inicio extends Fragment {
             get.setHeader("content-type", "application/json");
             try
             {
+                clasificados = new ArrayList<>();
                 resultado = new ArrayList<>();
                 HttpResponse resp = httpClient.execute(get);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
@@ -433,6 +436,7 @@ public class Inicio extends Fragment {
                     String slug=info.getString("slug");
                     c= new Clasificado(precio,categoria,titulo,url_imagen,vista, slug);
                     resultado.add(c);
+                    clasificados.add(c);
                 }
                 resul = true;
             }
@@ -449,7 +453,7 @@ public class Inicio extends Fragment {
                reciclador.setAdapter(new AdaptadorCategoria(resultado, new RecyclerViewOnItemClickListener() {
                     @Override
                     public void onClick(View v, int position) {
-                            String  single = resultado.get(position).getSingle();
+                            String  single = clasificados.get(position).getSingle();
                             Intent o=new Intent(context,Single.class);
                             o.putExtra("single", single);
                             startActivity(o);
@@ -481,7 +485,8 @@ public class Inicio extends Fragment {
     }
 
     private class NuevaLista extends AsyncTask<String, Void, Boolean> {
-        List<Clasificado> resi;
+        List<Item> resi;
+        List<Clasificado> residuo;
         Clasificado c;
         String nextLink;
         String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
@@ -501,8 +506,8 @@ public class Inicio extends Fragment {
             get.setHeader("content-type", "application/json");
             try
             {
-                Thread.sleep(3000);
                 resi = new ArrayList<>();
+                residuo = new ArrayList<>();
                 HttpResponse resp = httpClient.execute(get);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 JSONObject data  = respJSON.getJSONObject("data");
@@ -530,6 +535,7 @@ public class Inicio extends Fragment {
                     String slug=info.getString("slug");
                     c= new Clasificado(precio,categoria,titulo,url_imagen,vista, slug);
                     resi.add(c);
+                    residuo.add(c);
                 }
                     resul = true;
                 }catch (Exception er){
@@ -552,6 +558,7 @@ public class Inicio extends Fragment {
                 int size = resultado.size();
                 resultado.remove(size - 1);//removes footer
                 resultado.addAll(resi);
+                clasificados.addAll(residuo);
                 reciclador.getAdapter().notifyItemRangeChanged(size - 1, resultado.size() - size);
             }else {
                 int size = resultado.size();

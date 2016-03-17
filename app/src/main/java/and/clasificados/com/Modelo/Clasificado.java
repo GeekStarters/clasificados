@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import and.clasificados.com.R;
+import and.clasificados.com.auxiliares.Item;
 
 /**
  * Created by Gabriela Mejia on 1/2/2016.
  */
-public class Clasificado {
+public class Clasificado extends Item{
     private String precio;
     private String textoAnuncio;
     private String categoria;
