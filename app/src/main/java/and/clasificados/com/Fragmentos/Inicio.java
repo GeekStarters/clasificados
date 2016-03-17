@@ -76,6 +76,7 @@ public class Inicio extends Fragment {
     private int ival = 1;
     private String url_page;
     private int loadLimit = 10;
+    String nextLink;
 
     public Inicio() {
     }
@@ -133,7 +134,7 @@ public class Inicio extends Fragment {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
-                    case R.id.img_tab:
+                    /*case R.id.img_tab:
                         filtros_super.setVisibility(View.VISIBLE);
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.GONE);
@@ -150,7 +151,7 @@ public class Inicio extends Fragment {
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.VISIBLE);
                         filtro_v.setVisibility(View.GONE);
-                        break;
+                        break;*/
                 }
                 if(strtext.equals("false")||strtext.isEmpty()){
                     switch (v.getId()) {
@@ -399,7 +400,7 @@ public class Inicio extends Fragment {
 
     private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
         Clasificado c;
-        String nextLink;
+
         String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
 
         public LlenarLista(Activity activity) {
@@ -492,7 +493,6 @@ public class Inicio extends Fragment {
         List<Item> resi;
         List<Clasificado> residuo;
         Clasificado c;
-        String nextLink;
         String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
 
         @Override
@@ -506,6 +506,7 @@ public class Inicio extends Fragment {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(url_page+"?p="+params[0]);
+            System.out.println("url "+url_page+"?p="+params[0]);
             get.setHeader("content-type", "application/json");
             try
             {
@@ -518,7 +519,10 @@ public class Inicio extends Fragment {
                 JSONArray results = data.getJSONArray("results");
                 try{
                 JSONObject page=data.getJSONObject("paging");
-                nextLink=page.getString("getNextLink");
+                String auxi=page.getString("getNextLink");
+                String[] split=auxi.split("=");
+                nextLink=split[1];
+
                 hasMore=true;
                 }catch (Exception ex){
                     Log.e("Paginas", "Error!", ex);

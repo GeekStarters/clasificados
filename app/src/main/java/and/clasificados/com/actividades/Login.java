@@ -111,7 +111,7 @@ public class Login extends AppCompatActivity {
                                     user = new Usuario();
                                     user.provider = "facebook";
                                     user.facebookID = object.getString("id").toString();
-                                    user.email = object.getString("email").toString();
+                                    //user.email = object.getString("email").toString();
                                     AutenticarUsuario t = new AutenticarUsuario(context);
                                     t.execute(user.provider, user.facebookID);
                                 } catch (Exception e) {
