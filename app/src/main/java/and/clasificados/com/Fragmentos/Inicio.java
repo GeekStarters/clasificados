@@ -74,6 +74,7 @@ public class Inicio extends Fragment {
     private List<Categoria> categoriasLista;
     private static int current_page = 1;
     private int ival = 1;
+    private String url_page;
     private int loadLimit = 10;
 
     public Inicio() {
@@ -409,6 +410,7 @@ public class Inicio extends Fragment {
                 TimeOutException, IOException, JSONException{
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
+            url_page=Constants.last+params[0];
             HttpGet get = new HttpGet(Constants.last+params[0]);
             get.setHeader("content-type", "application/json");
             try
@@ -420,7 +422,9 @@ public class Inicio extends Fragment {
                 JSONObject data  = respJSON.getJSONObject("data");
                 JSONArray results = data.getJSONArray("results");
                 JSONObject page=data.getJSONObject("paging");
-                nextLink=page.getString("getNextLink");
+                String auxi=page.getString("getNextLink");
+                String[] split=auxi.split("=");
+                nextLink=split[1];
                 hasMore=true;
                 for(int i=0; i<results.length(); i++)
                 {
@@ -501,8 +505,7 @@ public class Inicio extends Fragment {
         protected Boolean doInBackground(String ... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(Constants.last+"2");
-            // HttpGet get = new HttpGet(params[0]);
+            HttpGet get = new HttpGet(url_page+"?p="+params[0]);
             get.setHeader("content-type", "application/json");
             try
             {
