@@ -108,6 +108,8 @@
     <string name="cat6">En Venta</string>
     <string name="select_cat">Debe seleccionar una categoria.</string>
     <string name="select_sub">Debe seleccionar una Subcategoria.</string>
+    <string name="sel">Seleccionar</string>
+    <string name="title_activity_custom_photo_gallery">CustomPhotoGallery</string>
 
 
 </resources>

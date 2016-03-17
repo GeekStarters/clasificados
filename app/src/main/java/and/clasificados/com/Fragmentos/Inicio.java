@@ -36,6 +36,7 @@ import java.util.List;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.R;
+import and.clasificados.com.actividades.Filtro;
 import and.clasificados.com.actividades.Login;
 import and.clasificados.com.actividades.Mensajes;
 import and.clasificados.com.actividades.MiCuenta;
@@ -58,6 +59,8 @@ import and.clasificados.com.services.AppAsynchTask;
  * Created by Gabriela Mejia on 1/2/2016.
  */
 public class Inicio extends Fragment {
+    private static final int SINGLE = 2404 ;
+    private static final int FILTRO = 3452;
     ImageView plus, vehiculo, producto,edificio, footerL,footerR;
     TextView mensajes, miCuenta;
     Button fV, fP, fI;
@@ -133,8 +136,9 @@ public class Inicio extends Fragment {
         View.OnClickListener onclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent a = new Intent(context, Filtro.class);
                 switch (v.getId()){
-                    /*case R.id.img_tab:
+                    case R.id.img_tab:
                         filtros_super.setVisibility(View.VISIBLE);
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.GONE);
@@ -151,7 +155,34 @@ public class Inicio extends Fragment {
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.VISIBLE);
                         filtro_v.setVisibility(View.GONE);
-                        break;*/
+                        break;
+                    case R.id.f_v:
+                        filtro_i.setVisibility(View.GONE);
+                        filtro_p.setVisibility(View.GONE);
+                        filtro_v.setVisibility(View.GONE);
+                        filtros_super.setVisibility(View.GONE);
+                        a.putExtra("lista", "1");
+                        a.putExtra("title", "Ultimos Vehiculos");
+                        context.startActivityForResult(a, FILTRO);
+                        break;
+                    case R.id.f_i:
+                        filtro_i.setVisibility(View.GONE);
+                        filtro_p.setVisibility(View.GONE);
+                        filtro_v.setVisibility(View.GONE);
+                        filtros_super.setVisibility(View.GONE);
+                        a.putExtra("lista", "3");
+                        a.putExtra("title", "Ultimos Inmuebles");
+                        context.startActivityForResult(a, FILTRO);
+                        break;
+                    case R.id.f_p:
+                        filtro_i.setVisibility(View.GONE);
+                        filtro_p.setVisibility(View.GONE);
+                        filtro_v.setVisibility(View.GONE);
+                        filtros_super.setVisibility(View.GONE);
+                        a.putExtra("lista", "2");
+                        a.putExtra("title", "Ultimos Productos");
+                        context.startActivityForResult(a, FILTRO);
+                        break;
                 }
                 if(strtext.equals("false")||strtext.isEmpty()){
                     switch (v.getId()) {
@@ -170,27 +201,6 @@ public class Inicio extends Fragment {
                         case R.id.footer_right:
                             transicion();
                             break;
-                        case R.id.f_v:
-                            filtro_i.setVisibility(View.GONE);
-                            filtro_p.setVisibility(View.GONE);
-                            filtro_v.setVisibility(View.GONE);
-                            filtros_super.setVisibility(View.GONE);
-                            new LlenarLista(context).execute("1");
-                            break;
-                        case R.id.f_i:
-                            filtro_i.setVisibility(View.GONE);
-                            filtro_p.setVisibility(View.GONE);
-                            filtro_v.setVisibility(View.GONE);
-                            filtros_super.setVisibility(View.GONE);
-                            new LlenarLista(context).execute("3");
-                            break;
-                        case R.id.f_p:
-                            filtro_i.setVisibility(View.GONE);
-                            filtro_p.setVisibility(View.GONE);
-                            filtro_v.setVisibility(View.GONE);
-                            filtros_super.setVisibility(View.GONE);
-                            new LlenarLista(context).execute("2");
-                            break;
                     }
                 }else{
                     switch (v.getId()) {
@@ -208,27 +218,6 @@ public class Inicio extends Fragment {
                             break;
                         case R.id.footer_right:
                             startActivity(new Intent(getContext(), Mensajes.class));
-                            break;
-                        case R.id.f_v:
-                            filtro_i.setVisibility(View.GONE);
-                            filtro_p.setVisibility(View.GONE);
-                            filtro_v.setVisibility(View.GONE);
-                            filtros_super.setVisibility(View.GONE);
-                            new LlenarLista(context).execute("1");
-                            break;
-                        case R.id.f_i:
-                            filtro_i.setVisibility(View.GONE);
-                            filtro_p.setVisibility(View.GONE);
-                            filtro_v.setVisibility(View.GONE);
-                            filtros_super.setVisibility(View.GONE);
-                            new LlenarLista(context).execute("3");
-                            break;
-                        case R.id.f_p:
-                            filtro_i.setVisibility(View.GONE);
-                            filtro_p.setVisibility(View.GONE);
-                            filtro_v.setVisibility(View.GONE);
-                            filtros_super.setVisibility(View.GONE);
-                            new LlenarLista(context).execute("2");
                             break;
                     }
                 }
@@ -250,31 +239,31 @@ public class Inicio extends Fragment {
     }
 
     private void cargarSpinners() {
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, marca);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, marca);
         spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerMarca.setAdapter(spinnerAdapter);
-        ArrayAdapter<String> spinnerAdapter2 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, modelo);
+        ArrayAdapter<String> spinnerAdapter2 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, modelo);
         spinnerAdapter2.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerModelo.setAdapter(spinnerAdapter2);
-        ArrayAdapter<String> spinnerAdapter3 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, tipoA);
+        ArrayAdapter<String> spinnerAdapter3 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, tipoA);
         spinnerAdapter3.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerTipoA.setAdapter(spinnerAdapter3);
-        ArrayAdapter<String> spinnerAdapter4 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, tipoI);
+        ArrayAdapter<String> spinnerAdapter4 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, tipoI);
         spinnerAdapter4.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerTipoI.setAdapter(spinnerAdapter4);
-        ArrayAdapter<String> spinnerAdapter5 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, depa);
+        ArrayAdapter<String> spinnerAdapter5 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, depa);
         spinnerAdapter5.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerLoc.setAdapter(spinnerAdapter5);
-        ArrayAdapter<String> spinnerAdapter6 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, muni);
+        ArrayAdapter<String> spinnerAdapter6 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, muni);
         spinnerAdapter6.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerMun.setAdapter(spinnerAdapter6);
-        ArrayAdapter<String> spinnerAdapter7 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, zona);
+        ArrayAdapter<String> spinnerAdapter7 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, zona);
         spinnerAdapter7.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerZona.setAdapter(spinnerAdapter7);
-        ArrayAdapter<String> spinnerAdapter8 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, cate);
+        ArrayAdapter<String> spinnerAdapter8 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, cate);
         spinnerAdapter8.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerCat.setAdapter(spinnerAdapter8);
-        ArrayAdapter<String> spinnerAdapter9 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, sub);
+        ArrayAdapter<String> spinnerAdapter9 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, sub);
         spinnerAdapter9.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerSub.setAdapter(spinnerAdapter9);
     }
@@ -459,9 +448,11 @@ public class Inicio extends Fragment {
                     @Override
                     public void onClick(View v, int position) {
                             String  single = clasificados.get(position).getSingle();
+                            String pos=""+position;
                             Intent o=new Intent(context,Single.class);
                             o.putExtra("single", single);
-                            startActivity(o);
+                            o.putExtra("posicion",pos);
+                            context.startActivityForResult(o, SINGLE);
 
                     }
                 }));
@@ -576,4 +567,24 @@ public class Inicio extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == context.RESULT_OK && requestCode == SINGLE) {
+            if(data!=null) {
+                String value = data.getStringExtra("posicion");
+                int p=Integer.parseInt(value);
+                layoutManager.scrollToPositionWithOffset(p,30);
+            }
+        }
+        if(resultCode == context.RESULT_OK && requestCode == FILTRO) {
+            if(data!=null) {
+                //No se que hara xd
+
+                /*String value = data.getStringExtra("posicion");
+                int p=Integer.parseInt(value);
+                layoutManager.scrollToPositionWithOffset(p,30);*/
+            }
+        }
+    }
 }

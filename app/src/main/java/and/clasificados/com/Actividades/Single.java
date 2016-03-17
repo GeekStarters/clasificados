@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,7 +64,7 @@ public class Single extends AppCompatActivity {
     private ArrayList<String> ImagesArray;
     ImageView contactar, ofertar,  tw,fb,wha, msg, sha;
     TextView reportar;
-    String url = null;
+    String url = null, posicion=null;
     Activity context;
     TextView tit, pre, descr;
     GoogleMap mapa;
@@ -84,6 +85,7 @@ public class Single extends AppCompatActivity {
         login_user= PrefUtils.getCurrentUser(Single.this);
         Intent i = getIntent();
         url = i.getStringExtra("single");
+        posicion=i.getStringExtra("posicion");
         tit = (TextView) findViewById(R.id.texto_anuncio);
         descr= (TextView)findViewById(R.id.texto_descripcion);
         pre=(TextView)findViewById(R.id.texto_precio);
@@ -212,7 +214,7 @@ public class Single extends AppCompatActivity {
 
     private void init() {
         mPager = (ViewPager) findViewById(R.id.pager_imagen);
-        mPager.setAdapter(new SlidingImageAdapter(Single.this,ImagesArray));
+        mPager.setAdapter(new SlidingImageAdapter(Single.this, ImagesArray));
         CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
         final float density = getResources().getDisplayMetrics().density;
@@ -221,10 +223,12 @@ public class Single extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
             }
+
             @Override
             public void onPageScrolled(int pos, float arg1, int arg2) {
 
             }
+
             @Override
             public void onPageScrollStateChanged(int pos) {
 
@@ -244,6 +248,19 @@ public class Single extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent intent= new Intent();
+                intent.putExtra("posicion", posicion);
+                setResult(RESULT_OK, intent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override

@@ -274,7 +274,7 @@
                     android:src="@drawable/delete_photo"/>
             </RelativeLayout>
 
-            <GridLayout
+          <!--  <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:columnCount="6"
@@ -330,8 +330,22 @@
                     android:id="@+id/anuncio6"
                     android:layout_row="1"
                     android:layout_column="4"/>
-            </GridLayout>
+            </GridLayout> -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:id="@+id/galeria_imagenes"
+                >
 
+                <LinearLayout
+                    android:id="@+id/lnrImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </ScrollView>
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.5dp"

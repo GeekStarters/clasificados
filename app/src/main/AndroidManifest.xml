@@ -86,6 +86,14 @@
                 android:value="and.clasificados.com.MainActivity" />
         </activity>
         <activity
+            android:name=".actividades.Filtro"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="and.clasificados.com.MainActivity" />
+        </activity>
+        <activity
             android:name=".actividades.Single"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity">
@@ -188,6 +196,10 @@
         <activity
             android:name=".actividades.Modificar"
             android:label="@string/title_activity_modificar"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".auxiliares.CustomPhotoGallery"
+            android:label="@string/title_activity_custom_photo_gallery"
             android:theme="@style/AppTheme"></activity>
     </application>
 

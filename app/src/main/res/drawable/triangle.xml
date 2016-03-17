@@ -6,11 +6,11 @@
             android:fromDegrees="-45"
             android:toDegrees="-45"
             android:pivotX="-80%"
-            android:pivotY="-20%"
-            >
+            android:pivotY="-20%">
             <shape android:shape="rectangle" >
-
+                <stroke android:color="@android:color/transparent"/>
                 <solid android:color="@color/colorPrimary" />
+                <stroke android:width="1dip" android:color="@android:color/transparent" />
             </shape>
         </rotate>
     </item>
