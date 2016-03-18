@@ -26,17 +26,17 @@
         android:layout_below="@+id/selector_tab"
         android:layout_marginTop="10dp">
         <RelativeLayout
-            android:id="@+id/tabs_todas"
+            android:id="@+id/tabs_marca"
             android:layout_width="85dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="-2dp"
-            android:layout_toLeftOf="@+id/tabs_categoria"
+            android:layout_toLeftOf="@+id/tabs_modelo"
             android:background="@drawable/radius_left_tabs_selected_2">
 
             <and.clasificados.com.views.TextViewLight
-                android:id="@+id/tx_tabs_todas"
+                android:id="@+id/tab_marca"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="1dp"
@@ -53,7 +53,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/tabs_categoria"
+            android:id="@+id/tabs_modelo"
             android:layout_width="85dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
@@ -63,7 +63,7 @@
             android:background="@drawable/radius_tabs">
 
             <and.clasificados.com.views.TextViewLight
-                android:id="@+id/tx_tabs_categoria"
+                android:id="@+id/tab_modelo"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="1dp"
@@ -88,7 +88,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <RelativeLayout
-            android:id="@+id/tabs_ciudad"
+            android:id="@+id/tabs_nuevo"
             android:layout_width="85dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
@@ -98,7 +98,7 @@
             android:background="@drawable/radius_tabs_right">
 
             <and.clasificados.com.views.TextViewLight
-                android:id="@+id/tx_tabs_ciudad"
+                android:id="@+id/tab_nuevo"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="1dp"
@@ -122,7 +122,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="4dp"
-        android:background="@drawable/rounded_spinner"/>
+        android:background="@drawable/border_spinner"/>
 
 
     <Spinner
@@ -132,7 +132,7 @@
         android:id="@+id/spinner_modelo"
         android:layout_below="@+id/spinner_marca"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded_spinner"/>
+        android:background="@drawable/border_spinner"/>
 
 
     <Spinner
@@ -143,7 +143,7 @@
         android:layout_below="@+id/spinner_modelo"
         android:layout_alignRight="@+id/spinner_modelo"
         android:layout_alignEnd="@+id/spinner_modelo"
-        android:background="@drawable/rounded_spinner"/>
+        android:background="@drawable/border_spinner"/>
 
 
     <LinearLayout

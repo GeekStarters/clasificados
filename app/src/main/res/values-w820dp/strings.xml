@@ -110,6 +110,8 @@
     <string name="select_cat">Debe seleccionar una categoria.</string>
     <string name="select_sub">Debe seleccionar una Subcategoria.</string>
     <string name="sel">Seleccionar</string>
+    <string name="sele_del">Debe seleccionar al menos una foto para eliminar</string>
+    <string name="no_foto">No hay fotos a eliminar</string>
 
 
 </resources>

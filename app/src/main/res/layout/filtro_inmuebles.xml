@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/filtro_inmuebles"
     android:layout_alignParentTop="true"
-    android:visibility="visible"
+    android:visibility="gone"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
@@ -27,17 +27,17 @@
         android:layout_below="@id/selector_tab"
         android:layout_centerHorizontal="true">
         <RelativeLayout
-            android:id="@+id/tabs_todas"
+            android:id="@+id/tabs_alquiler"
             android:layout_width="85dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="-2dp"
-            android:layout_toLeftOf="@+id/tabs_categoria"
+            android:layout_toLeftOf="@+id/tabs_proy"
             android:background="@drawable/radius_left_tabs_selected_2">
 
             <and.clasificados.com.views.TextViewLight
-                android:id="@+id/tx_tabs_todas"
+                android:id="@+id/tab_alquiler"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="1dp"
@@ -54,7 +54,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/tabs_categoria"
+            android:id="@+id/tabs_proy"
             android:layout_width="85dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
@@ -64,7 +64,7 @@
             android:background="@drawable/radius_tabs">
 
             <and.clasificados.com.views.TextViewLight
-                android:id="@+id/tx_tabs_categoria"
+                android:id="@+id/tab_proy"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="1dp"
@@ -89,7 +89,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <RelativeLayout
-            android:id="@+id/tabs_ciudad"
+            android:id="@+id/tabs_venta"
             android:layout_width="85dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
@@ -99,7 +99,7 @@
             android:background="@drawable/radius_tabs_right">
 
             <and.clasificados.com.views.TextViewLight
-                android:id="@+id/tx_tabs_ciudad"
+                android:id="@+id/tab_venta"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="1dp"
@@ -123,7 +123,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="4dp"
-        android:background="@drawable/rounded_spinner"/>
+        android:background="@drawable/border_spinner"/>
 
 
     <Spinner
@@ -133,7 +133,7 @@
         android:id="@+id/spinner4"
         android:layout_below="@+id/spinner3"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded_spinner"/>
+        android:background="@drawable/border_spinner"/>
 
 
 
@@ -145,7 +145,7 @@
         android:layout_below="@+id/spinner4"
         android:layout_alignRight="@+id/spinner4"
         android:layout_alignEnd="@+id/spinner4"
-        android:background="@drawable/rounded_spinner"/>
+        android:background="@drawable/border_spinner"/>
 
 
     <Spinner
@@ -156,7 +156,7 @@
         android:layout_below="@+id/spinner5"
         android:layout_alignRight="@+id/spinner5"
         android:layout_alignEnd="@+id/spinner5"
-        android:background="@drawable/rounded_spinner"/>
+        android:background="@drawable/border_spinner"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

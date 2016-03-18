@@ -3,14 +3,17 @@ package and.clasificados.com.actividades;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -65,6 +68,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -112,6 +117,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     boolean esInmueble=false;
     TextView contador;
     int num=0;
+    CheckBox f1, f2, f3, f4, f5, f6;
     final int GALERIA = 655;
     final int FOTOGRAFIA = 654;
     private static final int REQUEST_LIST_SIMPLE= 11;
@@ -128,12 +134,26 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         login_user= PrefUtils.getCurrentUser(Publicar.this);
         auto = login_user.auto;
         context=this;
+        //CheckBox
+        f1 = (CheckBox)findViewById(R.id.checkBox1);
+        f2 = (CheckBox)findViewById(R.id.checkBox2);
+        f3 = (CheckBox)findViewById(R.id.checkBox3);
+        f4 = (CheckBox)findViewById(R.id.checkBox4);
+        f5 = (CheckBox)findViewById(R.id.checkBox5);
+        f6 = (CheckBox)findViewById(R.id.checkBox6);
+        //Spinnners
         spinnerCat = (Spinner) findViewById(R.id.spinner_categoria);
         spinnerSub = (Spinner) findViewById(R.id.spinner_subcat);
         spinnerLoc = (Spinner) findViewById(R.id.spinner_location);
         spinnerMun = (Spinner) findViewById(R.id.spinner_municipio);
         spinnerZona = (Spinner) findViewById(R.id.spinner_zona);
         title = (EditTextLight)findViewById(R.id.titulo);
+        f1.setVisibility(View.GONE);
+        f2.setVisibility(View.GONE);
+        f3.setVisibility(View.GONE);
+        f4.setVisibility(View.GONE);
+        f5.setVisibility(View.GONE);
+        f6.setVisibility(View.GONE);
         costo = (EditTextLight)findViewById(R.id.costo);
         descr = (EditTextLight)findViewById(R.id.descripcion);
         tomarFoto = (ImageView) findViewById(R.id.camera);
@@ -209,16 +229,17 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         startActivityForResult(intent,GALERIA);
                         break;
                     case R.id.delete:
+                        deleteImages();
         //                grid.setVisibility(View.GONE);
-                        galeria1.setImageResource(R.drawable.blanco);
+                       /* galeria1.setImageResource(R.drawable.blanco);
                         galeria2.setImageResource(R.drawable.blanco);
                         galeria3.setImageResource(R.drawable.blanco);
                         galeria4.setImageResource(R.drawable.blanco);
                         galeria5.setImageResource(R.drawable.blanco);
                         galeria6.setImageResource(R.drawable.blanco);
                         name.clear();
-                        num=0;
-                        contador.setText(getString(R.string.fotografia));
+                        num=0;*/
+                      //  contador.setText(getString(R.string.fotografia));
                         break;
 
                 }
@@ -253,6 +274,21 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         file=Uri.fromFile(f);
     }
 
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -263,6 +299,388 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
             } else {
                 Toast.makeText(getApplicationContext(), "PERMISSION_DENIED", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void deleteImages(){
+        List<String> aux=new ArrayList<>();
+        if(!name.isEmpty()||num==0){
+            if(f1.isChecked() || f2.isChecked() || f3.isChecked() ||f4.isChecked()||f5.isChecked()||f6.isChecked()){
+                switch (num){
+                    case 1:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        break;
+                    case 2:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        break;
+                    case 3:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        break;
+                    case 4:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        if (!f4.isChecked()) {
+                            aux.add(name.get(3));
+                        }
+                        break;
+                    case 5:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        if (!f4.isChecked()) {
+                            aux.add(name.get(3));
+                        }
+                        if (!f5.isChecked()) {
+                            aux.add(name.get(4));
+                        }
+                        break;
+                    case 6:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        if (!f4.isChecked()) {
+                            aux.add(name.get(3));
+                        }
+                        if (!f5.isChecked()) {
+                            aux.add(name.get(4));
+                        }
+                        if (!f6.isChecked()) {
+                            aux.add(name.get(5));
+                        }
+                        break;
+                }
+                name.clear();
+                name.addAll(aux);
+                loadImages(name);
+            }else{
+                showAlertDialogCheck();
+            }
+        }else{
+            showAlertDialogImage();
+        }
+    }
+
+    private void loadImages(ArrayList name){
+        num=name.size();
+        if(num!=0){
+            contador.setText(num+" "+getString(R.string.fotografias));
+        }else{
+            contador.setText(getString(R.string.fotografia));
+        }
+        switch(num){
+            case 0:
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f1.setVisibility(View.GONE);
+                f2.setVisibility(View.GONE);
+                f3.setVisibility(View.GONE);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 1:
+                File file=new File(name.get(0).toString());
+                Uri uri=Uri.fromFile(file);
+                Picasso.with(getApplicationContext())
+                        .load(uri)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f2.setVisibility(View.GONE);
+                f3.setVisibility(View.GONE);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 2:
+                File fileA=new File(name.get(0).toString());
+                Uri uriA=Uri.fromFile(fileA);
+                Picasso.with(getApplicationContext())
+                        .load(uriA)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileB=new File(name.get(1).toString());
+                Uri uriB=Uri.fromFile(fileB);
+                Picasso.with(getApplicationContext())
+                        .load(uriB)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f3.setVisibility(View.GONE);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 3:
+                File fileC=new File(name.get(0).toString());
+                Uri uriC=Uri.fromFile(fileC);
+                Picasso.with(getApplicationContext())
+                        .load(uriC)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileD=new File(name.get(1).toString());
+                Uri uriD=Uri.fromFile(fileD);
+                Picasso.with(getApplicationContext())
+                        .load(uriD)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                File fileE=new File(name.get(2).toString());
+                Uri uriE=Uri.fromFile(fileE);
+                Picasso.with(getApplicationContext())
+                        .load(uriE)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 4:
+                File fileF=new File(name.get(0).toString());
+                Uri uriF=Uri.fromFile(fileF);
+                Picasso.with(getApplicationContext())
+                        .load(uriF)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileG=new File(name.get(1).toString());
+                Uri uriG=Uri.fromFile(fileG);
+                Picasso.with(getApplicationContext())
+                        .load(uriG)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                File fileH=new File(name.get(2).toString());
+                Uri uriH=Uri.fromFile(fileH);
+                Picasso.with(getApplicationContext())
+                        .load(uriH)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                File fileI=new File(name.get(3).toString());
+                Uri uriI=Uri.fromFile(fileI);
+                Picasso.with(getApplicationContext())
+                        .load(uriI)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 5:
+                File fileJ=new File(name.get(0).toString());
+                Uri uriJ=Uri.fromFile(fileJ);
+                Picasso.with(getApplicationContext())
+                        .load(uriJ)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileK=new File(name.get(1).toString());
+                Uri uriK=Uri.fromFile(fileK);
+                Picasso.with(getApplicationContext())
+                        .load(uriK)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                File fileL=new File(name.get(2).toString());
+                Uri uriL=Uri.fromFile(fileL);
+                Picasso.with(getApplicationContext())
+                        .load(uriL)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                File fileM=new File(name.get(3).toString());
+                Uri uriM=Uri.fromFile(fileM);
+                Picasso.with(getApplicationContext())
+                        .load(uriM)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                File fileN=new File(name.get(4).toString());
+                Uri uriN=Uri.fromFile(fileN);
+                Picasso.with(getApplicationContext())
+                        .load(uriN)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
         }
     }
 
@@ -325,6 +743,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .fit()
                                 .into(galeria1);
                         num=num+1;
+                        f1.setVisibility(View.VISIBLE);
                         contador.setText(num+" "+getString(R.string.fotografia));
                         break;
                     case 1:
@@ -334,6 +753,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .fit()
                                 .into(galeria2);
                         num=num+1;
+                        f2.setVisibility(View.VISIBLE);
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 2:
@@ -343,6 +763,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .fit()
                                 .into(galeria3);
                         num=num+1;
+                        f3.setVisibility(View.VISIBLE);
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 3:
@@ -353,6 +774,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .into(galeria4);
                         num=num+1;
                         contador.setText(num+" "+getString(R.string.fotografias));
+                        f4.setVisibility(View.VISIBLE);
                         break;
                     case 4:
                         Picasso.with(getApplicationContext())
@@ -361,6 +783,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .fit()
                                 .into(galeria5);
                         num=num+1;
+                        f5.setVisibility(View.VISIBLE);
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                     case 5:
@@ -370,12 +793,14 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                 .fit()
                                 .into(galeria6);
                         num=num+1;
+                        f6.setVisibility(View.VISIBLE);
                         contador.setText(num+" "+getString(R.string.fotografias));
                         break;
                 }
             } else if(RequestCode==GALERIA && ResultCode == RESULT_OK){
                 Uri selectedImage = intent.getData();
-                name.add(selectedImage.getPath());
+                File f=new File(selectedImage.getPath());
+                name.add(getRealPathFromURI(context,selectedImage));
             switch (num){
                         case 0:
             //                grid.setVisibility(View.VISIBLE);
@@ -385,6 +810,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                     .fit()
                                     .into(galeria1);
                             num=num+1;
+                            f1.setVisibility(View.VISIBLE);
                             contador.setText(num+" "+getString(R.string.fotografia));
                             break;
                         case 1:
@@ -394,6 +820,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                     .fit()
                                     .into(galeria2);
                             num=num+1;
+                            f2.setVisibility(View.VISIBLE);
                             contador.setText(num+" "+getString(R.string.fotografias));
                             break;
                         case 2:
@@ -403,6 +830,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                     .fit()
                                     .into(galeria3);
                             num=num+1;
+                            f3.setVisibility(View.VISIBLE);
                             contador.setText(num+" "+getString(R.string.fotografias));
                             break;
                         case 3:
@@ -413,6 +841,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                     .into(galeria4);
                             num=num+1;
                             contador.setText(num+" "+getString(R.string.fotografias));
+                            f4.setVisibility(View.VISIBLE);
                             break;
                         case 4:
                             Picasso.with(getApplicationContext())
@@ -421,6 +850,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                     .fit()
                                     .into(galeria5);
                             num=num+1;
+                            f5.setVisibility(View.VISIBLE);
                             contador.setText(num+" "+getString(R.string.fotografias));
                             break;
                         case 5:
@@ -430,6 +860,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                                     .fit()
                                     .into(galeria6);
                             num=num+1;
+                            f6.setVisibility(View.VISIBLE);
                             contador.setText(num+" "+getString(R.string.fotografias));
                             break;
                     }
@@ -909,6 +1340,36 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     protected void showAlertDialogS() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage(getString(R.string.select_sub));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    protected void showAlertDialogCheck() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.sele_del));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    protected void showAlertDialogImage() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.no_foto));
         builder1.setCancelable(false);
         builder1.setPositiveButton(
                 getString(R.string.aceptar),

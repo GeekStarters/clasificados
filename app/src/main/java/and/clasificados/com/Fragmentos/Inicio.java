@@ -2,6 +2,8 @@ package and.clasificados.com.fragmentos;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,12 +64,12 @@ public class Inicio extends Fragment {
     private static final int SINGLE = 2404 ;
     private static final int FILTRO = 3452;
     ImageView plus, vehiculo, producto,edificio, footerL,footerR;
-    TextView mensajes, miCuenta;
+    TextView mensajes, miCuenta, btn1,btn2,btn3, btn4,btn5,btn6;
     Button fV, fP, fI;
     private boolean hasMore;
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun, spinnerMarca,spinnerModelo,spinnerTipoA, spinnerTipoI;
     private RecyclerView reciclador;
-    private RelativeLayout filtro_v, filtro_p, filtro_i, filtros_super;
+    private RelativeLayout filtro_v, filtro_p, filtro_i, filtros_super, rel1,rel2,rel3, rel4,rel5,rel6;
     private LinearLayoutManager layoutManager;
     private AdaptadorCategorias adaptador;
     private Activity context;
@@ -119,6 +121,18 @@ public class Inicio extends Fragment {
         filtro_v=(RelativeLayout)view.findViewById(R.id.filtro_vehiculos);
         filtro_p=(RelativeLayout)view.findViewById(R.id.filtro_productos);
         filtro_i=(RelativeLayout)view.findViewById(R.id.filtro_inmuebles);
+        btn1 = (TextView)view.findViewById(R.id.tab_marca);
+        btn2 = (TextView)view.findViewById(R.id.tab_modelo);
+        btn3 = (TextView)view.findViewById(R.id.tab_nuevo);
+        rel1=(RelativeLayout)view.findViewById(R.id.tabs_marca);
+        rel2=(RelativeLayout)view.findViewById(R.id.tabs_modelo);
+        rel3=(RelativeLayout)view.findViewById(R.id.tabs_nuevo);
+        btn4 = (TextView)view.findViewById(R.id.tab_alquiler);
+        btn5 = (TextView)view.findViewById(R.id.tab_proy);
+        btn6 = (TextView)view.findViewById(R.id.tab_venta);
+        rel4=(RelativeLayout)view.findViewById(R.id.tabs_alquiler);
+        rel5=(RelativeLayout)view.findViewById(R.id.tabs_proy);
+        rel6=(RelativeLayout)view.findViewById(R.id.tabs_venta);
 
         reciclador = (RecyclerView) view.findViewById(R.id.reciclador_principal);
         layoutManager = new LinearLayoutManager(getActivity());
@@ -183,6 +197,73 @@ public class Inicio extends Fragment {
                         a.putExtra("title", "Ultimos Productos");
                         context.startActivityForResult(a, FILTRO);
                         break;
+                    case R.id.tab_nuevo:
+                        rel1.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_no));
+                        rel2.setBackground(getResources().getDrawable(R.drawable.radius_tabs));
+                        rel3.setBackground(getResources().getDrawable(R.drawable.radius_tabs_right_no));
+                        btn1.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn2.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn3.setBackgroundColor(getResources().getColor(R.color.tab_blue));
+                        btn1.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn2.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn3.setTextColor(getResources().getColor(R.color.white));
+                        break;
+                    case R.id.tab_marca:
+                        rel1.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_selected_2));
+                        rel2.setBackground(getResources().getDrawable(R.drawable.radius_tabs));
+                        rel3.setBackground(getResources().getDrawable(R.drawable.radius_tabs_right));
+                        btn3.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn2.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn1.setBackgroundColor(getResources().getColor(R.color.tab_blue));
+                        btn3.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn2.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn1.setTextColor(getResources().getColor(R.color.white));
+                        break;
+                    case R.id.tab_modelo:
+                        rel1.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_no));
+                        rel2.setBackground(getResources().getDrawable(R.drawable.radius_tabs_no));
+                        rel3.setBackground(getResources().getDrawable(R.drawable.radius_tabs_right));
+                        btn1.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn3.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn2.setBackgroundColor(getResources().getColor(R.color.tab_blue));
+                        btn1.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn3.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn2.setTextColor(getResources().getColor(R.color.white));
+                        break;
+                    case R.id.tab_alquiler:
+                        rel4.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_selected_2));
+                        rel5.setBackground(getResources().getDrawable(R.drawable.radius_tabs));
+                        rel6.setBackground(getResources().getDrawable(R.drawable.radius_tabs_right));
+                        btn6.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn5.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn4.setBackgroundColor(getResources().getColor(R.color.tab_blue));
+                        btn6.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn5.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn4.setTextColor(getResources().getColor(R.color.white));
+                        break;
+                    case R.id.tab_proy:
+                        rel4.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_no));
+                        rel5.setBackground(getResources().getDrawable(R.drawable.radius_tabs_no));
+                        rel6.setBackground(getResources().getDrawable(R.drawable.radius_tabs_right));
+                        btn4.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn6.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn5.setBackgroundColor(getResources().getColor(R.color.tab_blue));
+                        btn4.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn6.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn5.setTextColor(getResources().getColor(R.color.white));
+                        break;
+                    case R.id.tab_venta:
+                        rel4.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_no));
+                        rel5.setBackground(getResources().getDrawable(R.drawable.radius_tabs));
+                        rel6.setBackground(getResources().getDrawable(R.drawable.radius_tabs_right_no));
+                        btn4.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn5.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn6.setBackgroundColor(getResources().getColor(R.color.tab_blue));
+                        btn4.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn5.setTextColor(getResources().getColor(R.color.tab_blue));
+                        btn6.setTextColor(getResources().getColor(R.color.white));
+                        break;
+
                 }
                 if(strtext.equals("false")||strtext.isEmpty()){
                     switch (v.getId()) {
@@ -234,6 +315,12 @@ public class Inicio extends Fragment {
         fI.setOnClickListener(onclick);
         fV.setOnClickListener(onclick);
         fP.setOnClickListener(onclick);
+        btn1.setOnClickListener(onclick);
+        btn2.setOnClickListener(onclick);
+        btn3.setOnClickListener(onclick);
+        btn4.setOnClickListener(onclick);
+        btn5.setOnClickListener(onclick);
+        btn6.setOnClickListener(onclick);
 
         return view;
     }
