@@ -112,6 +112,7 @@
     <string name="title_activity_custom_photo_gallery">CustomPhotoGallery</string>
     <string name="sele_del">Debe seleccionar al menos una foto para eliminar</string>
     <string name="no_foto">No hay fotos a eliminar</string>
+    <string name="title_activity_mi_mensaje">MiMensaje</string>
 
 
 </resources>
