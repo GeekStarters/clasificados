@@ -302,17 +302,20 @@
                      android:layout_width="100dp"
                      android:layout_height="100dp"
                      android:id="@+id/anuncio4"
+                     android:layout_marginTop="10dp"
                      android:layout_below="@+id/anuncio1"/>
                  <ImageView
                      android:layout_width="100dp"
                      android:layout_height="100dp"
                      android:id="@+id/anuncio5"
+                     android:layout_marginTop="10dp"
                      android:layout_centerHorizontal="true"
                      android:layout_below="@+id/anuncio2"/>
                  <ImageView
                      android:layout_width="100dp"
                      android:layout_height="100dp"
                      android:id="@+id/anuncio6"
+                     android:layout_marginTop="10dp"
                      android:layout_below="@+id/anuncio3"
                      android:layout_alignParentRight="true"
                      android:layout_alignParentEnd="true"/>

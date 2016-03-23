@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -66,10 +67,11 @@ public class Inicio extends Fragment {
     ImageView plus, vehiculo, producto,edificio, footerL,footerR;
     TextView mensajes, miCuenta, btn1,btn2,btn3, btn4,btn5,btn6;
     Button fV, fP, fI;
-    private boolean hasMore;
+    private boolean hasMore, click, click2,click3;
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun, spinnerMarca,spinnerModelo,spinnerTipoA, spinnerTipoI;
     private RecyclerView reciclador;
-    private RelativeLayout filtro_v, filtro_p, filtro_i, filtros_super, rel1,rel2,rel3, rel4,rel5,rel6;
+    private FrameLayout filtro_v, filtro_p, filtro_i;
+    private RelativeLayout filtros_super, rel1,rel2,rel3, rel4,rel5,rel6;
     private LinearLayoutManager layoutManager;
     private AdaptadorCategorias adaptador;
     private Activity context;
@@ -92,6 +94,9 @@ public class Inicio extends Fragment {
         final View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         final String strtext = getArguments().getString("auto");
         context = getActivity();
+        click=false;
+        click2=false;
+        click3=false;
         hasMore = true;
         //Fltros 1
         llenarListasSpinner();
@@ -118,9 +123,9 @@ public class Inicio extends Fragment {
         footerR=(ImageView)view.findViewById(R.id.footer_right);
         //Filtros 2
         filtros_super= (RelativeLayout)view.findViewById(R.id.filtros);
-        filtro_v=(RelativeLayout)view.findViewById(R.id.filtro_vehiculos);
-        filtro_p=(RelativeLayout)view.findViewById(R.id.filtro_productos);
-        filtro_i=(RelativeLayout)view.findViewById(R.id.filtro_inmuebles);
+        filtro_v=(FrameLayout)view.findViewById(R.id.filtro_vehiculos);
+        filtro_p=(FrameLayout)view.findViewById(R.id.filtro_productos);
+        filtro_i=(FrameLayout)view.findViewById(R.id.filtro_inmuebles);
         btn1 = (TextView)view.findViewById(R.id.tab_marca);
         btn2 = (TextView)view.findViewById(R.id.tab_modelo);
         btn3 = (TextView)view.findViewById(R.id.tab_nuevo);
@@ -153,21 +158,42 @@ public class Inicio extends Fragment {
                 Intent a = new Intent(context, Filtro.class);
                 switch (v.getId()){
                     case R.id.img_tab:
-                        filtros_super.setVisibility(View.VISIBLE);
+                        if(click){
+                            filtros_super.setVisibility(View.GONE);
+                            filtro_v.setVisibility(View.GONE);
+                            click=false;
+                        }else{
+                            filtros_super.setVisibility(View.VISIBLE);
+                            filtro_v.setVisibility(View.VISIBLE);
+                            click=true;
+                        }
                         filtro_i.setVisibility(View.GONE);
                         filtro_p.setVisibility(View.GONE);
-                        filtro_v.setVisibility(View.VISIBLE);
                         break;
                     case R.id.img_tab2:
-                        filtros_super.setVisibility(View.VISIBLE);
-                        filtro_i.setVisibility(View.VISIBLE);
+                        if(click2){
+                            filtros_super.setVisibility(View.GONE);
+                            filtro_i.setVisibility(View.GONE);
+                            click2=false;
+                        }else{
+                            filtros_super.setVisibility(View.VISIBLE);
+                            filtro_i.setVisibility(View.VISIBLE);
+                            click2=true;
+                        }
                         filtro_p.setVisibility(View.GONE);
                         filtro_v.setVisibility(View.GONE);
                         break;
                     case R.id.img_tab3:
-                        filtros_super.setVisibility(View.VISIBLE);
+                        if(click3){
+                            filtros_super.setVisibility(View.GONE);
+                            filtro_p.setVisibility(View.GONE);
+                            click3=false;
+                        }else{
+                            filtros_super.setVisibility(View.VISIBLE);
+                            filtro_p.setVisibility(View.VISIBLE);
+                            click3=true;
+                        }
                         filtro_i.setVisibility(View.GONE);
-                        filtro_p.setVisibility(View.VISIBLE);
                         filtro_v.setVisibility(View.GONE);
                         break;
                     case R.id.f_v:

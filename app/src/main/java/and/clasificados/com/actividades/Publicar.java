@@ -733,12 +733,15 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     @Override
     public void onActivityResult(int RequestCode, int ResultCode, Intent intent) {
         if (RequestCode==FOTOGRAFIA &&ResultCode == RESULT_OK){
-            name.add(file.getPath());
+            Uri takedImage = intent.getData();
+            File f=new File(takedImage.getPath());
+            name.add(getRealPathFromURI(context,takedImage));
+           // name.add(file.getPath());
                 switch (num){
                     case 0:
           //              grid.setVisibility(View.VISIBLE);
                         Picasso.with(getApplicationContext())
-                                .load(file)
+                                .load(takedImage)
                                 .transform(new RoundedTransformation(15,0))
                                 .fit()
                                 .into(galeria1);
@@ -748,7 +751,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         break;
                     case 1:
                         Picasso.with(getApplicationContext())
-                                .load(file)
+                                .load(takedImage)
                                 .transform(new RoundedTransformation(15,0))
                                 .fit()
                                 .into(galeria2);
@@ -758,7 +761,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         break;
                     case 2:
                         Picasso.with(getApplicationContext())
-                                .load(file)
+                                .load(takedImage)
                                 .transform(new RoundedTransformation(15,0))
                                 .fit()
                                 .into(galeria3);
@@ -768,7 +771,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         break;
                     case 3:
                         Picasso.with(getApplicationContext())
-                                .load(file)
+                                .load(takedImage)
                                 .transform(new RoundedTransformation(15,0))
                                 .fit()
                                 .into(galeria4);
@@ -778,7 +781,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         break;
                     case 4:
                         Picasso.with(getApplicationContext())
-                                .load(file)
+                                .load(takedImage)
                                 .transform(new RoundedTransformation(15,0))
                                 .fit()
                                 .into(galeria5);
@@ -788,7 +791,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                         break;
                     case 5:
                         Picasso.with(getApplicationContext())
-                                .load(file)
+                                .load(takedImage)
                                 .transform(new RoundedTransformation(15,0))
                                 .fit()
                                 .into(galeria6);
@@ -881,6 +884,7 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_custom);
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {

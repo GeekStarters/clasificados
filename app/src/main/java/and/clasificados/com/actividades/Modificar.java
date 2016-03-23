@@ -394,6 +394,7 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_custom);
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {

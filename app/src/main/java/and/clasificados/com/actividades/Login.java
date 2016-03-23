@@ -153,6 +153,7 @@ public class Login extends AppCompatActivity {
     private void agregarToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_equis);
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
