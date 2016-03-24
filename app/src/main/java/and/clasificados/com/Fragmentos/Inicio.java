@@ -70,8 +70,8 @@ public class Inicio extends Fragment {
     private boolean hasMore, click, click2,click3;
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun, spinnerMarca,spinnerModelo,spinnerTipoA, spinnerTipoI;
     private RecyclerView reciclador;
-    private FrameLayout filtro_v, filtro_p, filtro_i;
-    private RelativeLayout filtros_super, rel1,rel2,rel3, rel4,rel5,rel6;
+    //private FrameLayout filtro_v, filtro_p, filtro_i;
+    private RelativeLayout filtros_super, rel1,rel2,rel3, rel4,rel5,rel6, filtro_v, filtro_p, filtro_i;
     private LinearLayoutManager layoutManager;
     private AdaptadorCategorias adaptador;
     private Activity context;
@@ -123,9 +123,9 @@ public class Inicio extends Fragment {
         footerR=(ImageView)view.findViewById(R.id.footer_right);
         //Filtros 2
         filtros_super= (RelativeLayout)view.findViewById(R.id.filtros);
-        filtro_v=(FrameLayout)view.findViewById(R.id.filtro_vehiculos);
-        filtro_p=(FrameLayout)view.findViewById(R.id.filtro_productos);
-        filtro_i=(FrameLayout)view.findViewById(R.id.filtro_inmuebles);
+        filtro_v=(RelativeLayout)view.findViewById(R.id.filtro_vehiculos);
+        filtro_p=(RelativeLayout)view.findViewById(R.id.filtro_productos);
+        filtro_i=(RelativeLayout)view.findViewById(R.id.filtro_inmuebles);
         btn1 = (TextView)view.findViewById(R.id.tab_marca);
         btn2 = (TextView)view.findViewById(R.id.tab_modelo);
         btn3 = (TextView)view.findViewById(R.id.tab_nuevo);
