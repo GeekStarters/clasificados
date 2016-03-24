@@ -121,7 +121,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/filtros"
-    android:visibility="visible">
+    android:visibility="gone">
 
     <include layout="@layout/filtro_vehiculos"/>
     <include layout="@layout/filtro_productos"/>
@@ -136,7 +136,8 @@
             android:orientation="horizontal"
             android:id="@+id/ultimos"
             android:paddingRight="20dp"
-            android:layout_below="@+id/filtros">
+            android:visibility="visible"
+            android:layout_alignParentTop="true">
             <!--android:layout_below="@id/filtros"> -->
             <and.clasificados.com.views.TextViewBold
                 android:layout_width="wrap_content"
@@ -171,10 +172,9 @@
             android:scrollbars="vertical"
             android:transcriptMode="alwaysScroll"
             android:layout_weight="1"
-
-            android:layout_below="@+id/ultimos"
             android:layout_height="match_parent"
-            android:paddingBottom="50dp"/>
+            android:paddingBottom="50dp"
+            android:layout_below="@+id/ultimos" />
     </RelativeLayout>
 
     <include layout="@layout/footer"/>

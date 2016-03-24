@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/filtro_inmuebles"
     android:visibility="visible"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/shadow_back">
+    android:background="#cccccc">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contenedor_inmuebles"
     android:layout_alignParentTop="true"
@@ -197,4 +197,4 @@
     </LinearLayout>
 
 </RelativeLayout>
-    </FrameLayout>
+    </RelativeLayout>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/filtro_vehiculos"
-    android:visibility="gone"
+    android:visibility="visible"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#28212121">
+    android:background="#cccccc">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contenedor_vehiculos"
     android:layout_alignParentTop="true"
@@ -185,4 +185,4 @@
     </LinearLayout>
 
 </RelativeLayout>
-    </FrameLayout>
+    </RelativeLayout>
