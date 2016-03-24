@@ -1,30 +1,51 @@
 package and.clasificados.com.layer;
 
+import android.util.Log;
+
 import com.layer.sdk.LayerClient;
 import com.layer.sdk.exceptions.LayerException;
 import com.layer.sdk.listeners.LayerConnectionListener;
 
-/**
- * Created by Gabriela Mejia on 21/3/2016.
- */
+import and.clasificados.com.actividades.Mensajes;
+
 public class MyConnectionListener implements LayerConnectionListener {
 
-    @Override
-    // Called when the LayerClient establishes a network connection
-    public void onConnectionConnected(LayerClient layerClient) {
-        // Ask the LayerClient to authenticate. If no auth credentials are present,
-        // an authentication challenge is issued
-        layerClient.authenticate();
+    private static final String TAG = MyConnectionListener.class.getSimpleName();
+
+    private Mensajes main_activity;
+
+    public MyConnectionListener(Mensajes ma) {
+        //Cache off the main activity in order to perform callbacks
+        main_activity = ma;
     }
 
-    @Override
-    public void onConnectionDisconnected(LayerClient arg0) {
-        // TODO Auto-generated method stub
+    //Called on connection success. The Quick Start App immediately tries to
+    //authenticate a user (or, if a user is already authenticated, return to the conversation
+    //screen).
+    public void onConnectionConnected(LayerClient client) {
+        Log.v(TAG, "Connected to Layer");
+
+        //If the user is already authenticated (and this connection was being established after
+        // the app was disconnected from the network), then start the conversation view.
+        //Otherwise, start the authentication process, which effectively "logs in" a user
+        if (client.isAuthenticated())
+            main_activity.onUserAuthenticated();
+        else
+            client.authenticate();
+
     }
 
-    @Override
-    public void onConnectionError(LayerClient arg0, LayerException e) {
-        // TODO Auto-generated method stub
+    //Called when the connection is closed
+    public void onConnectionDisconnected(LayerClient client) {
+        Log.v(TAG, "Connection to Layer closed");
     }
 
+    //Called when there is an error establishing a connection. There is no need to re-establish
+    // the connection again by calling layerClient.connect() - the SDK will handle re-connection
+    // automatically. However, this callback can be used with conjunction with onConnectionConnected
+    // to provide feedback to the user that messages cannot be sent/received (assuming there is an
+    // authenticated user).
+    public void onConnectionError(LayerClient client, LayerException e) {
+        Log.v(TAG, "Error connecting to layer: " + e.toString());
+    }
 }

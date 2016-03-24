@@ -117,16 +117,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tabLayout">
 
- <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/filtros"
-    android:visibility="gone">
 
-    <include layout="@layout/filtro_vehiculos"/>
-    <include layout="@layout/filtro_productos"/>
-    <include layout="@layout/filtro_inmuebles"/>
-</RelativeLayout>
+
 
 
         <!--Ultimos-->
@@ -135,15 +127,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/ultimos"
-            android:paddingRight="20dp"
-            android:visibility="visible"
-            android:layout_alignParentTop="true">
-            <!--android:layout_below="@id/filtros"> -->
+            android:layout_alignParentTop="true"
+            android:paddingRight="20dp">
             <and.clasificados.com.views.TextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ultimos"
-                android:visibility="visible"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:textColor="#000000"
@@ -159,12 +148,14 @@
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="@dimen/tab_label"
-                android:visibility="visible"
                 android:background="@drawable/rounded_etext"
                 />
 
         </LinearLayout>
         <!--LISTA-->
+
+
+
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/reciclador_principal"
@@ -172,9 +163,24 @@
             android:scrollbars="vertical"
             android:transcriptMode="alwaysScroll"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:paddingBottom="50dp"
-            android:layout_below="@+id/ultimos" />
+            android:layout_below="@+id/ultimos"
+            android:layout_height="wrap_content"
+            android:paddingBottom="50dp"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/filtros"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            android:background="#80000000">
+
+            <include layout="@layout/filtro_vehiculos"/>
+            <include layout="@layout/filtro_productos"/>
+            <include layout="@layout/filtro_inmuebles"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <include layout="@layout/footer"/>

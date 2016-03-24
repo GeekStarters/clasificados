@@ -146,6 +146,7 @@ public class Inicio extends Fragment {
         filtro_p.setVisibility(View.GONE);
         filtro_v.setVisibility(View.GONE);
         filtros_super.setVisibility(View.GONE);
+
         new ObtenerCategoria(context).execute();
         LlenarLista llenar = new LlenarLista(context);
         llenar.execute("1");
@@ -289,6 +290,9 @@ public class Inicio extends Fragment {
                         btn5.setTextColor(getResources().getColor(R.color.tab_blue));
                         btn6.setTextColor(getResources().getColor(R.color.white));
                         break;
+                    case R.id.filtros:
+                        filtros_super.setVisibility(View.GONE);
+                        break;
 
                 }
                 if(strtext.equals("false")||strtext.isEmpty()){
@@ -347,7 +351,7 @@ public class Inicio extends Fragment {
         btn4.setOnClickListener(onclick);
         btn5.setOnClickListener(onclick);
         btn6.setOnClickListener(onclick);
-
+        filtros_super.setOnClickListener(onclick);
         return view;
     }
 
