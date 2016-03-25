@@ -55,8 +55,6 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-    <!-- Layer SDK uses these for monitoring network state and receiving GCM -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- GCM permission for your app -->
     <!-- Signature-only permissions -->

@@ -64,7 +64,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.avast:android-styled-dialogs:2.3.3'
-    compile 'com.layer.sdk:layer-sdk:0.19.5'
+    compile 'com.layer.sdk:layer-sdk:0.20.0'
     compile 'org.slf4j:slf4j-nop:1.5.8'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -81,4 +81,5 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.12.1@aar') {
         transitive = true;
     }
+    compile project(':Atlas')
 }
