@@ -1,6 +1,9 @@
 package and.clasificados.com.layer;
 
 import android.graphics.Typeface;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,6 +67,7 @@ public class MessageView {
         String senderTxt = craftSenderText(msg);
         String msgTxt = craftMsgText(msg);
 
+        senderTV.setGravity(Gravity.CENTER_HORIZONTAL);
         senderTV.setText(senderTxt);
         messageTV.setText(msgTxt);
     }
@@ -78,11 +82,18 @@ public class MessageView {
         //The User ID
         String senderTxt = "";
         if (msg.getSender() != null && msg.getSender().getUserId() != null)
-            senderTxt = msg.getSender().getUserId();
+            senderTxt = "";//msg.getSender().getUserId();
 
         //Add the timestamp
         if (msg.getSentAt() != null) {
-            senderTxt += " @ " + new SimpleDateFormat("HH:mm:ss").format(msg.getReceivedAt());
+            String aux_hora=new SimpleDateFormat("hh:mm a").format(msg.getReceivedAt());
+            String aux_dia=new SimpleDateFormat("EEEE").format(msg.getReceivedAt());
+            String dia = aux_dia+" a las "+aux_hora;
+            String mayuscula=dia.charAt(0)+"";
+            mayuscula=mayuscula.toUpperCase();
+            dia=dia.replaceFirst(dia.charAt(0)+"", mayuscula);
+            senderTxt+=dia;
+            //senderTxt += aux_dia+" a las "+aux_hora;
         }
 
         //Add some formatting before the status icon
@@ -90,6 +101,34 @@ public class MessageView {
 
         //Return the formatted text
         return senderTxt;
+    }
+
+    private String obtenerDia(String aux_dia) {
+        String day="";
+        switch (aux_dia){
+            case "Monday":
+                day="Lunes";
+                break;
+            case "Tuesday":
+                day="Martes";
+                break;
+            case "Wednesday":
+                day="Miercoles";
+                break;
+            case "Thursday":
+                day="Jueves";
+                break;
+            case "Friday":
+                day="Viernes";
+                break;
+            case "Saturday":
+                day="Sabado";
+                break;
+            case "Sunday":
+                day="Domingo";
+                break;
+        }
+        return day;
     }
 
     //Checks the recipient status of the message (based on all participants)

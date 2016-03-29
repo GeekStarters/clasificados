@@ -270,6 +270,7 @@ public class  Registro extends AppCompatActivity {
                     JSONObject data  = respJSON.getJSONObject("data");
                     user = new Usuario();
                     user.provider=params[0];
+                    user.id=data.getString("id");
                     user.name=data.getString("first_name");
                     user.last=data.getString("last_name");
                     user.pic = respJSON.getString("imagesDomain") + data.getString("picture_profile");

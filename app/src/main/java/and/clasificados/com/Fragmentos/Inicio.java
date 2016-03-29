@@ -56,6 +56,7 @@ import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.modelo.Categoria;
 import and.clasificados.com.modelo.Clasificado;
+import and.clasificados.com.modelo.Mensaje;
 import and.clasificados.com.services.AppAsynchTask;
 
 /**
@@ -292,6 +293,9 @@ public class Inicio extends Fragment {
                         break;
                     case R.id.filtros:
                         filtros_super.setVisibility(View.GONE);
+                        click=false;
+                        click2=false;
+                        click3=false;
                         break;
 
                 }

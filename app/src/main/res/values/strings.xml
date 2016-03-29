@@ -113,6 +113,14 @@
     <string name="sele_del">Debe seleccionar al menos una foto para eliminar</string>
     <string name="no_foto">No hay fotos a eliminar</string>
     <string name="title_activity_mi_mensaje">MiMensaje</string>
+    <string name="escribe">Escribe tu mensaje</string>
+    <string name="alert_message_delete_conversation">¿Eliminar Conversacion?</string>
+    <string name="alert_button_cancel">Cancelar</string>
+    <string name="alert_button_delete_all_participants">Eliminar a los participantes</string>
+    <string name="alert_button_delete_my_devices">Eliminar mis dispositivos</string>
+    <string name="alert_message_delete_message">Eliminar mensaje</string>
+    <string name="notifications_num_more">+%1$d más</string>
+    <string name="notifications_new_messages">%1$s mensajes nuevos</string>
 
 
 </resources>

@@ -112,6 +112,7 @@
     <string name="sel">Seleccionar</string>
     <string name="sele_del">Debe seleccionar al menos una foto para eliminar</string>
     <string name="no_foto">No hay fotos a eliminar</string>
+    <string name="escribe">Escribe tu mensaje</string>
 
 
 </resources>

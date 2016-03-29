@@ -1,6 +1,8 @@
 package and.clasificados.com.layer;
 
 import android.graphics.Color;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -42,19 +45,17 @@ import and.clasificados.com.actividades.Mensajes;
  * messages in the GUI.
  */
 public class ConversationViewController implements View.OnClickListener, LayerChangeEventListener,
-        TextWatcher, LayerTypingIndicatorListener, LayerSyncListener {
+        TextWatcher, LayerSyncListener {
 
     private static final String TAG = ConversationViewController.class.getSimpleName();
 
     private LayerClient layerClient;
 
     //GUI elements
-    private Button sendButton;
-    private LinearLayout topBar;
+    private RelativeLayout sendButton;
     private EditText userInput;
     private ScrollView conversationScroll;
     private LinearLayout conversationView;
-    private TextView typingIndicator;
 
     //List of all users currently typing
     private ArrayList<String> typingUsers;
@@ -78,18 +79,14 @@ public class ConversationViewController implements View.OnClickListener, LayerCh
 
         //Change the layout
         ma.setContentView(R.layout.activity_mimensaje);
-
+        agregarToolbar(ma);
         //Cache off gui objects
-        sendButton = (Button) ma.findViewById(R.id.send);
-        topBar = (LinearLayout) ma.findViewById(R.id.topbar);
+        sendButton = (RelativeLayout) ma.findViewById(R.id.send);
         userInput = (EditText) ma.findViewById(R.id.input);
         conversationScroll = (ScrollView) ma.findViewById(R.id.scrollView2);
         conversationView = (LinearLayout) ma.findViewById(R.id.conversation);
-        typingIndicator = (TextView) ma.findViewById(R.id.typingIndicator);
-
         //Capture user input
         sendButton.setOnClickListener(this);
-        topBar.setOnClickListener(this);
         userInput.setText(getInitialMessage());
         userInput.addTextChangedListener(this);
 
@@ -100,8 +97,17 @@ public class ConversationViewController implements View.OnClickListener, LayerCh
         //If there is an active conversation, draw it
         drawConversation();
 
-        if (activeConversation != null)
-            getTopBarMetaData();
+    }
+
+    private void agregarToolbar(Mensajes ma) {
+        Toolbar toolbar = (Toolbar) ma.findViewById(R.id.toolbar);
+        ma.setSupportActionBar(toolbar);
+        ma.getSupportActionBar().setElevation(0);
+        ma.getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_custom);
+        final ActionBar ab = ma.getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public static String getInitialMessage() {
@@ -143,18 +149,6 @@ public class ConversationViewController implements View.OnClickListener, LayerCh
         //Sends the message
         if (activeConversation != null)
             activeConversation.send(message);
-    }
-
-    //Create a random color and apply it to the Layer logo bar
-    private void topBarClicked() {
-
-        Random r = new Random();
-        float red = r.nextFloat();
-        float green = r.nextFloat();
-        float blue = r.nextFloat();
-
-        setTopBarMetaData(red, green, blue);
-        setTopBarColor(red, green, blue);
     }
 
     //Checks to see if there is already a conversation between the device and emulator
@@ -227,55 +221,6 @@ public class ConversationViewController implements View.OnClickListener, LayerCh
         }
     }
 
-    //Stores RGB values in the conversation's metadata
-    private void setTopBarMetaData(float red, float green, float blue) {
-        if (activeConversation != null) {
-
-            Metadata metadata = Metadata.newInstance();
-
-            Metadata colors = Metadata.newInstance();
-            colors.put("red", Float.toString(red));
-            colors.put("green", Float.toString(green));
-            colors.put("blue", Float.toString(blue));
-
-            metadata.put("backgroundColor", colors);
-
-            //Merge this new information with the existing metadata (passing in false will replace
-            // the existing Map, passing in true ensures existing key/values are preserved)
-            activeConversation.putMetadata(metadata, true);
-        }
-    }
-
-    //Check the conversation's metadata for RGB values
-    private void getTopBarMetaData() {
-        if (activeConversation != null) {
-
-            Metadata current = activeConversation.getMetadata();
-            if (current.containsKey("backgroundColor")) {
-
-                Metadata colors = (Metadata) current.get("backgroundColor");
-
-                if (colors != null) {
-
-                    float red = Float.parseFloat((String) colors.get("red"));
-                    float green = Float.parseFloat((String) colors.get("green"));
-                    float blue = Float.parseFloat((String) colors.get("blue"));
-
-                    setTopBarColor(red, green, blue);
-                }
-            }
-        }
-    }
-
-    //Takes RGB values and sets the top bar color
-    private void setTopBarColor(float red, float green, float blue) {
-        if (topBar != null) {
-            topBar.setBackgroundColor(Color.argb(255, (int) (255.0f * red), (int) (255.0f *
-                    green), (int) (255.0f * blue)));
-        }
-    }
-
-
     //================================================================================
     // View.OnClickListener methods
     //================================================================================
@@ -287,11 +232,6 @@ public class ConversationViewController implements View.OnClickListener, LayerCh
             sendButtonClicked();
         }
 
-        //When the Layer logo bar is clicked, randomly change the color and store it in the
-        // conversation's metadata
-        if (v == topBar) {
-            topBarClicked();
-        }
     }
 
     //================================================================================
@@ -349,9 +289,6 @@ public class ConversationViewController implements View.OnClickListener, LayerCh
 
         //If anything in the conversation changes, re-draw it in the GUI
         drawConversation();
-
-        //Check the meta-data for color changes
-        getTopBarMetaData();
     }
 
     //================================================================================
@@ -367,61 +304,9 @@ public class ConversationViewController implements View.OnClickListener, LayerCh
     }
 
     public void afterTextChanged(Editable s) {
-        //After the user has changed some text, we notify other participants that they are typing
-        if (activeConversation != null)
-            activeConversation.send(TypingIndicator.STARTED);
+
     }
 
-    //================================================================================
-    // LayerTypingIndicatorListener methods
-    //================================================================================
-
-    @Override
-    public void onTypingIndicator(LayerClient layerClient, Conversation conversation, String
-            userID, TypingIndicator indicator) {
-
-        //Only show the typing indicator for the active (displayed) converation
-        if (conversation != activeConversation)
-            return;
-
-        switch (indicator) {
-            case STARTED:
-                // This user started typing, so add them to the typing list if they are not
-                // already on it.
-                if (!typingUsers.contains(userID))
-                    typingUsers.add(userID);
-                break;
-
-            case FINISHED:
-                // This user isn't typing anymore, so remove them from the list.
-                typingUsers.remove(userID);
-                break;
-        }
-
-        //Format the text to display in the conversation view
-        if (typingUsers.size() == 0) {
-
-            //No one is typing, so clear the text
-            typingIndicator.setText("");
-
-        } else if (typingUsers.size() == 1) {
-
-            //Name the one user that is typing (and make sure the text is grammatically correct)
-            typingIndicator.setText(typingUsers.get(0) + " is typing");
-
-        } else if (typingUsers.size() > 1) {
-
-            //Name all the users that are typing (and make sure the text is grammatically correct)
-            String users = "";
-            for (int i = 0; i < typingUsers.size(); i++) {
-                users += typingUsers.get(i);
-                if (i < typingUsers.size() - 1)
-                    users += ", ";
-            }
-
-            typingIndicator.setText(users + " are typing");
-        }
-    }
 
     //Called before syncing with the Layer servers
     public void onBeforeSync(LayerClient layerClient, SyncType syncType) {

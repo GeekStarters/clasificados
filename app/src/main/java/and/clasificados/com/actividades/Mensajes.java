@@ -73,7 +73,7 @@ public class Mensajes extends AppCompatActivity {
     private List<Mensaje> resultado;
     String auto;
     Activity context;
-    Usuario login_user;
+    static Usuario login_user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,8 +110,8 @@ public class Mensajes extends AppCompatActivity {
         loadLayerClient();
 
         //Every time the app is brought to the foreground, register the typing indicator
-        if(layerClient != null && conversationView != null)
-            layerClient.registerTypingIndicator(conversationView);
+        //if(layerClient != null && conversationView != null)
+           // layerClient.registerTypingIndicator(conversationView);
     }
 
     //onPause is called when the app is sent to the background
@@ -119,8 +119,8 @@ public class Mensajes extends AppCompatActivity {
         super.onPause();
 
         //When the app is moved to the background, unregister the typing indicator
-        if(layerClient != null && conversationView != null)
-            layerClient.unregisterTypingIndicator(conversationView);
+       // if(layerClient != null && conversationView != null)
+           // layerClient.unregisterTypingIndicator(conversationView);
     }
 
     //Checks to see if the SDK is connected to Layer and whether a user is authenticated
@@ -207,15 +207,12 @@ public class Mensajes extends AppCompatActivity {
     // making the assumption that this App will be run simultaneously on a Simulator and on a
     // Device, and assign the User ID based on the runtime environment.
     public static String getUserID(){
-        if(Build.FINGERPRINT.startsWith("generic"))
-            return "Simulator";
-
-        return "Device";
+        return login_user.id;
     }
 
     //By default, create a conversationView between these 3 participants
     public static List<String> getAllParticipants(){
-        return Arrays.asList("Device", "Simulator", "Dashboard");
+        return Arrays.asList("1273");
     }
 
     //Once the user has successfully authenticated, begin the conversationView
@@ -225,9 +222,9 @@ public class Mensajes extends AppCompatActivity {
 
             conversationView = new ConversationViewController(this, layerClient);
 
-            if (layerClient != null) {
+           /* if (layerClient != null) {
                 layerClient.registerTypingIndicator(conversationView);
-            }
+            }*/
         }
     }
     @Override

@@ -204,6 +204,7 @@ public class Login extends AppCompatActivity {
                     resul = true;
                     JSONObject data = respJSON.getJSONObject("data");
                     user = new Usuario();
+                    user.id=data.getString("id");
                     user.provider = params[0];
                     user.name = data.getString("first_name");
                     user.last = data.getString("last_name");
