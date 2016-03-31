@@ -1,6 +1,9 @@
 package and.clasificados.com.layer;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +20,8 @@ import java.util.List;
 
 import and.clasificados.com.R;
 import and.clasificados.com.actividades.Mensajes;
+import and.clasificados.com.auxiliares.PrefUtils;
+import and.clasificados.com.modelo.Usuario;
 
 /**
  * Takes a Layer Message object, formats the text and attaches it to a LinearLayout
@@ -29,15 +34,17 @@ public class MessageView {
     //The sender and message views
     private TextView senderTV;
     private TextView messageTV;
-
+    private Usuario login_user=null;
     private ImageView statusImage;
-
+    private Context context;
     private LinearLayout messageDetails;
+    private boolean iDid=true;
 
     //Takes the Layout parent object and message
     public MessageView(LinearLayout parent, Message msg) {
         myParent = parent;
-
+        context=parent.getContext();
+        login_user= PrefUtils.getCurrentUser(context);
         //The first part of each message will include the sender and status
         messageDetails = new LinearLayout(parent.getContext());
         messageDetails.setOrientation(LinearLayout.HORIZONTAL);
@@ -46,10 +53,13 @@ public class MessageView {
         //Creates the sender text view, sets the text to be italic, and attaches it to the parent
         senderTV = new TextView(parent.getContext());
         senderTV.setTypeface(null, Typeface.ITALIC);
+        senderTV.setGravity(Gravity.CENTER_HORIZONTAL);
         messageDetails.addView(senderTV);
 
         //Creates the message text view and attaches it to the parent
         messageTV = new TextView(parent.getContext());
+        messageTV.setTextColor(Color.parseColor("#FFFFFF"));
+        messageTV.setBackground(new ColorDrawable(Color.parseColor("#00ba68")));
         myParent.addView(messageTV);
 
         //The status is displayed with an icon, depending on whether the message has been read,
@@ -66,9 +76,13 @@ public class MessageView {
     public void UpdateMessage(Message msg) {
         String senderTxt = craftSenderText(msg);
         String msgTxt = craftMsgText(msg);
-
+        String aux=senderTV.getText().toString();
         senderTV.setGravity(Gravity.CENTER_HORIZONTAL);
-        senderTV.setText(senderTxt);
+        if(!aux.equals(senderTxt)){
+            senderTV.setText(senderTxt);
+        }else{
+            senderTV.setText("");
+        }
         messageTV.setText(msgTxt);
     }
 
@@ -83,6 +97,10 @@ public class MessageView {
         String senderTxt = "";
         if (msg.getSender() != null && msg.getSender().getUserId() != null)
             senderTxt = "";//msg.getSender().getUserId();
+        if(!msg.getSender().getUserId().equals(login_user.id)){
+            messageTV.setTextColor(Color.parseColor("#000000"));
+            messageTV.setBackground(new ColorDrawable(Color.parseColor("#FFFFFF")));
+        }
 
         //Add the timestamp
         if (msg.getSentAt() != null) {
@@ -97,39 +115,12 @@ public class MessageView {
         }
 
         //Add some formatting before the status icon
-        senderTxt += "   ";
+        senderTxt += "  ";
 
         //Return the formatted text
         return senderTxt;
     }
 
-    private String obtenerDia(String aux_dia) {
-        String day="";
-        switch (aux_dia){
-            case "Monday":
-                day="Lunes";
-                break;
-            case "Tuesday":
-                day="Martes";
-                break;
-            case "Wednesday":
-                day="Miercoles";
-                break;
-            case "Thursday":
-                day="Jueves";
-                break;
-            case "Friday":
-                day="Viernes";
-                break;
-            case "Saturday":
-                day="Sabado";
-                break;
-            case "Sunday":
-                day="Domingo";
-                break;
-        }
-        return day;
-    }
 
     //Checks the recipient status of the message (based on all participants)
     private Message.RecipientStatus getMessageStatus(Message msg) {
@@ -138,8 +129,11 @@ public class MessageView {
             return Message.RecipientStatus.PENDING;
 
         //If we didn't send the message, we already know the status - we have read it
-        if (!msg.getSender().getUserId().equalsIgnoreCase(Mensajes.getUserID()))
+        if (!msg.getSender().getUserId().equalsIgnoreCase(Mensajes.getUserID())){
+            iDid=false;
             return Message.RecipientStatus.READ;
+        }
+
 
         //Assume the message has been sent
         Message.RecipientStatus status = Message.RecipientStatus.SENT;
@@ -213,7 +207,12 @@ public class MessageView {
                 break;
 
             case READ:
-                status.setImageResource(R.drawable.read);
+                if(iDid){
+                    status.setImageResource(R.drawable.read);
+
+                }else{
+                   // status.setImageResource(R.drawable.read);
+                }
                 break;
         }
 

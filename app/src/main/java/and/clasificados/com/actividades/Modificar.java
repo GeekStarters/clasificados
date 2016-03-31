@@ -2,16 +2,19 @@ package and.clasificados.com.actividades;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +28,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -77,16 +79,16 @@ import and.clasificados.com.modelo.Zona;
 import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
 
-public class Modificar extends AppCompatActivity implements AdapterView.OnItemSelectedListener,IListDialogListener {
+public class Modificar extends AppCompatActivity implements IListDialogListener,AdapterView.OnItemSelectedListener {
 
     RelativeLayout divZona;
     EditTextLight title,costo,descr;
     ImageView tomarFoto,galeria1,galeria2,galeria3,galeria4,galeria5,galeria6, vaciar, desdeGal;
-    Button publicar, moneda;
-    String auto, categoria, subcategoria, idCurrency, idProducto="173",idLocacion="root";
-    ProgressDialog pDialog;
+    Button publicar;
+    TextView moneda;
+    String auto, categoria, subcategoria, idCurrency="1", idProducto="173",idLocacion="root";
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun;
-    GridLayout grid;
+    //GridLayout grid;
     Activity context;
     private ArrayList<Categoria> categoriasLista;
     private ArrayList<SubCategoria> subCategoriasLista;
@@ -101,28 +103,45 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
     boolean esInmueble=false;
     TextView contador;
     int num=0;
+    CheckBox f1, f2, f3, f4, f5, f6;
     final int GALERIA = 655;
     final int FOTOGRAFIA = 654;
     private static final int REQUEST_LIST_SIMPLE= 11;
     Usuario login_user;
-
+    private static final int REQUEST_CODE = 0x11;
+    String[] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modificar);
+        setContentView(R.layout.activity_publicar);
         agregarToolbar();
-        Intent i=getIntent();
-        slug=i.getStringExtra("slug");
+        Intent i = getIntent();
+        slug= i.getStringExtra("slug");
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE); // without sdk version check
         login_user= PrefUtils.getCurrentUser(Modificar.this);
         auto = login_user.auto;
         context=this;
+        //CheckBox
+        f1 = (CheckBox)findViewById(R.id.checkBox1);
+        f2 = (CheckBox)findViewById(R.id.checkBox2);
+        f3 = (CheckBox)findViewById(R.id.checkBox3);
+        f4 = (CheckBox)findViewById(R.id.checkBox4);
+        f5 = (CheckBox)findViewById(R.id.checkBox5);
+        f6 = (CheckBox)findViewById(R.id.checkBox6);
+        //Spinnners
         spinnerCat = (Spinner) findViewById(R.id.spinner_categoria);
         spinnerSub = (Spinner) findViewById(R.id.spinner_subcat);
         spinnerLoc = (Spinner) findViewById(R.id.spinner_location);
         spinnerMun = (Spinner) findViewById(R.id.spinner_municipio);
         spinnerZona = (Spinner) findViewById(R.id.spinner_zona);
         title = (EditTextLight)findViewById(R.id.titulo);
+        f1.setVisibility(View.GONE);
+        f2.setVisibility(View.GONE);
+        f3.setVisibility(View.GONE);
+        f4.setVisibility(View.GONE);
+        f5.setVisibility(View.GONE);
+        f6.setVisibility(View.GONE);
         costo = (EditTextLight)findViewById(R.id.costo);
         descr = (EditTextLight)findViewById(R.id.descripcion);
         tomarFoto = (ImageView) findViewById(R.id.camera);
@@ -134,14 +153,14 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         galeria4 = (ImageView) findViewById(R.id.anuncio4);
         galeria5 = (ImageView) findViewById(R.id.anuncio5);
         galeria6 = (ImageView) findViewById(R.id.anuncio6);
-        grid = (GridLayout)findViewById(R.id.galeria_imagenes);
+      //  grid = (GridLayout)findViewById(R.id.galeria_imagenes);
         contador=(TextView)findViewById(R.id.numfotografias);
         divZona = (RelativeLayout)findViewById(R.id.contentTwo);
         llenarGaleria(savedInstanceState);
         monedaLista = new ArrayList<Moneda>();
-        moneda=(Button)findViewById(R.id.currency);
+        moneda=(TextView)findViewById(R.id.currency);
         new ObtenerCategorias(context).execute();
-        //new ObtenerLocalidades(context).execute();
+       // new ObtenerLocalidades(context).execute();
         new ObtenerMoneda(context).execute();
         publicar = (Button) findViewById(R.id.button_publicar);
         View.OnClickListener onclick=new View.OnClickListener() {
@@ -158,26 +177,57 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
                                 .show();
                         break;
                     case R.id.button_publicar:
-                        ModificarAnuncio a = new ModificarAnuncio(context);
-                        a.execute(auto,slug);
-                        break;
-                    case R.id.camera:
-                        if(num>=6){
-                            Toast.makeText(getApplicationContext(),"Solo puede agregar 6 fotografias",Toast.LENGTH_LONG).show();
-                        }else{
-                            getFileUri();
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-                            startActivityForResult(intent,FOTOGRAFIA);
+                        View focusView=null; View focusView1=null;
+                        String t = title.getText().toString();
+                        String p = costo.getText().toString();
+                        boolean bloqueo=true;
+                        if(t.isEmpty()) {
+                            title.setError("Debe asignar un titulo");
+                            focusView = title;
+                            focusView.requestFocus();
+                            bloqueo=false;
+                        }else if(p.isEmpty()) {
+                            costo.setError("Debe asignar un costo.");
+                            focusView1=costo;
+                            focusView1.requestFocus();
+                            bloqueo=false;
+                        }else if(spinnerCat.getSelectedItemPosition()==0){
+                            showAlertDialogC();
+                            bloqueo=false;
+                        }else if (spinnerSub.getSelectedItemPosition()==0) {
+                            showAlertDialogS();
+                            bloqueo = false;
+                        }
+                        if(bloqueo){
+                            NuevoAnuncio a = new NuevoAnuncio(context);
+                            a.execute(auto);
                         }
                         break;
+                    case R.id.camera:
+                       if(num>=6){
+                           Toast.makeText(getApplicationContext(),"Solo puede agregar 6 fotografias",Toast.LENGTH_LONG).show();
+                       }else{
+                           getFileUri();
+                           intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+                           startActivityForResult(intent,FOTOGRAFIA);
+                       }
+                        break;
                     case R.id.gallery:
-                        intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                        intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                         startActivityForResult(intent,GALERIA);
                         break;
                     case R.id.delete:
-                        grid.setVisibility(View.INVISIBLE);
-                        num=0;
-                        contador.setText(getString(R.string.fotografia));
+                        deleteImages();
+        //                grid.setVisibility(View.GONE);
+                       /* galeria1.setImageResource(R.drawable.blanco);
+                        galeria2.setImageResource(R.drawable.blanco);
+                        galeria3.setImageResource(R.drawable.blanco);
+                        galeria4.setImageResource(R.drawable.blanco);
+                        galeria5.setImageResource(R.drawable.blanco);
+                        galeria6.setImageResource(R.drawable.blanco);
+                        name.clear();
+                        num=0;*/
+                      //  contador.setText(getString(R.string.fotografia));
                         break;
 
                 }
@@ -210,6 +260,416 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         nombre = String.valueOf(Calendar.getInstance().getTimeInMillis())+".jpg";
         f=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+File.separator+nombre);
         file=Uri.fromFile(f);
+    }
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // save file
+            } else {
+                Toast.makeText(getApplicationContext(), "PERMISSION_DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void deleteImages(){
+        List<String> aux=new ArrayList<>();
+        if(!name.isEmpty()||num==0){
+            if(f1.isChecked() || f2.isChecked() || f3.isChecked() ||f4.isChecked()||f5.isChecked()||f6.isChecked()){
+                switch (num){
+                    case 1:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        break;
+                    case 2:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        break;
+                    case 3:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        break;
+                    case 4:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        if (!f4.isChecked()) {
+                            aux.add(name.get(3));
+                        }
+                        break;
+                    case 5:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        if (!f4.isChecked()) {
+                            aux.add(name.get(3));
+                        }
+                        if (!f5.isChecked()) {
+                            aux.add(name.get(4));
+                        }
+                        break;
+                    case 6:
+                        if(!f1.isChecked()) {
+                            aux.add(name.get(0));
+                        }
+                        if (!f2.isChecked()) {
+                            aux.add(name.get(1));
+                        }
+                        if (!f3.isChecked()) {
+                            aux.add(name.get(2));
+                        }
+                        if (!f4.isChecked()) {
+                            aux.add(name.get(3));
+                        }
+                        if (!f5.isChecked()) {
+                            aux.add(name.get(4));
+                        }
+                        if (!f6.isChecked()) {
+                            aux.add(name.get(5));
+                        }
+                        break;
+                }
+                name.clear();
+                name.addAll(aux);
+                loadImages(name);
+            }else{
+                showAlertDialogCheck();
+            }
+        }else{
+            showAlertDialogImage();
+        }
+    }
+
+    private void loadImages(ArrayList name){
+        num=name.size();
+        if(num!=0){
+            contador.setText(num+" "+getString(R.string.fotografias));
+        }else{
+            contador.setText(getString(R.string.fotografia));
+        }
+        switch(num){
+            case 0:
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f1.setVisibility(View.GONE);
+                f2.setVisibility(View.GONE);
+                f3.setVisibility(View.GONE);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 1:
+                File file=new File(name.get(0).toString());
+                Uri uri=Uri.fromFile(file);
+                Picasso.with(getApplicationContext())
+                        .load(uri)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f2.setVisibility(View.GONE);
+                f3.setVisibility(View.GONE);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 2:
+                File fileA=new File(name.get(0).toString());
+                Uri uriA=Uri.fromFile(fileA);
+                Picasso.with(getApplicationContext())
+                        .load(uriA)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileB=new File(name.get(1).toString());
+                Uri uriB=Uri.fromFile(fileB);
+                Picasso.with(getApplicationContext())
+                        .load(uriB)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f3.setVisibility(View.GONE);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 3:
+                File fileC=new File(name.get(0).toString());
+                Uri uriC=Uri.fromFile(fileC);
+                Picasso.with(getApplicationContext())
+                        .load(uriC)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileD=new File(name.get(1).toString());
+                Uri uriD=Uri.fromFile(fileD);
+                Picasso.with(getApplicationContext())
+                        .load(uriD)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                File fileE=new File(name.get(2).toString());
+                Uri uriE=Uri.fromFile(fileE);
+                Picasso.with(getApplicationContext())
+                        .load(uriE)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f4.setVisibility(View.GONE);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 4:
+                File fileF=new File(name.get(0).toString());
+                Uri uriF=Uri.fromFile(fileF);
+                Picasso.with(getApplicationContext())
+                        .load(uriF)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileG=new File(name.get(1).toString());
+                Uri uriG=Uri.fromFile(fileG);
+                Picasso.with(getApplicationContext())
+                        .load(uriG)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                File fileH=new File(name.get(2).toString());
+                Uri uriH=Uri.fromFile(fileH);
+                Picasso.with(getApplicationContext())
+                        .load(uriH)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                File fileI=new File(name.get(3).toString());
+                Uri uriI=Uri.fromFile(fileI);
+                Picasso.with(getApplicationContext())
+                        .load(uriI)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f5.setVisibility(View.GONE);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+            case 5:
+                File fileJ=new File(name.get(0).toString());
+                Uri uriJ=Uri.fromFile(fileJ);
+                Picasso.with(getApplicationContext())
+                        .load(uriJ)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria1);
+                File fileK=new File(name.get(1).toString());
+                Uri uriK=Uri.fromFile(fileK);
+                Picasso.with(getApplicationContext())
+                        .load(uriK)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria2);
+                File fileL=new File(name.get(2).toString());
+                Uri uriL=Uri.fromFile(fileL);
+                Picasso.with(getApplicationContext())
+                        .load(uriL)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria3);
+                File fileM=new File(name.get(3).toString());
+                Uri uriM=Uri.fromFile(fileM);
+                Picasso.with(getApplicationContext())
+                        .load(uriM)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria4);
+                File fileN=new File(name.get(4).toString());
+                Uri uriN=Uri.fromFile(fileN);
+                Picasso.with(getApplicationContext())
+                        .load(uriN)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria5);
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.blanco)
+                        .transform(new RoundedTransformation(15, 0))
+                        .fit()
+                        .into(galeria6);
+                f6.setVisibility(View.GONE);
+                f1.setChecked(false);
+                f2.setChecked(false);
+                f3.setChecked(false);
+                f4.setChecked(false);
+                f5.setChecked(false);
+                f6.setChecked(false);
+                break;
+        }
     }
 
     private void llenarGaleria(Bundle savedInstanceState) {
@@ -261,125 +721,143 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
     @Override
     public void onActivityResult(int RequestCode, int ResultCode, Intent intent) {
         if (RequestCode==FOTOGRAFIA &&ResultCode == RESULT_OK){
-            name.add(file.getPath());
+            Uri takedImage = intent.getData();
+            File f=new File(takedImage.getPath());
+            name.add(getRealPathFromURI(context,takedImage));
+           // name.add(file.getPath());
+                switch (num){
+                    case 0:
+          //              grid.setVisibility(View.VISIBLE);
+                        Picasso.with(getApplicationContext())
+                                .load(takedImage)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria1);
+                        num=num+1;
+                        f1.setVisibility(View.VISIBLE);
+                        contador.setText(num+" "+getString(R.string.fotografia));
+                        break;
+                    case 1:
+                        Picasso.with(getApplicationContext())
+                                .load(takedImage)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria2);
+                        num=num+1;
+                        f2.setVisibility(View.VISIBLE);
+                        contador.setText(num+" "+getString(R.string.fotografias));
+                        break;
+                    case 2:
+                        Picasso.with(getApplicationContext())
+                                .load(takedImage)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria3);
+                        num=num+1;
+                        f3.setVisibility(View.VISIBLE);
+                        contador.setText(num+" "+getString(R.string.fotografias));
+                        break;
+                    case 3:
+                        Picasso.with(getApplicationContext())
+                                .load(takedImage)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria4);
+                        num=num+1;
+                        contador.setText(num+" "+getString(R.string.fotografias));
+                        f4.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+                        Picasso.with(getApplicationContext())
+                                .load(takedImage)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria5);
+                        num=num+1;
+                        f5.setVisibility(View.VISIBLE);
+                        contador.setText(num+" "+getString(R.string.fotografias));
+                        break;
+                    case 5:
+                        Picasso.with(getApplicationContext())
+                                .load(takedImage)
+                                .transform(new RoundedTransformation(15,0))
+                                .fit()
+                                .into(galeria6);
+                        num=num+1;
+                        f6.setVisibility(View.VISIBLE);
+                        contador.setText(num+" "+getString(R.string.fotografias));
+                        break;
+                }
+            } else if(RequestCode==GALERIA && ResultCode == RESULT_OK){
+                Uri selectedImage = intent.getData();
+                File f=new File(selectedImage.getPath());
+                name.add(getRealPathFromURI(context,selectedImage));
             switch (num){
-                case 0:
-                    Picasso.with(getApplicationContext())
-                            .load(file)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria1);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografia));
-                    break;
-                case 1:
-                    Picasso.with(getApplicationContext())
-                            .load(file)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria2);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 2:
-                    Picasso.with(getApplicationContext())
-                            .load(file)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria3);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 3:
-                    Picasso.with(getApplicationContext())
-                            .load(file)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria4);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 4:
-                    Picasso.with(getApplicationContext())
-                            .load(file)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria5);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 5:
-                    Picasso.with(getApplicationContext())
-                            .load(file)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria6);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
+                        case 0:
+            //                grid.setVisibility(View.VISIBLE);
+                            Picasso.with(getApplicationContext())
+                                    .load(selectedImage)
+                                    .transform(new RoundedTransformation(15,0))
+                                    .fit()
+                                    .into(galeria1);
+                            num=num+1;
+                            f1.setVisibility(View.VISIBLE);
+                            contador.setText(num+" "+getString(R.string.fotografia));
+                            break;
+                        case 1:
+                            Picasso.with(getApplicationContext())
+                                    .load(selectedImage)
+                                    .transform(new RoundedTransformation(15,0))
+                                    .fit()
+                                    .into(galeria2);
+                            num=num+1;
+                            f2.setVisibility(View.VISIBLE);
+                            contador.setText(num+" "+getString(R.string.fotografias));
+                            break;
+                        case 2:
+                            Picasso.with(getApplicationContext())
+                                    .load(selectedImage)
+                                    .transform(new RoundedTransformation(15,0))
+                                    .fit()
+                                    .into(galeria3);
+                            num=num+1;
+                            f3.setVisibility(View.VISIBLE);
+                            contador.setText(num+" "+getString(R.string.fotografias));
+                            break;
+                        case 3:
+                            Picasso.with(getApplicationContext())
+                                    .load(selectedImage)
+                                    .transform(new RoundedTransformation(15,0))
+                                    .fit()
+                                    .into(galeria4);
+                            num=num+1;
+                            contador.setText(num+" "+getString(R.string.fotografias));
+                            f4.setVisibility(View.VISIBLE);
+                            break;
+                        case 4:
+                            Picasso.with(getApplicationContext())
+                                    .load(selectedImage)
+                                    .transform(new RoundedTransformation(15,0))
+                                    .fit()
+                                    .into(galeria5);
+                            num=num+1;
+                            f5.setVisibility(View.VISIBLE);
+                            contador.setText(num+" "+getString(R.string.fotografias));
+                            break;
+                        case 5:
+                            Picasso.with(getApplicationContext())
+                                    .load(selectedImage)
+                                    .transform(new RoundedTransformation(15,0))
+                                    .fit()
+                                    .into(galeria6);
+                            num=num+1;
+                            f6.setVisibility(View.VISIBLE);
+                            contador.setText(num+" "+getString(R.string.fotografias));
+                            break;
+                    }
+            } else{
+                Toast.makeText(getApplicationContext(),"fotografia No tomada", Toast.LENGTH_SHORT).show();
             }
-        } else if(RequestCode==GALERIA && ResultCode == RESULT_OK){
-            Uri selectedImage = intent.getData();
-            name.add(selectedImage.getPath());
-            switch (num){
-                case 0:
-                    Picasso.with(getApplicationContext())
-                            .load(selectedImage)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria1);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografia));
-                    break;
-                case 1:
-                    Picasso.with(getApplicationContext())
-                            .load(selectedImage)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria2);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 2:
-                    Picasso.with(getApplicationContext())
-                            .load(selectedImage)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria3);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 3:
-                    Picasso.with(getApplicationContext())
-                            .load(selectedImage)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria4);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 4:
-                    Picasso.with(getApplicationContext())
-                            .load(selectedImage)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria5);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-                case 5:
-                    Picasso.with(getApplicationContext())
-                            .load(selectedImage)
-                            .transform(new RoundedTransformation(15,0))
-                            .fit()
-                            .into(galeria6);
-                    num=num+1;
-                    contador.setText(num+" "+getString(R.string.fotografias));
-                    break;
-            }
-        } else{
-            Toast.makeText(getApplicationContext(), "fotografia No tomada", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private String[] obtenerMoneda(ArrayList<Moneda> lista){
@@ -411,7 +889,174 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         }
     }
 
-    private class ObtenerCategorias extends AppAsynchTask<Void, Void, Void> {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_publicar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.clean:
+                num=0;
+                contador.setText(getString(R.string.fotografia));
+                title.setText("");
+                descr.setText("");
+                costo.setText("");
+                moneda.setText("Q.");
+                idCurrency="1";
+              //  grid.setVisibility(View.GONE);
+                galeria1.setImageResource(R.drawable.blanco);
+                galeria2.setImageResource(R.drawable.blanco);
+                galeria3.setImageResource(R.drawable.blanco);
+                galeria4.setImageResource(R.drawable.blanco);
+                galeria5.setImageResource(R.drawable.blanco);
+                galeria6.setImageResource(R.drawable.blanco);
+                spinnerCat.setSelection(0);
+                spinnerSub.setSelection(0);
+                name.clear();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        parent.getItemAtPosition(position);
+        switch (parent.getId()) {
+            case R.id.spinner_categoria:
+                categoria = categoriasLista.get(position).getId();
+                String nombre = parent.getItemAtPosition(position).toString();
+                if(nombre.equals("Inmuebles")){
+                    esInmueble=true;
+                }
+                subCategoriasLista.clear();
+                subCategoriasLista.add(new SubCategoria(null, "Subcategoria", null));
+                ObtenerSubCategorias sub = new ObtenerSubCategorias(context);
+                sub.execute(nombre);
+                break;
+            case R.id.spinner_subcat:
+                subcategoria = subCategoriasLista.get(position).getId();
+                break;/*
+            case R.id.spinner_location:
+                if(localidadesLista.get(position).getId().equals("1")){
+                    idLocacion = localidadesLista.get(position).getId();
+                }else{
+                    idLocacion=localidadesLista.get(position).getId();
+                    /*ObtenerMunicipio mun = new ObtenerMunicipio();
+                    mun.execute(localidadesLista.get(position).getId());*/
+                    /*poblarSpinnerMunicipios();
+                }
+                break;
+            case R.id.spinner_municipio:
+                if(esInmueble){
+                    divZona.setVisibility(View.VISIBLE);
+                    poblarSpinnerZona();
+                    /*if(municipiosLista.get(position).getZona().equals("NO")){
+                        idLocacion = municipiosLista.get(position).getId();
+                    }else{
+                       ObtenerZona zo=new ObtenerZon();
+                        zo.execute(municipiosLista.get(position).getZona());
+                       spinnerZona.setEnabled(true);
+                    }*/
+               /* }else{
+                    divZona.setVisibility(View.INVISIBLE);
+                   // idLocacion = municipiosLista.get(position).getId();
+                }
+                break;
+            case R.id.spinner_zona:
+               // idLocacion=zonasLista.get(position).getId();
+                break;*/
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
+
+    private class NuevoAnuncio extends AppAsynchTask<String,Integer,Boolean> {
+        String idAd=null, mensaje=null;
+        Activity actividad;
+
+        public NuevoAnuncio(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
+            boolean resul = false;
+            String message;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPut post = new HttpPut(Constants.nuevo_clasificado+"/"+slug);
+            post.setHeader("authorization", "Basic"+ " " +params[0] );
+            post.setHeader("content-type", "application/json");
+            try
+            {
+                final String titulo = title.getText().toString();
+                final String precio = costo.getText().toString();
+                final String descripcion= descr.getText().toString();
+
+                    JSONObject map = new JSONObject();
+                    map.put("title", titulo);
+                    map.put("description", descripcion);
+                    map.put("price", precio);
+                    map.put("category_id",Integer.parseInt(subcategoria));
+                    map.put("currency_id",Integer.parseInt(idCurrency));
+                    map.put("location_id","root");
+                    map.put("product_id",Integer.parseInt(idProducto));
+                    message = map.toString();
+                    post.setHeader("Content-type", "application/json");
+                    post.setHeader("authorization", "Basic" + " " + params[0]);
+                    post.setEntity(new StringEntity(message, "UTF8"));
+                    HttpResponse resp = httpClient.execute(post);
+                    JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                    String aux = respJSON.get("errors").toString();
+                    JSONObject data= respJSON.getJSONObject("data");
+                    if(aux.equals("[]")){
+                        idAd=data.getString("id");
+                        Log.i("Objeto",idAd);
+                        resul=true;
+                    }else{
+                        JSONArray error=respJSON.getJSONArray("errors");
+                        for(int i=0;i<error.length();i++){
+                            JSONObject e = error.getJSONObject(i);
+                            JSONObject m=e.getJSONObject("error");
+                            mensaje=m.getString("message");
+                        }
+                        resul=false;
+                    }
+                } catch(Exception ex)
+            {
+                Log.e("ServicioRest", "Error!", ex);
+                resul = false;
+            }
+
+            return resul;
+        }
+
+        protected void customOnPostExecute(Boolean result) {
+
+            if (result)
+            {
+                startActivity(new Intent(getApplicationContext(), MiCuenta.class));
+                //showShareDialog();
+            }else{
+                Toast.makeText(getApplicationContext(),"Error: "+mensaje,Toast.LENGTH_LONG).show();
+            }
+        }
+
+
+
+    }
+
+
+    private class ObtenerCategorias extends AppAsynchTask<Void, Void, Boolean>{
 
         Activity actividad;
         public ObtenerCategorias(Activity activity) {
@@ -420,40 +1065,45 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         }
 
         @Override
-        protected Void customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException {
-            String id=null, nombre=null;
+
+           boolean resul=false; String id=null, nombre=null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.categories);
             get.setHeader("content-type", "application/json");
-            try {
-                HttpResponse resp = httpClient.execute(get);
-                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                JSONArray results = respJSON.getJSONArray("data");
-                Categoria c;
-                for(int i=0; i<results.length(); i++)
-                {
-                    JSONObject info= results.getJSONObject(i);
-                    id=info.getString("id");
-                    nombre = info.getString("name");
-                    c= new Categoria(id, nombre);
-                    categoriasLista.add(c);
+                try {
+                    HttpResponse resp = httpClient.execute(get);
+                    JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                    JSONArray results = respJSON.getJSONArray("data");
+                    Categoria c;
+                    for(int i=0; i<results.length(); i++) {
+                        JSONObject info = results.getJSONObject(i);
+                        id = info.getString("id");
+                        nombre = info.getString("name");
+                        c = new Categoria(id, nombre);
+                        categoriasLista.add(c);
+                    }
+                    resul=true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    resul=false;
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                    resul=false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    resul=false;
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
+            return resul;
         }
 
         @Override
-        protected void customOnPostExecute(Void result) {
-            poblarSpinnerCategorias();
+        protected void customOnPostExecute(Boolean result) {
+           if(result){
+               poblarSpinnerCategorias();
+           }
         }
     }
 
@@ -504,75 +1154,7 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         }
     }
 
-    private class ModificarAnuncio extends AppAsynchTask<String,Integer,Boolean> {
-        String idAd=null;
-        Activity actividad;
-
-        public ModificarAnuncio(Activity activity) {
-            super(activity);
-            actividad=activity;
-        }
-
-        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
-                TimeOutException, IOException, JSONException{
-            boolean resul;
-            String message;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPut post = new HttpPut(Constants.nuevo_clasificado);
-            post.setHeader("authorization", "Basic"+ " " +params[0] );
-            post.setHeader("content-type", "application/json");
-            try
-            {
-                final String titulo = title.getText().toString();
-                final String precio = costo.getText().toString();
-                final String descripcion= descr.getText().toString();
-                JSONObject map = new JSONObject();
-                map.put("slug",params[1]);
-                map.put("title", titulo);
-                map.put("description", descripcion);
-                map.put("price", precio);
-                map.put("category_id",Integer.parseInt(subcategoria));
-                map.put("currency_id",Integer.parseInt(idCurrency));
-                map.put("location_id","root");
-                map.put("product_id",Integer.parseInt(idProducto));
-                message = map.toString();
-                post.setHeader("Content-type", "application/json");
-                post.setHeader("authorization", "Basic" + " " + params[0]);
-                post.setEntity(new StringEntity(message, "UTF8"));
-                HttpResponse resp = httpClient.execute(post);
-                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                String aux = respJSON.get("errors").toString();
-                JSONObject data= respJSON.getJSONObject("data");
-                if(aux.equals("[]")){
-                    idAd=data.getString("id");
-                    Log.i("Objeto",idAd);
-                    resul=true;
-                }else{
-                    resul=false;
-                }
-            }
-            catch(Exception ex)
-            {
-                Log.e("ServicioRest", "Error!", ex);
-                resul = false;
-            }
-
-            return resul;
-        }
-
-        protected void customOnPostExecute(Boolean result) {
-
-            if (result)
-            {
-                Toast.makeText(getApplicationContext(),"Anuncio modificado exitosamente",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }else{
-                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private class ObtenerSubCategorias extends AppAsynchTask<String, Void, Void>{
+    private class ObtenerSubCategorias extends AppAsynchTask<String, Void, Boolean>{
 
         Activity actividad;
         public ObtenerSubCategorias(Activity activity) {
@@ -581,9 +1163,10 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         }
 
         @Override
-        protected Void customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException{
             String sub_id=null, sub_nombre=null, parent_id=null;
+            Boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.categories);
             get.setHeader("content-type", "application/json");
@@ -602,31 +1185,36 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
                         sub_nombre = info.getString("child_name");
                         parent_id = info.getString("parent_name");
                         sc= new SubCategoria(sub_id,sub_nombre,parent_id);
-                        Log.i("Subcategoria " + j, sc.toString());
+                        Log.i("Subcategoria "+j,sc.toString());
                         if(sc.getNameParent().equals(params[0])) {
                             subCategoriasLista.add(sc);
                         }
                     }
                 }
-
+                resul=true;
             } catch (JSONException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (IOException e) {
                 e.printStackTrace();
+                resul=false;
             }
 
-            return null;
+            return resul;
         }
 
         @Override
-        protected void customOnPostExecute(Void result) {
-            poblarSpinnerSubCategorias();
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarSpinnerSubCategorias();
+            }
         }
     }
 
-    private class ObtenerMoneda extends AppAsynchTask<Void, Void, Void>{
+    private class ObtenerMoneda extends AppAsynchTask<Void, Void, Boolean>{
 
         Activity actividad;
         public ObtenerMoneda(Activity activity) {
@@ -635,9 +1223,10 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         }
 
         @Override
-        protected Void customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException {
             String id=null, nombre=null,simb=null;
+            Boolean resul = null;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(Constants.moneda);
             get.setHeader("content-type", "application/json");
@@ -654,29 +1243,37 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
                     simb=info.getString("symbol");
                     c= new Moneda(id, nombre, simb);
                     monedaLista.add(c);
+                    resul=true;
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
+                resul=false;
             } catch (IOException e) {
                 e.printStackTrace();
+                resul=false;
             }
 
-            return null;
+            return resul;
         }
 
         @Override
-        protected void customOnPostExecute(Void result) {
-            obtenerMoneda(monedaLista);
+        protected void customOnPostExecute(Boolean result) {
+            if (result) {
+                obtenerMoneda(monedaLista);
+            }
         }
     }
 
     private void poblarSpinnerCategorias() {
         List<String> campos = new ArrayList<String>();
         for (int i = 0; i < categoriasLista.size(); i++) {
+            Log.i("Categoria",categoriasLista.get(i).toString());
             campos.add(categoriasLista.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.my_simple_spinner_item, campos);
         spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
@@ -723,84 +1320,146 @@ public class Modificar extends AppCompatActivity implements AdapterView.OnItemSe
         spinnerZona.setAdapter(spinnerAdapter);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_publicar, menu);
-        return true;
+    protected void showAlertDialogC() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.select_cat));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.clean:
-                grid.setVisibility(View.INVISIBLE);
-                num=0;
-                contador.setText(getString(R.string.fotografia));
-                title.setText("");
-                descr.setText("");
-                costo.setText("");
-                moneda.setText("Q");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    protected void showAlertDialogS() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.select_sub));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    protected void showAlertDialogCheck() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.sele_del));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    protected void showAlertDialogImage() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(getString(R.string.no_foto));
+        builder1.setCancelable(false);
+        builder1.setPositiveButton(
+                getString(R.string.aceptar),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    protected void showShareDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(Modificar.this);
+        View promptView = layoutInflater.inflate(R.layout.share_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Modificar.this);
+        alertDialogBuilder.setView(promptView);
+        final CheckBox check = (CheckBox)promptView.findViewById(R.id.checkbox_dialog);
+        final Button b=(Button) promptView.findViewById(R.id.button_dialog);
+        alertDialogBuilder.setCancelable(true);
+        View.OnClickListener oncl=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "Se publico y fuimos a fb", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Solo se publico", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        b.setOnClickListener(oncl);
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    private void encodedImage(){
+        encoded = new ArrayList<>();
+        for (int i=0;i<name.size();i++){
+            Bitmap bm = BitmapFactory.decodeFile(name.get(i));
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, output); //bm is the bitmap object
+            byte[] bytes = output.toByteArray();
+            String encode = Base64.encodeToString(bytes,0);
+            encoded.add(encode);
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        parent.getItemAtPosition(position);
-        switch (parent.getId()) {
-            case R.id.spinner_categoria:
-                categoria = categoriasLista.get(position).getId();
-                String nombre = parent.getItemAtPosition(position).toString();
-                if(nombre.equals("Inmuebles")){
-                    esInmueble=true;
-                }
-                subCategoriasLista.clear();
-                subCategoriasLista.add(new SubCategoria(null, "Subcategoria", null));
-                ObtenerSubCategorias sub = new ObtenerSubCategorias(context);
-                sub.execute(nombre);
-                break;
-            case R.id.spinner_subcat:
-                subcategoria = subCategoriasLista.get(position).getId();
-                break;
-            case R.id.spinner_location:
-                if(localidadesLista.get(position).getId().equals("1")){
-                    idLocacion = localidadesLista.get(position).getId();
-                }else{
-                    idLocacion=localidadesLista.get(position).getId();
-                    /*ObtenerMunicipio mun = new ObtenerMunicipio();
-                    mun.execute(localidadesLista.get(position).getId());*/
-                    poblarSpinnerMunicipios();
-                }
-                break;
-            case R.id.spinner_municipio:
-                if(esInmueble){
-                    divZona.setVisibility(View.VISIBLE);
-                    poblarSpinnerZona();
-                    /*if(municipiosLista.get(position).getZona().equals("NO")){
-                        idLocacion = municipiosLista.get(position).getId();
-                    }else{
-                       ObtenerZona zo=new ObtenerZon();
-                        zo.execute(municipiosLista.get(position).getZona());
-                       spinnerZona.setEnabled(true);
-                    }*/
-                }else{
-                    divZona.setVisibility(View.INVISIBLE);
-                    // idLocacion = municipiosLista.get(position).getId();
-                }
-                break;
-            case R.id.spinner_zona:
-                // idLocacion=zonasLista.get(position).getId();
-                break;
+    private class SubirFoto extends AppAsynchTask<String,Void,Boolean>{
+
+        Activity actividad;
+        public SubirFoto(Activity activity) {
+            super(activity);
+            actividad=activity;
         }
+
+        @Override
+        protected Boolean customDoInBackground(String... params)
+                throws NetworkException, ServerException, ParsingException, TimeOutException, IOException, JSONException {
+            Boolean resul;
+            encodedImage();
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost post = new HttpPost(Constants.upload_foto);
+                post.setHeader("authorization", "Basic" + " " + params[0]);
+                post.setHeader("Content-Type", "multipart/form-data");
+                HttpEntity builder = MultipartEntityBuilder.create()
+                        .addTextBody("ad_id", params[1])
+                        .addTextBody("priority", "1")
+                        .addTextBody("category_id",params[2])
+                        .build();
+
+                post.setEntity(builder);
+                HttpResponse resp = httpClient.execute(post);
+                HttpEntity responseEntity = resp.getEntity();
+
+
+
+
+                resul=true;
+            }catch (Exception ex){
+                Log.e("ServicioRest", "Error!", ex);
+                resul = false;
+            }
+            return resul;
+
+        }
+
+        @Override
+        protected void customOnPostExecute(Boolean result) {
+
+        }
+
     }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
 
 }

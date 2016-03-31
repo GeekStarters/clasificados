@@ -150,7 +150,7 @@ public class Inicio extends Fragment {
 
         new ObtenerCategoria(context).execute();
         LlenarLista llenar = new LlenarLista(context);
-        llenar.execute("1");
+        llenar.execute("vehiculos");
         plus = (ImageView) view.findViewById(R.id.nuevo);
         miCuenta = (TextView)view.findViewById(R.id.miCuenta);
         mensajes = (TextView)view.findViewById(R.id.mensajes_button);
@@ -203,7 +203,7 @@ public class Inicio extends Fragment {
                         filtro_p.setVisibility(View.GONE);
                         filtro_v.setVisibility(View.GONE);
                         filtros_super.setVisibility(View.GONE);
-                        a.putExtra("lista", "1");
+                        a.putExtra("lista", "vehiculos");
                         a.putExtra("title", "Ultimos Vehiculos");
                         context.startActivityForResult(a, FILTRO);
                         break;
@@ -212,7 +212,7 @@ public class Inicio extends Fragment {
                         filtro_p.setVisibility(View.GONE);
                         filtro_v.setVisibility(View.GONE);
                         filtros_super.setVisibility(View.GONE);
-                        a.putExtra("lista", "3");
+                        a.putExtra("lista", "inmuebles");
                         a.putExtra("title", "Ultimos Inmuebles");
                         context.startActivityForResult(a, FILTRO);
                         break;
@@ -221,7 +221,7 @@ public class Inicio extends Fragment {
                         filtro_p.setVisibility(View.GONE);
                         filtro_v.setVisibility(View.GONE);
                         filtros_super.setVisibility(View.GONE);
-                        a.putExtra("lista", "2");
+                        a.putExtra("lista", "productos");
                         a.putExtra("title", "Ultimos Productos");
                         context.startActivityForResult(a, FILTRO);
                         break;
@@ -533,9 +533,7 @@ public class Inicio extends Fragment {
                 JSONObject data  = respJSON.getJSONObject("data");
                 JSONArray results = data.getJSONArray("results");
                 JSONObject page=data.getJSONObject("paging");
-                String auxi=page.getString("getNextLink");
-                String[] split=auxi.split("=");
-                nextLink=split[1];
+                nextLink=page.getString("getNextLink");
                 hasMore=true;
                 for(int i=0; i<results.length(); i++)
                 {
@@ -617,7 +615,7 @@ public class Inicio extends Fragment {
         protected Boolean doInBackground(String ... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(url_page+"?p="+params[0]);
+            HttpGet get = new HttpGet(params[0]);
             System.out.println("url "+url_page+"?p="+params[0]);
             get.setHeader("content-type", "application/json");
             try
@@ -631,10 +629,7 @@ public class Inicio extends Fragment {
                 JSONArray results = data.getJSONArray("results");
                 try{
                 JSONObject page=data.getJSONObject("paging");
-                String auxi=page.getString("getNextLink");
-                String[] split=auxi.split("=");
-                nextLink=split[1];
-
+                    nextLink=page.getString("getNextLink");
                 hasMore=true;
                 }catch (Exception ex){
                     Log.e("Paginas", "Error!", ex);

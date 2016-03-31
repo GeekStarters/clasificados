@@ -36,7 +36,7 @@
     <permission
         android:name="and.clasificados.com.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
-    <uses-permission android:name="com.layer.quick_start_android.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="and.clasificados.com.permission.C2D_MESSAGE"/>
 
     <permission
         android:name="and.clasificados.com.Mapa.permission.MAPS_RECEIVE"
@@ -59,10 +59,10 @@
     <!-- GCM permission for your app -->
     <!-- Signature-only permissions -->
     <permission
-        android:name="com.myapp.package.permission.LAYER_PUSH"
+        android:name="and.clasificados.com.permission.LAYER_PUSH"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.myapp.package.permission.LAYER_PUSH" />
+    <uses-permission android:name="and.clasificados.com.permission.LAYER_PUSH" />
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -168,7 +168,7 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <category android:name="com.layer.quick_start_android"/>
+                <category android:name="and.clasificados.com"/>
             </intent-filter>
         </receiver>
 
@@ -179,7 +179,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <category android:name="and.clasificados.co"/>
+                <category android:name="and.clasificados.com"/>
             </intent-filter>
         </receiver>
 
@@ -203,7 +203,11 @@
         <activity
             android:name=".actividades.Modificar"
             android:label="@string/title_activity_modificar"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="and.clasificados.com.actividades.MiCuenta" />
+        </activity>
         <activity
             android:name=".auxiliares.CustomPhotoGallery"
             android:label="@string/title_activity_custom_photo_gallery"

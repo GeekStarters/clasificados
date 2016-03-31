@@ -201,9 +201,9 @@ public class Filtro extends AppCompatActivity {
                 JSONObject data  = respJSON.getJSONObject("data");
                 JSONArray results = data.getJSONArray("results");
                 JSONObject page=data.getJSONObject("paging");
-                String auxi=page.getString("getNextLink");
-                String[] split=auxi.split("=");
-                nextLink=split[1];
+                nextLink=page.getString("getNextLink");
+                //String[] split=auxi.split("=");
+                //nextLink=split[1];
                 hasMore=true;
                 for(int i=0; i<results.length(); i++)
                 {
@@ -284,7 +284,7 @@ public class Filtro extends AppCompatActivity {
         protected Boolean doInBackground(String ... params) {
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(url_page+"?p="+params[0]);
+            HttpGet get = new HttpGet(params[0]);
             System.out.println("url "+url_page+"?p="+params[0]);
             get.setHeader("content-type", "application/json");
             try
@@ -298,10 +298,7 @@ public class Filtro extends AppCompatActivity {
                     JSONArray results = data.getJSONArray("results");
                     try{
                         JSONObject page=data.getJSONObject("paging");
-                        String auxi=page.getString("getNextLink");
-                        String[] split=auxi.split("=");
-                        nextLink=split[1];
-
+                        nextLink=page.getString("getNextLink");
                         hasMore=true;
                     }catch (Exception ex){
                         Log.e("Paginas", "Error!", ex);

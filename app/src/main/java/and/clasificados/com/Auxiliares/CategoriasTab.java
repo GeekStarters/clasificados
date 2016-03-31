@@ -2,6 +2,7 @@ package and.clasificados.com.auxiliares;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,21 +11,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.avast.android.dialogs.fragment.ListDialogFragment;
-import com.avast.android.dialogs.fragment.SimpleDialogFragment;
-import com.avast.android.dialogs.iface.IListDialogListener;
-import com.avast.android.dialogs.iface.ISimpleDialogCancelListener;
-import com.avast.android.dialogs.iface.ISimpleDialogListener;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -37,8 +33,10 @@ import java.util.List;
 
 import and.clasificados.com.Constants;
 import and.clasificados.com.R;
+import and.clasificados.com.actividades.MiCuenta;
 import and.clasificados.com.actividades.Modificar;
 import and.clasificados.com.actividades.Single;
+import and.clasificados.com.auxiliares.PopupMenu.PopupMenuCompat;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
@@ -51,7 +49,7 @@ import and.clasificados.com.services.AppAsynchTask;
 /**
  * Created by Gabriela Mejia on 1/2/2016.
  */
-public class CategoriasTab extends Fragment implements IListDialogListener,ISimpleDialogCancelListener, ISimpleDialogListener{
+public class CategoriasTab extends Fragment{
 
     private static final String INDICE_SECCION
             = "and.clasificados.com.FragmentoCategoriasTab.extra.INDICE_SECCION";
@@ -98,42 +96,7 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
         return view;
     }
 
-    @Override
-    public void onListItemSelected(CharSequence value, int number, int requestCode) {
-        if(value.equals("Ver")){
-            String  single = resultado.get(requestCode).getSingle();
-            Intent o=new Intent(context,Single.class);
-            o.putExtra("single",single);
-            startActivity(o);
-        }else if(value.equals("Modificar")){
-            String  slugo = resultado.get(requestCode).getSlug();
-            Intent o = new Intent(context,Modificar.class);
-            o.putExtra("slug",slugo);
-            startActivity(o);
-        }else if(value.equals("Eliminar")){
-            SimpleDialogFragment.createBuilder(getActivity(), getFragmentManager())
-                    .setTitle("Eliminar")
-                    .setMessage("¿Desea eliminar el clasificado? Esta accion no podra ser deshecha")
-                    .setPositiveButtonText("Love")
-                    .setNegativeButtonText("Hate")
-                    .setRequestCode(1993)
-                    .show();
-             slug = resultado.get(requestCode).getSlug();
 
-        }
-
-    }
-
-    @Override
-    public void onPositiveButtonClicked(int requestCode) {
-        if (requestCode == 1993) {
-           if(login_user!=null){
-               new EliminarClasificado(context).execute(login_user.auto,slug);
-           }else{
-               transicion();
-           }
-        }
-    }
 
     private void transicion() {
         Fragment fragmentoGenerico = new NoLogin();
@@ -144,23 +107,8 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
                 .commit();
     }
 
-    @Override
-    public void onNegativeButtonClicked(int requestCode) {
-        if (requestCode == 1993) {
-
-        }
-    }
-
-    @Override
-    public void onCancelled(int requestCode) {
-        if (requestCode == 1993) {
-
-        }
-    }
-
-    @Override
-    public void onNeutralButtonClicked(int requestCode) {
-
+    private void transicionCuenta() {
+        startActivity(new Intent(context, MiCuenta.class));
     }
 
     private class EliminarClasificado extends AppAsynchTask<String,Integer,Boolean> {
@@ -175,27 +123,26 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
                 TimeOutException, IOException, JSONException{
             boolean resul;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost post = new HttpPost(Constants.nuevo_clasificado);
+            HttpDelete post = new HttpDelete(Constants.nuevo_clasificado+"/"+params[1]);
             post.setHeader("authorization", "Basic"+ " " +params[0] );
             post.setHeader("content-type", "application/json");
             try
             {
-                JSONObject map = new JSONObject();
-                map.put("slug", params[1]);
-                StringEntity entity = new StringEntity(map.toString());
-                post.setEntity(entity);
+
                 HttpResponse resp = httpClient.execute(post);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                JSONObject data  = respJSON.getJSONObject("errors");
-                if(data.toString().equals("[]")) {
-                    mensaje = "El anuncio solicitado no existe";
-                }else {
+                String aux = respJSON.get("errors").toString();
+                if(aux.toString().equals("[]")) {
+                    JSONObject data  = respJSON.getJSONObject("data");
                     String result = data.getString("status");
                     if (result.equals("removed")) {
                         mensaje = "Anuncio eliminado con exito";
                     }
+                    resul=true;
+                }else {
+                    resul=false;
+                    mensaje = "El anuncio solicitado no existe";
                 }
-                resul=true;
             } catch(Exception ex)
             {
                 Log.e("ServicioRest","Error!", ex);
@@ -207,8 +154,9 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
 
         protected void customOnPostExecute(final Boolean result) {
             if (result) {
-               Toast.makeText(getActivity(),mensaje,Toast.LENGTH_LONG).show();
-
+                transicionCuenta();
+            }else{
+                Toast.makeText(getActivity(),mensaje,Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -270,14 +218,36 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
                 adaptador =  new AdaptadorCategorias(resultado);
                 adaptador.setOnItemClickListener(new AdaptadorCategorias.OnItemClickListener() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        ListDialogFragment
-                                .createBuilder(getActivity(), getFragmentManager())
-                                .setTitle(getString(R.string.selecc))
-                                .setItems(new String[]{"Ver", "Modificar", "Eliminar"})
-                                .setRequestCode(position)
-                                .show();
-
+                    public void onItemClick(View v, final int position) {
+                        PopupMenuCompat menu = PopupMenuCompat.newInstance(context, v);
+                        menu.inflate( R.menu.menu_popup);
+                        menu.setOnMenuItemClickListener( new PopupMenuCompat.OnMenuItemClickListener()
+                        {
+                            @Override
+                            public boolean onMenuItemClick( MenuItem item )
+                            {
+                                switch (item.getItemId()){
+                                    case R.id.ver:
+                                        String  single = resultado.get(position).getSingle();
+                                        Intent o=new Intent(context,Single.class);
+                                        o.putExtra("single",single);
+                                        startActivity(o);
+                                        break;
+                                    case R.id.modificar:
+                                        String  slugo = resultado.get(position).getSlug();
+                                        Intent s = new Intent(context,Modificar.class);
+                                        s.putExtra("slug", slugo);
+                                        startActivity(s);
+                                        break;
+                                    case R.id.eliminar:
+                                        showAlertDialogEliminar();
+                                        slug = resultado.get(position).getSlug();
+                                        break;
+                                }
+                                return true;
+                            }
+                        } );
+                        menu.show();
                     }
                 });
                 reciclador.setAdapter(adaptador);
@@ -285,6 +255,30 @@ public class CategoriasTab extends Fragment implements IListDialogListener,ISimp
             }
         }
 }
+    protected void showAlertDialogEliminar() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setTitle("Eliminar");
+        alertDialogBuilder.setMessage("¿Desea eliminar el clasificado? Esta accion no podra ser deshecha");
+        alertDialogBuilder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(login_user!=null){
+                    new EliminarClasificado(context).execute(login_user.auto,slug);
+                }else{
+                    transicion();
+                }
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               transicionCuenta();
+            }
+        });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
 
 
 }
