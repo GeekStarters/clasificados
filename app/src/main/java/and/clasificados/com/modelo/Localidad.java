@@ -7,7 +7,8 @@ public class Localidad {
 
     private String id;
     private String nombre;
-
+    private Double longitud;
+    private Double latitud;
     public Localidad(){
 
     }
@@ -15,6 +16,22 @@ public class Localidad {
     public Localidad(String id, String nombre) {
         this.id = id;
         this.nombre = nombre;
+    }
+
+    public Localidad(String id, String nombre, Double longitud, Double latitud) {
+        this.id = id;
+        this.nombre = nombre;
+        this.longitud = longitud;
+        this.latitud = latitud;
+    }
+
+    public Double getLatitud() {
+
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
     }
 
     public String getId() {

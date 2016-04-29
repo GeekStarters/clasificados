@@ -7,6 +7,8 @@ public class Zona {
 
     private String id;
     private String nombre;
+    private Double longitud;
+    private Double latitud;
 
     public Zona(){
 
@@ -15,6 +17,29 @@ public class Zona {
     public Zona(String id, String nombre) {
         this.id = id;
         this.nombre = nombre;
+    }
+
+    public Zona(String id, String nombre, Double longitud, Double latitud) {
+        this.id = id;
+        this.nombre = nombre;
+        this.longitud = longitud;
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
     }
 
     public String getId() {

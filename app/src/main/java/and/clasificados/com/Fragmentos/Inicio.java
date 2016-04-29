@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -35,6 +36,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import and.clasificados.com.Constants;
@@ -56,7 +58,14 @@ import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
 import and.clasificados.com.modelo.Categoria;
 import and.clasificados.com.modelo.Clasificado;
+import and.clasificados.com.modelo.Localidad;
+import and.clasificados.com.modelo.Marca;
 import and.clasificados.com.modelo.Mensaje;
+import and.clasificados.com.modelo.Modelo;
+import and.clasificados.com.modelo.Municipio;
+import and.clasificados.com.modelo.SubCategoria;
+import and.clasificados.com.modelo.Vehiculo;
+import and.clasificados.com.modelo.Zona;
 import and.clasificados.com.services.AppAsynchTask;
 
 /**
@@ -71,15 +80,16 @@ public class Inicio extends Fragment {
     private boolean hasMore, click, click2,click3;
     Spinner spinnerCat, spinnerSub,spinnerZona,spinnerLoc,spinnerMun, spinnerMarca,spinnerModelo,spinnerTipoA, spinnerTipoI;
     private RecyclerView reciclador;
-    //private FrameLayout filtro_v, filtro_p, filtro_i;
     private RelativeLayout filtros_super, rel1,rel2,rel3, rel4,rel5,rel6, filtro_v, filtro_p, filtro_i;
     private LinearLayoutManager layoutManager;
-    private AdaptadorCategorias adaptador;
     private Activity context;
-    ArrayList <String> marca,modelo, tipoA, tipoI,depa,muni, zona, cate, sub;
     private List<Item> resultado;
+    private List<Municipio> listaMunicipio;
     private List<Clasificado> clasificados;
-    private List<Categoria> categoriasLista;
+    private List<Localidad> listaLocaciones;
+    private List<Categoria> categoriasLista, categoriasVehiculo, categoriasInmueble;
+    private Vehiculo vehiculoLista;
+    private ArrayList<Marca> marcas;
     private static int current_page = 1;
     private int ival = 1;
     private String url_page;
@@ -114,7 +124,6 @@ public class Inicio extends Fragment {
         spinnerZona=(Spinner)view.findViewById(R.id.spinner6);
         spinnerCat = (Spinner)view.findViewById(R.id.spinnercatfiltro);
         spinnerSub = (Spinner)view.findViewById(R.id.spinnersubfiltro);
-        cargarSpinners();
         //Tabs
         vehiculo = (ImageView)view.findViewById(R.id.img_tab);
         producto = (ImageView)view.findViewById(R.id.img_tab3);
@@ -147,8 +156,6 @@ public class Inicio extends Fragment {
         filtro_p.setVisibility(View.GONE);
         filtro_v.setVisibility(View.GONE);
         filtros_super.setVisibility(View.GONE);
-
-        new ObtenerCategoria(context).execute();
         LlenarLista llenar = new LlenarLista(context);
         llenar.execute("vehiculos");
         plus = (ImageView) view.findViewById(R.id.nuevo);
@@ -235,6 +242,7 @@ public class Inicio extends Fragment {
                         btn1.setTextColor(getResources().getColor(R.color.tab_blue));
                         btn2.setTextColor(getResources().getColor(R.color.tab_blue));
                         btn3.setTextColor(getResources().getColor(R.color.white));
+                        new ObtenerFiltroVehiculo(context).execute(2);
                         break;
                     case R.id.tab_marca:
                         rel1.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_selected_2));
@@ -246,6 +254,7 @@ public class Inicio extends Fragment {
                         btn3.setTextColor(getResources().getColor(R.color.tab_blue));
                         btn2.setTextColor(getResources().getColor(R.color.tab_blue));
                         btn1.setTextColor(getResources().getColor(R.color.white));
+                        new ObtenerFiltroVehiculo(context).execute(0);
                         break;
                     case R.id.tab_modelo:
                         rel1.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_no));
@@ -257,6 +266,7 @@ public class Inicio extends Fragment {
                         btn1.setTextColor(getResources().getColor(R.color.tab_blue));
                         btn3.setTextColor(getResources().getColor(R.color.tab_blue));
                         btn2.setTextColor(getResources().getColor(R.color.white));
+                        new ObtenerFiltroVehiculo(context).execute(1);
                         break;
                     case R.id.tab_alquiler:
                         rel4.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_selected_2));
@@ -356,84 +366,50 @@ public class Inicio extends Fragment {
         btn5.setOnClickListener(onclick);
         btn6.setOnClickListener(onclick);
         filtros_super.setOnClickListener(onclick);
+        AdapterView.OnItemSelectedListener onselected = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.getItemAtPosition(position);
+                switch (parent.getId()) {
+                    case R.id.spinnercatfiltro:
+                        ArrayList<SubCategoria> aux = categoriasLista.get(position).getSub();
+                        poblarSpinnerSubCategorias(aux);
+                        break;
+                    case R.id.spinner_marca:
+                        ArrayList<Modelo> model = marcas.get(position).getModelo();
+                        poblarSpinnerModelos(model);
+                        break;
+                    case R.id.spinner4:
+                        int identificadorA = Integer.parseInt(listaLocaciones.get(position).getId());
+                        int identificadorB = Integer.parseInt(listaLocaciones.get(position+1).getId());
+                        new ObtenerMunicipalidades(context).execute(identificadorA, identificadorB);
+                        break;
+                    case R.id.spinner5:
+                        ArrayList<Zona> auxiliar = listaMunicipio.get(position).getZonas();
+                        poblarSpinnerZonas(auxiliar);
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        };
+        spinnerMarca.setOnItemSelectedListener(onselected);
+        spinnerCat.setOnItemSelectedListener(onselected);
+        spinnerLoc.setOnItemSelectedListener(onselected);
+        spinnerMun.setOnItemSelectedListener(onselected);
         return view;
     }
 
-    private void cargarSpinners() {
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, marca);
-        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerMarca.setAdapter(spinnerAdapter);
-        ArrayAdapter<String> spinnerAdapter2 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, modelo);
-        spinnerAdapter2.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerModelo.setAdapter(spinnerAdapter2);
-        ArrayAdapter<String> spinnerAdapter3 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, tipoA);
-        spinnerAdapter3.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerTipoA.setAdapter(spinnerAdapter3);
-        ArrayAdapter<String> spinnerAdapter4 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, tipoI);
-        spinnerAdapter4.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerTipoI.setAdapter(spinnerAdapter4);
-        ArrayAdapter<String> spinnerAdapter5 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, depa);
-        spinnerAdapter5.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerLoc.setAdapter(spinnerAdapter5);
-        ArrayAdapter<String> spinnerAdapter6 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, muni);
-        spinnerAdapter6.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerMun.setAdapter(spinnerAdapter6);
-        ArrayAdapter<String> spinnerAdapter7 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, zona);
-        spinnerAdapter7.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerZona.setAdapter(spinnerAdapter7);
-        ArrayAdapter<String> spinnerAdapter8 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, cate);
-        spinnerAdapter8.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerCat.setAdapter(spinnerAdapter8);
-        ArrayAdapter<String> spinnerAdapter9 = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, sub);
-        spinnerAdapter9.setDropDownViewResource(R.layout.dropdown_spinner);
-        spinnerSub.setAdapter(spinnerAdapter9);
-    }
-
     private void llenarListasSpinner() {
-        marca = new ArrayList<>();
-        marca.add("Marca");
-        marca.add("Honda");
-        marca.add("Toyota");
-        marca.add("Nissan");
-        modelo = new ArrayList<>();
-        modelo.add("Modelo");
-        modelo.add("RX1");
-        modelo.add("XY2");
-        modelo.add("yxa2");
-        tipoA = new ArrayList<>();
-        tipoA.add("Nuevos");
-        tipoA.add("Usados");
-        tipoI = new ArrayList<>();
-        tipoI.add("Tipo de Inmueble");
-        tipoI.add("Oficina");
-        tipoI.add("Casa");
-        tipoI.add("Edificio");
-        tipoI.add("Terreno");
-        depa = new ArrayList<>();
-        depa.add("Departamento");
-        depa.add("Ciudad de Guatemala");
-        depa.add("Quezaltenango");
-        muni = new ArrayList<>();
-        muni.add("Municipio");
-        muni.add("Guatemala");
-        muni.add("Otro municipio");
-        muni.add("Otro municipio");
-        zona = new ArrayList<>();
-        zona.add("Zona");
-        zona.add("Zona 1");
-        zona.add("Zona 2");
-        zona.add("Zona 3");
-        cate = new ArrayList<>();
-        cate.add("Categoria");
-        cate.add("Celulares");
-        cate.add("Hogar");
-        cate.add("Mascotas");
-        sub = new ArrayList<>();
-        sub.add("Subcategoria");
-        sub.add("Subcategoria 1");
-        sub.add("Subcategoria 2");
-        sub.add("Subcategoria 3");
-        sub.add("Subcategoria 4");
+        new ObtenerCategoria(context).execute("products");
+        new ObtenerFiltroVehiculo(context).execute(0);
+        new ObtenerCategoriasVehiculos(context).execute();
+        new ObtenerCategoriasInmuebles(context).execute();
+        new ObtenerLocaciones(context).execute();
     }
 
     private void transicion() {
@@ -445,7 +421,323 @@ public class Inicio extends Fragment {
                 .commit();
     }
 
-    private class ObtenerCategoria extends AppAsynchTask<Void, Void, Boolean>{
+    private class ObtenerMunicipalidades extends AppAsynchTask<Integer, Void, Boolean>{
+
+        Activity actividad;
+        public ObtenerMunicipalidades(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        @Override
+        protected Boolean customDoInBackground(Integer... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
+
+            boolean resul=false; String id=null, nombre=null, idZona=null, nameZona=null;
+            Double longitud,latitud, longitudZona,latitudZona;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.categories_filtro+"realstates");
+            get.setHeader("content-type", "application/json");
+            try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data = respJSON.getJSONObject("data");
+                JSONObject aux = data.getJSONObject("municipalities");
+                if(params[0]>=2){
+                    JSONObject idMun = aux.getJSONObject(""+params[0]);
+                    JSONObject results = idMun.getJSONObject("municipalities");
+                    Municipio c;
+                    ArrayList<Zona> zonita = new ArrayList<>();
+                    zonita.add(new Zona(null,"Zona",null,null));
+                    listaMunicipio=new ArrayList<>();
+                    listaMunicipio.add(new Municipio(null,"Municipio",null,null,zonita));
+                    for(int i=params[0]+1; i<params[1]; i++) {
+                        JSONObject info = results.getJSONObject(String.valueOf(i));
+                        id = info.getString("id");
+                        nombre = info.getString("name");
+                        longitud=Double.parseDouble(info.getString("longitude"));
+                        latitud=Double.parseDouble(info.getString("latitude"));
+                        ArrayList<Zona> zonaMun = new ArrayList<>();
+                        zonaMun.add(new Zona(null,"Zona",null, null));
+                        String auxiliar= info.get("zones").toString();
+                        if(!auxiliar.equals("[]")){
+                            JSONObject zones = info.getJSONObject("zones");
+                            Zona z;
+                            Iterator<String> iter = zones.keys();
+                            while (iter.hasNext()) {
+                                String key = iter.next();
+                                try {
+                                    JSONObject dataZone = zones.getJSONObject(key);
+                                    idZona=dataZone.getString("id");
+                                    nameZona=dataZone.getString("name");
+                                    longitudZona=Double.parseDouble(dataZone.getString("longitude"));
+                                    latitudZona=Double.parseDouble(dataZone.getString("latitude"));
+                                    z=new Zona(idZona,nameZona,longitudZona,latitudZona);
+                                    zonaMun.add(z);
+                                } catch (JSONException e) {
+                                    // Something went wrong!
+                                }
+                            }
+                        }
+                        c = new Municipio(id, nombre, longitud, latitud,zonaMun);
+                        listaMunicipio.add(c);
+                    }
+                }else{
+                    ArrayList<Zona> zonita = new ArrayList<>();
+                    zonita.add(new Zona(null,"Zona",null,null));
+                    listaMunicipio=new ArrayList<>();
+                    listaMunicipio.add(new Municipio(null,"Municipio",null,null,zonita));
+                }
+                resul=true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                resul=false;
+            }
+
+            return resul;
+        }
+
+        @Override
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarSpinnerMunicipios();
+            }
+        }
+    }
+
+    private void poblarSpinnerMunicipios() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < listaMunicipio.size(); i++) {
+            Log.i("Categoria",listaMunicipio.get(i).toString());
+            campos.add(listaMunicipio.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerMun.setAdapter(spinnerAdapter);
+    }
+
+    private void poblarSpinnerZonas(ArrayList<Zona> aux) {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < aux.size(); i++) {
+            Log.i("Categoria",aux.get(i).toString());
+            campos.add(aux.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerZona.setAdapter(spinnerAdapter);
+    }
+
+    private class ObtenerLocaciones extends AppAsynchTask<String, Void, Boolean>{
+
+        Activity actividad;
+        public ObtenerLocaciones(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        @Override
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
+
+            boolean resul=false; String id=null, nombre=null;
+            Double longitud,latitud;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.categories_filtro+"realstates");
+            get.setHeader("content-type", "application/json");
+            try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("locations");
+                Localidad c;
+                listaLocaciones=new ArrayList<>();
+                listaLocaciones.add(new Localidad("0","Departamento",null,null));
+                for(int i=0; i<results.length(); i++) {
+                    JSONObject info = results.getJSONObject(i);
+                    id = info.getString("id");
+                    nombre = info.getString("name");
+                    longitud=Double.parseDouble(info.getString("longitude"));
+                    latitud=Double.parseDouble(info.getString("latitude"));
+                    c = new Localidad(id, nombre, longitud, latitud);
+                    listaLocaciones.add(c);
+                }
+                resul=true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                resul=false;
+            }
+
+            return resul;
+        }
+
+        @Override
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarSpinnerLocaciones();
+            }
+        }
+    }
+
+    private void poblarSpinnerLocaciones() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < listaLocaciones.size(); i++) {
+            Log.i("Categoria",listaLocaciones.get(i).toString());
+            campos.add(listaLocaciones.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerLoc.setAdapter(spinnerAdapter);
+    }
+
+
+    private class ObtenerCategoriasInmuebles extends AppAsynchTask<String, Void, Boolean>{
+
+        Activity actividad;
+        public ObtenerCategoriasInmuebles(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        @Override
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
+
+            boolean resul=false; String id=null, nombre=null, slug=null, idSub=null, nameSub=null,slugSub=null, useSlug=null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.categories_filtro+"realstates");
+            get.setHeader("content-type", "application/json");
+            try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("products");
+                Categoria c;
+                categoriasInmueble=new ArrayList<>();
+                categoriasInmueble.add(new Categoria(null,"Tipo de Inmueble"));
+                for(int i=0; i<results.length(); i++) {
+                    JSONObject info = results.getJSONObject(i);
+                    id = info.getString("id");
+                    nombre = info.getString("name");
+                    c = new Categoria(id, nombre);
+                    categoriasInmueble.add(c);
+                }
+                resul=true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                resul=false;
+            }
+
+            return resul;
+        }
+
+        @Override
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarSpinnerCategoriasInmuebles();
+            }
+        }
+    }
+
+    private void poblarSpinnerCategoriasInmuebles() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < categoriasInmueble.size(); i++) {
+            Log.i("Categoria",categoriasInmueble.get(i).toString());
+            campos.add(categoriasInmueble.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerTipoI.setAdapter(spinnerAdapter);
+    }
+
+    private class ObtenerCategoriasVehiculos extends AppAsynchTask<String, Void, Boolean>{
+
+        Activity actividad;
+        public ObtenerCategoriasVehiculos(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        @Override
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
+
+            boolean resul=false; String id=null, nombre=null, slug=null, idSub=null, nameSub=null,slugSub=null, useSlug=null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.categories_filtro+"vehicles");
+            get.setHeader("content-type", "application/json");
+            try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("categories");
+                Categoria c;
+                categoriasVehiculo=new ArrayList<>();
+                categoriasVehiculo.add(new Categoria(null,"Estado"));
+                for(int i=0; i<results.length(); i++) {
+                    JSONObject info = results.getJSONObject(i);
+                    id = info.getString("child_id");
+                    nombre = info.getString("child_name");
+                    c = new Categoria(id, nombre);
+                    categoriasVehiculo.add(c);
+                }
+                resul=true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                resul=false;
+            }
+
+            return resul;
+        }
+
+        @Override
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarSpinnerCategoriasVehiculos();
+            }
+        }
+    }
+
+    private void poblarSpinnerCategoriasVehiculos() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < categoriasVehiculo.size(); i++) {
+            Log.i("Categoria",categoriasVehiculo.get(i).toString());
+            campos.add(categoriasVehiculo.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerTipoA.setAdapter(spinnerAdapter);
+    }
+
+    private class ObtenerCategoria extends AppAsynchTask<String, Void, Boolean>{
 
         Activity actividad;
         public ObtenerCategoria(Activity activity) {
@@ -454,23 +746,42 @@ public class Inicio extends Fragment {
         }
 
         @Override
-        protected Boolean customDoInBackground(Void... arg0)  throws NetworkException, ServerException, ParsingException,
+        protected Boolean customDoInBackground(String... params)  throws NetworkException, ServerException, ParsingException,
                 TimeOutException, IOException, JSONException {
 
-            boolean resul=false; String id=null, nombre=null;
+            boolean resul=false; String id=null, nombre=null, slug=null, idSub=null, nameSub=null,slugSub=null, useSlug=null;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(Constants.categories);
+            HttpGet get = new HttpGet(Constants.categories_filtro+params[0]);
             get.setHeader("content-type", "application/json");
             try {
                 HttpResponse resp = httpClient.execute(get);
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
-                JSONArray results = respJSON.getJSONArray("data");
+                JSONObject data = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("categories");
                 Categoria c;
+                ArrayList<SubCategoria> subi = new ArrayList<>();
+                subi.add(new SubCategoria(null,"Subcategoria",null,null));
+                categoriasLista=new ArrayList<>();
+                categoriasLista.add(new Categoria(null,"Categoria",null,subi));
                 for(int i=0; i<results.length(); i++) {
                     JSONObject info = results.getJSONObject(i);
                     id = info.getString("id");
                     nombre = info.getString("name");
-                    c = new Categoria(id, nombre);
+                    slug = info.getString("slug");
+                    JSONArray sub = info.getJSONArray("sub_categories");
+                    SubCategoria sc;
+                    ArrayList<SubCategoria> subArray=new ArrayList<>();
+                    subArray.add(new SubCategoria(null,"Subcategoria",null,null));
+                    for (int j=0; j<sub.length();j++){
+                        JSONObject dato = sub.getJSONObject(j);
+                        idSub = dato.getString("id");
+                        nameSub=dato.getString("name");
+                        slugSub=dato.getString("slug");
+                        useSlug=dato.getString("useSlug");
+                        sc = new SubCategoria(idSub,nameSub,slugSub, useSlug);
+                        subArray.add(sc);
+                    }
+                    c = new Categoria(id, nombre, slug,subArray);
                     categoriasLista.add(c);
                 }
                 resul=true;
@@ -503,12 +814,127 @@ public class Inicio extends Fragment {
             campos.add(categoriasLista.get(i).getNombre());
             Log.i("Campo",campos.get(i));
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item, campos);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
         spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
         spinnerCat.setAdapter(spinnerAdapter);
     }
 
-    private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
+    private void poblarSpinnerSubCategorias(ArrayList<SubCategoria> aux) {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < aux.size(); i++) {
+            Log.i("Categoria",aux.get(i).toString());
+            campos.add(aux.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerSub.setAdapter(spinnerAdapter);
+    }
+
+
+    private class ObtenerFiltroVehiculo extends AppAsynchTask<Integer, Void, Boolean>{
+
+        Activity actividad;
+        public ObtenerFiltroVehiculo(Activity activity) {
+            super(activity);
+            actividad=activity;
+        }
+
+        @Override
+        protected Boolean customDoInBackground(Integer... params)  throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException {
+
+            boolean resul=false; String id=null, nombre=null, idMar=null, nameMar=null, idMod=null, nameMod=null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(Constants.categories_filtro+"vehicles");
+            get.setHeader("content-type", "application/json");
+            try {
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("products");
+                JSONObject info = results.getJSONObject(params[0]);
+                id = info.getString("id");
+                nombre = info.getString("name");
+                JSONArray mar = info.getJSONArray("brands");
+                Marca marV;
+                Modelo mod;
+                marcas=new ArrayList<>();
+                ArrayList<Modelo> maux = new ArrayList<>();
+                maux.add(new Modelo(null, "Modelo"));
+                marcas.add(new Marca(null,"Marca",maux));
+                    for (int j=0; j<mar.length();j++){
+                        JSONObject bran = mar.getJSONObject(j);
+                        idMar = bran.getString("id");
+                        nameMar=bran.getString("name");
+                        JSONArray mode= bran.getJSONArray("models");
+                        ArrayList<Modelo> modelosLista = new ArrayList<>();
+                        modelosLista.add(new Modelo(null, "Modelo"));
+                        if(mode.length()>0){
+                            for (int i=0; i<mode.length(); i++){
+                                JSONObject modelito = mode.getJSONObject(i);
+                                idMod = modelito.getString("id");
+                                nameMod = modelito.getString("name");
+                                mod = new Modelo(idMod, nameMod);
+                                modelosLista.add(mod);
+                            }
+                        }
+                        marV = new Marca(idMar,nameMar,modelosLista);
+                        marcas.add(marV);
+                    }
+                vehiculoLista = new Vehiculo(id, nombre, marcas);
+                resul=true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+                resul=false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                resul=false;
+            }
+
+            return resul;
+        }
+
+        @Override
+        protected void customOnPostExecute(Boolean result) {
+            if(result){
+                poblarSpinnerVehiculos();
+            }
+        }
+    }
+
+    private void poblarSpinnerVehiculos() {
+        List<String> campos = new ArrayList<String>();
+        for (int i = 0; i < marcas.size(); i++) {
+            Log.i("Categoria",marcas.get(i).toString());
+            campos.add(marcas.get(i).getNombre());
+            Log.i("Campo",campos.get(i));
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context,R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerMarca.setAdapter(spinnerAdapter);
+    }
+
+    private void poblarSpinnerModelos(ArrayList<Modelo> aux) {
+        List<String> campos = new ArrayList<String>();
+        if(aux.size()>0){
+        for (int i = 0; i < aux.size(); i++) {
+            Log.i("Categoria", aux.get(i).toString());
+            campos.add(aux.get(i).getNombre());
+            Log.i("Campo", campos.get(i));
+        }
+        }else{
+            campos.add(aux.get(0).getNombre());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, R.layout.my_simple_spinner_item2, campos);
+        spinnerAdapter.setDropDownViewResource(R.layout.dropdown_spinner);
+        spinnerModelo.setAdapter(spinnerAdapter);
+    }
+
+        private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
         Clasificado c;
 
         String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
