@@ -1,3 +1,453 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b82b8e847173c28efffcd291b2a0b1ae9ad17fa4">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-8.4.0_e50bde395d13f474f53ff2273d3b324e3a6a8947\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\io.fabric.sdk.android\fabric\1.3.10\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a5db9a2dd46d84285ef737f65030b74b6e8ee2a4">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\io.fabric.sdk.android-fabric-1.3.10_6b66ed22100965407621990fd76a86e4a40b7aee\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3a364cc6b698d1b3b2d284f64618daaa7fe77ddf">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-games-8.4.0_cfb2d432ca112f95bec65033690bd0a9e2f421ad\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="2d7fe76982677315c4dc4edfb459c8ca718a9d4c">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-8.4.0_61484012b568f6e7d2c2d8ce77687ea0db54d8df\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9fe026fb4c7fce21bc5142f6e1bdf844f28061ac">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appinvite-8.4.0_1ca1330074dad52c88e7a0387e91700d9169066c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-location-8.4.0_f6917f48d46edc67acf3c7028705a97efdc28a36\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.twitter.sdk.android\tweet-ui\1.9.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a7f52baaf852010e82d127aa257c6a710a53fc9a">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-tweet-ui-1.9.1_331b2d444f4b8162027290383cdc632a93c0774e\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="613298b7aa012f121ce542881c0a599ebd8078f2">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-measurement-8.4.0_cb888b57f1aa1375bd72e04516ae5687dd6a2214\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.layer.sdk\layer-sdk\0.20.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="613087826f070d624df2ea74b1d96deea46a115f">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.layer.sdk-layer-sdk-0.20.0_4e26dee16a15f253bf4bbd0f45a0ea94d4934a6d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="551e78f21acf69ebfb489c0e79647824c838013e">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-8.4.0_cda60548cbb0a6a42766c5c9c21368ac3513a0ba\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.8.0\a517f29ed06be2b2879524fcd94b6e9b36e2e0b5\retrofit-1.8.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a517f29ed06be2b2879524fcd94b6e9b36e2e0b5">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\retrofit-1.8.0_4e7780faa9da197028b7d0089ea4f82d42901d45\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="08d34b2d135c1cc96ab506fd8bf6916d1e2f391a">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-panorama-8.4.0_ef8080841b1b69643dacb7448228025760048a17\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.twitter.sdk.android\twitter-core\1.6.4\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="61807f257226cc1e6e2774d1e7a876260a808038">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-twitter-core-1.6.4_d47ac76d015b8623ff5e0f006f5d343f068d0deb\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="82ce13fd19cdfde0e392f03c27edeba8d4333648">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-23.3.0_37f76dec1cad10d1ced7aa41bde26e5eb880e250\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b36f30ac5ee5d5214f4b1e2ac49f11889d58e71a">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-drive-8.4.0_a27b2bf4e0e408e2b89c801df0a1c2c31485eae1\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9cad249cf62751a323d9af568caf12284b7d6062">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-8.4.0_2fad7d4d57252ca721b4e37079c0242105a1253b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="debf30ce0a7560396b6235edef77e447006454c2">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.3.0_6a6efdea44a3b44996cccabfeccc292bde43c8c3\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.3.0_6bb24927e9053e93914d00a04128388da5829fae\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.3.0_57c4464e18423fd6d732c65ba6f0689f1d69d4c7\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.daimajia.easing\library\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d7e947f993bf32a00fcb3078cdda8bb11c930afb">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.daimajia.easing-library-1.0.1_308567b7ab8a1abe0f52fee2004234e55374399d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\org.slf4j\slf4j-nop\1.7.12\8052427115f80679a17bd2af659c760df39829bd\slf4j-nop-1.7.12.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8052427115f80679a17bd2af659c760df39829bd">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\slf4j-nop-1.7.12_207e3e356682d5362bf3aa98387387a0c27e69a1\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.avast\android-styled-dialogs\2.3.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f1317803de27d8913a34d0c905a0a893d1c01aa5">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.avast-android-styled-dialogs-2.3.3_8fe9837e94a259897daaadb781d4601f6e579317\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c54246475c1bb64ac6857d1320364bfbfeda2c46">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-fitness-8.4.0_731d5635aa32d399550e3393611332d99a9399c8\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.twitter.sdk.android\tweet-composer\1.0.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="0ea42614d0d3d5e9f507cb2f432ae821307cd0dc">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-tweet-composer-1.0.3_38e3200a6bdb5ecce729d9b9dc64484107a45b2d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="0194a7409c40de94fb539d4ad9928ec5d47afeb7">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-safetynet-8.4.0_ffca53c36fddda62387afe5a8700cb3d4d15f225\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.4\695b63d702f505b9b916e02272e3b6381bade7f\gson-2.4.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.4_b56064234ca04825aff7f20a205e9fc94d36ab07\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.0.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="0f254ec13d6671680482d2218f01ecf14dfa93e6">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-android-sdk-4.0.0_d0c0c360079243c04fbfdf83cb9910f7bd93b368\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1a78298e7724d5440d210bcb946b3493250d354d">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-plus-8.4.0_d249d581e3acd4661df64db29e33d1a570480155\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\com.twitter\twitter-text\1.13.0\78415b95ae3184c5926d593feab64bfc0b73b2dd\twitter-text-1.13.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="78415b95ae3184c5926d593feab64bfc0b73b2dd">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\twitter-text-1.13.0_c02e9f43dc90c5d718efcc28a2095c84d175dc45\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appindexing-8.4.0_8ffb63aff5e37948e40e47d5226580cfbb7f07aa\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1c9f35e952b212c843f7bd2c7eec8e82ad95602e">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-8.4.0_12ac57b20abde571eb4c6ba25af41a802a06ddc9\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.digits.sdk.android\digits\1.9.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="990cba7dbe7fc91e1082a9a8ea6d663c0741a0f1">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.digits.sdk.android-digits-1.9.3_f3ab42dbace47a21769792618b120bf9a834f50f\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_2016e8d4ecd86793554dfad05b9316a74e136e22\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\fr.baloomba\viewpagerindicator\2.4.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1c0f42853ca7567a621142dc9b533b6428b37d73">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\fr.baloomba-viewpagerindicator-2.4.2_87e501c2ed72bce6a9708ee41c7c39a004b8382c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\crashlytics\2.5.5\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="611605b6b640c1558f9bdea41de8ff837ab68ca8">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.crashlytics.sdk.android-crashlytics-2.5.5_ed6e0a40096d4d28c8db7d606b7142958fc51688\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.twitter.sdk.android\twitter\1.12.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9de57c4b86386c563a0f399222b891a3258b0549">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.twitter.sdk.android-twitter-1.12.1_51588b551a6f3eb466625e27a394495a6dd1810b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="03d38bb042efe3e5ce27ba66b729a9523c36d8fe">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.0.0_cfb429c870cfe3e558bc9f2b4a9b3098db127242\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpclient-android\4.3.5.1\eecbb0b998e77629862a13d957d552b3be58fc4e\httpclient-android-4.3.5.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="eecbb0b998e77629862a13d957d552b3be58fc4e">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\httpclient-android-4.3.5.1_d048992feaafe12c172db02207022239c81b58f5\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.1.4\129874135e6081269ace2312092031558865de12\bolts-android-1.1.4.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="129874135e6081269ace2312092031558865de12">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-android-1.1.4_eb1ae810b5a513abeffb69fec6220c7f5f16b754\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpmime\4.3\5b0002c5fb66867ca919be0fbd86de1cfaf76da7\httpmime-4.3.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5b0002c5fb66867ca919be0fbd86de1cfaf76da7">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\httpmime-4.3_3ac991741b84f5f68de6d50968794dda4a397167\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-8.4.0_437d83bdc9d04df126238652a43aa5d717ebf8ef\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.3.0_b0d6b67b668bed34783d58f59a566e57085a4363\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-8.4.0_9350496b1d449c09b9c9cc010d304ede80a4ea94\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f2df436a8f02ce7e4d7d209671fc45f97c470f0e">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wallet-8.4.0_09a21cda1ea49df890c271c75117e9b198c9eb60\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d358b3dd49a7c67844622dcbc9cf4339e13952ce">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-mediarouter-v7-23.0.0_b716fe473259924f5cab9831c6a4fd31b4300dc8\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="40c4a445115e349dfc2f12bb059966c60859c971">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_89683f34f1e2242fb7a1c36a70f77d7d2d155120\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-8.4.0_c7018056100c7b0c1800537b767d187883f6ac96\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.3.0_e18661ce7450b8c8a6043e5060de01d5e518e654\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="dfecc4d835cdabcdecf7e95f0d20a3ef1e9d8ef4">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-8.4.0_9a0afc8aac27f2a4e6caf683e94582435e5eb430\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\design\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f0001e71cea6ae432a00021c6f727f5ef0f3d27e">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.3.0_1377e7708d560df79b5a9cfdbbe21d7e8a42f373\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\org.slf4j\slf4j-api\1.7.12\8e20852d05222dc286bf1c71d78d0531e177c317\slf4j-api-1.7.12.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8e20852d05222dc286bf1c71d78d0531e177c317">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\slf4j-api-1.7.12_43bd9a5fbb733e8287585f53006b46726d648e5c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\crashlytics-core\2.3.8\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c9ef45dcbd082cd63aac09a5e2cd443adb5df837">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.crashlytics.sdk.android-crashlytics-core-2.3.8_717aba4a6f6e746c809d4a6dd0a57df19e95ef9a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="966e5771a5a2ebfb31bf00d7cd6cd2546d245517">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-8.4.0_1deb7e9eeb35a808756863da96cee691e722fdb1\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e167a34eaca0b31704212f43f9576ea84e05046f">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wearable-8.4.0_b55b47bc9f35ff4563114a8f99bc81e89cb679c0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.davemorrissey.labs\subsampling-scale-image-view\3.4.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="36cea48a105ddeef047b645ab0f86f72993e8676">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.davemorrissey.labs-subsampling-scale-image-view-3.4.1_f1f3643135f446ad4fa0efc5eb89383e90b269f0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.daimajia.androidanimations\library\1.1.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8cec50fc9cc847bad0d6ed7d93814f4b34744521">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.daimajia.androidanimations-library-1.1.3_ea69df5ac73ab2ee6108047da5d8ff3a22211043\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_4c11b0c02665c0551234a88405ccd07ff7916d6a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\library-2.4.0_9a3849e67cda3143a5a2a8554c94f6efe6f9e7b6\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\beta\1.1.4\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ad5bb101ced4d3939225c9b57e5a3d81547c1fbb">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.crashlytics.sdk.android-beta-1.1.4_e977eb20a6665338676b44bbc9c96bfb14aac731\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1b8e03daaa43fb0a4cd57e378167c2fd70454c1e">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.3.0_ca0806cb61196ced11872ef2334fc8fa8f7aa6b0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="420c4ced395c15071bfd4a0ea078c7c02bebdcb9">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_e91c7bb0890cb9c09d38612f4c2a072a75edc5ca\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.3.0_928287f5b9aaa0d209735edd8a044e7f380e7ccb\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b5e7892fb0708e792e0e933c4c0a0ca0ac7831fb">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-8.4.0_39a28c6e8ea82f838024c02be36f27292fd2727b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\exploded-aar\com.crashlytics.sdk.android\answers\1.3.6\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9af3b9b8114e685291aa00e6572b0a9131244956">
+        <dex dex="C:\Users\Gabriela Mejia\AndroidStudioProjects\clasificados-android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.crashlytics.sdk.android-answers-1.3.6_d2e0d234527c994e4e2ed422033fd9c4f439e38d\classes.dex" />
+    </item>
+
+</items>
