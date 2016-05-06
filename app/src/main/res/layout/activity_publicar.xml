@@ -163,30 +163,45 @@
                 android:layout_alignLeft="@+id/gridLayout"
                 android:layout_alignStart="@+id/gridLayout"
                 android:orientation="vertical"
-                android:visibility="invisible">
+                android:visibility="visible">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/contentOne"
                     android:layout_weight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-                        <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:id="@+id/spinner_location"
-                            android:visibility="visible"
-                            android:layout_weight="1"
-                            android:background="@drawable/rounded_spinner"/>
-                        <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:id="@+id/spinner_municipio"
-                            android:layout_weight="1"
-                            android:background="@drawable/rounded_spinner"/>
-                    </LinearLayout>
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinner_location"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:drawSelectorOnTop="true"
+                    android:layout_alignParentTop="true"
+                    android:visibility="visible"
+                    android:background="@drawable/rounded_spinner"
+                    android:layout_toLeftOf="@+id/tx_linea_media2"
+                    android:layout_toStartOf="@+id/tx_linea_media2" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinner_municipio"
+                    android:visibility="visible"
+                    android:background="@drawable/rounded_spinner"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/tx_linea_media2"
+                    android:layout_toEndOf="@+id/tx_linea_media2" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text=" "
+                    android:id="@+id/tx_linea_media2"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
                 </RelativeLayout>
                 <RelativeLayout
                    android:layout_width="match_parent"
@@ -194,9 +209,9 @@
                    android:id="@+id/contentTwo"
                    android:layout_weight="1"
                    android:paddingTop="20dp"
-                   android:visibility="invisible">
+                   android:visibility="visible">
                    <Spinner
-                       android:layout_width="wrap_content"
+                       android:layout_width="match_parent"
                        android:layout_height="50dp"
                        android:id="@+id/spinner_zona"
                        android:visibility="visible"
@@ -210,7 +225,7 @@
                 android:layout_width="350dp"
                 android:layout_height="200dp"
                 android:id="@+id/descripcion"
-                android:layout_below="@+id/gridLayout"
+                android:layout_below="@+id/posicion"
                 android:layout_alignLeft="@+id/gridLayout3"
                 android:layout_alignStart="@+id/gridLayout3"
                 android:layout_marginTop="21dp"

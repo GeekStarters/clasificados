@@ -84,6 +84,7 @@ public class Inicio extends Fragment {
     private LinearLayoutManager layoutManager;
     private Activity context;
     private List<Item> resultado;
+    private List<SubCategoria> subCategoriasLista;
     private List<Municipio> listaMunicipio;
     private List<Clasificado> clasificados;
     private List<Localidad> listaLocaciones;
@@ -92,7 +93,7 @@ public class Inicio extends Fragment {
     private ArrayList<Marca> marcas;
     private static int current_page = 1;
     private int ival = 1;
-    private String url_page;
+    private String url_page, categoriaSlug, subcategoriaSlug, titulo;
     private int loadLimit = 10;
     String nextLink;
 
@@ -104,6 +105,9 @@ public class Inicio extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragmento_inicio, container, false);
         final String strtext = getArguments().getString("auto");
+        categoriaSlug=null;
+        titulo=null;
+        subcategoriaSlug=null;
         context = getActivity();
         click=false;
         click2=false;
@@ -228,9 +232,20 @@ public class Inicio extends Fragment {
                         filtro_p.setVisibility(View.GONE);
                         filtro_v.setVisibility(View.GONE);
                         filtros_super.setVisibility(View.GONE);
-                        a.putExtra("lista", "productos");
-                        a.putExtra("title", "Ultimos Productos");
-                        context.startActivityForResult(a, FILTRO);
+
+                        if(subcategoriaSlug==null&&categoriaSlug==null){
+                            Toast.makeText(getActivity(),"No ha seleccionado nada", Toast.LENGTH_LONG).show();
+                        }else{
+                            String auxiliar = null;
+                            if(subcategoriaSlug==null){
+                                auxiliar = "category/"+categoriaSlug;
+                            }else{
+                                auxiliar = "category/"+categoriaSlug+"/sub-category/"+subcategoriaSlug;
+                            }
+                            a.putExtra("lista",auxiliar);
+                            a.putExtra("title", titulo);
+                            context.startActivityForResult(a, FILTRO);
+                        }
                         break;
                     case R.id.tab_nuevo:
                         rel1.setBackground(getResources().getDrawable(R.drawable.radius_left_tabs_no));
@@ -372,6 +387,12 @@ public class Inicio extends Fragment {
                 parent.getItemAtPosition(position);
                 switch (parent.getId()) {
                     case R.id.spinnercatfiltro:
+                       if(position==0){
+                           categoriaSlug = null;
+                       }else {
+                           categoriaSlug = categoriasLista.get(position).getSlug();
+                           titulo = categoriasLista.get(position).getNombre();
+                       }
                         ArrayList<SubCategoria> aux = categoriasLista.get(position).getSub();
                         poblarSpinnerSubCategorias(aux);
                         break;
@@ -388,6 +409,14 @@ public class Inicio extends Fragment {
                         ArrayList<Zona> auxiliar = listaMunicipio.get(position).getZonas();
                         poblarSpinnerZonas(auxiliar);
                         break;
+                    case R.id.spinnersubfiltro:
+                        if(position==0){
+                            subcategoriaSlug=null;
+                        }else{
+                            subcategoriaSlug=subCategoriasLista.get(position).getSlug();
+                            titulo = subCategoriasLista.get(position).getNombre();
+                        }
+                        break;
 
                 }
             }
@@ -397,6 +426,7 @@ public class Inicio extends Fragment {
 
             }
         };
+        spinnerSub.setOnItemSelectedListener(onselected);
         spinnerMarca.setOnItemSelectedListener(onselected);
         spinnerCat.setOnItemSelectedListener(onselected);
         spinnerLoc.setOnItemSelectedListener(onselected);
@@ -821,6 +851,7 @@ public class Inicio extends Fragment {
 
     private void poblarSpinnerSubCategorias(ArrayList<SubCategoria> aux) {
         List<String> campos = new ArrayList<String>();
+        subCategoriasLista = aux;
         for (int i = 0; i < aux.size(); i++) {
             Log.i("Categoria",aux.get(i).toString());
             campos.add(aux.get(i).getNombre());

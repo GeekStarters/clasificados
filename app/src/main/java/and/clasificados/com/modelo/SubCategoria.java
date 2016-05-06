@@ -14,10 +14,12 @@ public class SubCategoria {
     public SubCategoria() {
     }
 
-    public SubCategoria (String id, String nombre, String nameParent) {
-        this.nameParent = nameParent;
-        this.nombre = nombre;
+
+
+    public SubCategoria(String id, String nombre, String slug) {
         this.id = id;
+        this.nombre = nombre;
+        this.slug = slug;
     }
 
     public SubCategoria(String id, String nombre, String slug, String useSlug) {

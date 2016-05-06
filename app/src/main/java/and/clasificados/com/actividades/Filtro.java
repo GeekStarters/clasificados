@@ -139,8 +139,12 @@ public class Filtro extends AppCompatActivity {
         reciclador = (RecyclerView) findViewById(R.id.reciclador_filtro);
         layoutManager = new LinearLayoutManager(this);
         reciclador.setLayoutManager(layoutManager);
-        LlenarLista llenar = new LlenarLista(context);
-        llenar.execute(par);
+        if(par.startsWith("category")){
+           new LlenarListaProductos(context).execute(par);
+        }else {
+            LlenarLista llenar = new LlenarLista(context);
+            llenar.execute(par);
+        }
     }
 
     @Override
@@ -175,6 +179,95 @@ public class Filtro extends AppCompatActivity {
         }
         setTitle(title);
     }
+
+    private class LlenarListaProductos extends AppAsynchTask<String,Integer,Boolean> {
+        Clasificado c;
+
+        String precio=null, titulo=null, url_imagen=null, categoria=null, vista=null;
+
+        public LlenarListaProductos(Activity activity) {
+            super(activity);
+        }
+
+        protected Boolean customDoInBackground(String... params)   throws NetworkException, ServerException, ParsingException,
+                TimeOutException, IOException, JSONException{
+            boolean resul;
+            HttpClient httpClient = new DefaultHttpClient();
+            url_page=Constants.last+params[0];
+            HttpGet get = new HttpGet(Constants.filtro+params[0]);
+            get.setHeader("content-type", "application/json");
+            try
+            {
+                clasificados = new ArrayList<>();
+                resultado = new ArrayList<>();
+                HttpResponse resp = httpClient.execute(get);
+                JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
+                JSONObject data  = respJSON.getJSONObject("data");
+                JSONArray results = data.getJSONArray("results");
+                JSONObject page=data.getJSONObject("paging");
+                nextLink=page.getString("getNextLink");
+                //String[] split=auxi.split("=");
+                //nextLink=split[1];
+                hasMore=true;
+                for(int i=0; i<results.length(); i++)
+                {
+                    JSONObject ad = results.getJSONObject(i);
+                    System.out.println(ad.toString());
+                    JSONObject info = ad.getJSONObject("info");
+                    titulo=info.getString("title");
+                    precio = info.getString("currencySymbol")+" "+info.getString("price");
+                    categoria = info.getString("subCategoryName");
+                    JSONArray imagen = info.getJSONArray("images");
+                    url_imagen = imagen.getString(0);
+                    vista = ad.getString("singleApiURL");
+                    String slug=info.getString("slug");
+                    c= new Clasificado(precio,categoria,titulo,url_imagen,vista, slug);
+                    resultado.add(c);
+                    clasificados.add(c);
+                }
+                resul = true;
+            }
+            catch(Exception ex)
+            {
+                Log.e("ServicioRest", "Error!", ex);
+                resul=false;
+            }
+            return resul;
+        }
+
+        protected void customOnPostExecute(final Boolean result) {
+            if (result) {
+                reciclador.setAdapter(new AdaptadorCategoria(resultado, new RecyclerViewOnItemClickListener() {
+                    @Override
+                    public void onClick(View v, int position) {
+                        String single = clasificados.get(position).getSingle();
+                        String pos = "" + position;
+                        Intent o = new Intent(context, Single.class);
+                        o.putExtra("single", single);
+                        o.putExtra("posicion", pos);
+                        startActivityForResult(o, SINGLE);
+
+                    }
+                }));
+                reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getApplicationContext()));
+                reciclador.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        if (hasMore && !(hasFooter())) {
+                            LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                            //position starts at 0
+                            if (layoutManager.findLastCompletelyVisibleItemPosition() == layoutManager.getItemCount() - 2) {
+                                NuevaLista asyncTask = new NuevaLista();
+                                asyncTask.execute(nextLink);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 
     private class LlenarLista extends AppAsynchTask<String,Integer,Boolean> {
         Clasificado c;

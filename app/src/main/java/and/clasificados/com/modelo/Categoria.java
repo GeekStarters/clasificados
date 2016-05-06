@@ -16,6 +16,12 @@ public class Categoria {
 
     }
 
+    public Categoria(String id, String nombre, ArrayList<SubCategoria> sub) {
+        this.id = id;
+        this.nombre = nombre;
+        this.sub = sub;
+    }
+
     public Categoria(String id, String nombre, String slug, ArrayList<SubCategoria> sub) {
         this.id = id;
         this.nombre = nombre;
