@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,10 +35,8 @@ import and.clasificados.com.Constants;
 import and.clasificados.com.R;
 import and.clasificados.com.actividades.Login;
 import and.clasificados.com.actividades.Mensajes;
-import and.clasificados.com.actividades.MiCuenta;
 import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.auxiliares.CategoriasTab;
-import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;

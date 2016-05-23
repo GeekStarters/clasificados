@@ -22,17 +22,7 @@
 
 package and.clasificados.com.layer;
 
-import android.app.AlertDialog;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import com.layer.sdk.LayerClient;
-
-import java.util.Arrays;
-import java.util.List;
-
-import and.clasificados.com.R;
 
 public class MiMensaje extends AppCompatActivity {
 /*

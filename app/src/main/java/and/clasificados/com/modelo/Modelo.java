@@ -1,7 +1,5 @@
 package and.clasificados.com.modelo;
 
-import java.util.ArrayList;
-
 /**
  * Created by Gabriela Mejia on 24/2/2016.
  */

@@ -109,6 +109,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="and.clasificados.com.MainActivity" />
         </activity>
+        <activity android:name=".atlas.util.imagepopup.AtlasImagePopupActivity"/>
         <activity
             android:name=".actividades.Registro"
             android:label="@string/title_activity_registro_usuario"

@@ -1,9 +1,5 @@
 package and.clasificados.com.modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import and.clasificados.com.R;
 import and.clasificados.com.auxiliares.Item;
 
 /**

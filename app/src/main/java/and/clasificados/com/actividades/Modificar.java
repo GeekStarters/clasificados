@@ -61,7 +61,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import and.clasificados.com.Constants;
-import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
 import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.common.RoundedTransformation;
