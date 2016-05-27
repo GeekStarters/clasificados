@@ -132,7 +132,7 @@ public class LocationCellFactory extends AtlasCellFactory<LocationCellFactory.Ce
         }
     }
 
-    static class Location implements ParsedContent {
+    static class Location implements AtlasCellFactory.ParsedContent {
         double mLatitude;
         double mLongitude;
         String mLabel;

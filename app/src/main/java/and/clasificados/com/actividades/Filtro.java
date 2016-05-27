@@ -69,7 +69,7 @@ public class Filtro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtro);
         Intent i = getIntent();
-        hasMore = true;
+        hasMore = false;
         titulo = i.getStringExtra("title");
         par=i.getStringExtra("lista");
         agregarToolbar(titulo);
@@ -202,11 +202,18 @@ public class Filtro extends AppCompatActivity {
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 JSONObject data  = respJSON.getJSONObject("data");
                 JSONArray results = data.getJSONArray("results");
-                JSONObject page=data.getJSONObject("paging");
-                nextLink=page.getString("getNextLink");
-                //String[] split=auxi.split("=");
-                //nextLink=split[1];
-                hasMore=true;
+                try{
+                    JSONObject page=data.getJSONObject("paging");
+                    nextLink=page.getString("getNextLink");
+                    if(nextLink.equals("null")){
+                        hasMore=false;
+                    }else{
+                        hasMore=true;
+                    }
+                }catch (Exception ex){
+                    Log.e("Paginas", "Error!", ex);
+                    hasMore=false;
+                }
                 for(int i=0; i<results.length(); i++)
                 {
                     JSONObject ad = results.getJSONObject(i);
@@ -248,6 +255,7 @@ public class Filtro extends AppCompatActivity {
                     }
                 }));
                 reciclador.addItemDecoration(new and.clasificados.com.auxiliares.DecoracionLineaDivisoria(getApplicationContext()));
+                if(hasMore){
                 reciclador.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -262,6 +270,7 @@ public class Filtro extends AppCompatActivity {
                         }
                     }
                 });
+                }
             }
         }
     }
@@ -390,7 +399,11 @@ public class Filtro extends AppCompatActivity {
                     try{
                         JSONObject page=data.getJSONObject("paging");
                         nextLink=page.getString("getNextLink");
-                        hasMore=true;
+                        if(nextLink.equals(null)){
+                            hasMore=false;
+                        }else{
+                            hasMore=true;
+                        }
                     }catch (Exception ex){
                         Log.e("Paginas", "Error!", ex);
                         hasMore=false;

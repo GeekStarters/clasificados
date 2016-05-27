@@ -146,7 +146,7 @@ public class SinglePartImageCellFactory extends AtlasCellFactory<SinglePartImage
         }
     }
 
-    public static class PartId implements ParsedContent {
+    public static class PartId implements AtlasCellFactory.ParsedContent {
         public final Uri mId;
 
         public PartId(Uri id) {

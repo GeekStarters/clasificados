@@ -98,7 +98,7 @@ public class TextCellFactory extends AtlasCellFactory<TextCellFactory.CellHolder
         }
     }
 
-    public static class TextInfo implements ParsedContent {
+    public static class TextInfo implements AtlasCellFactory.ParsedContent {
         private final String mString;
         private final String mClipboardPrefix;
         private final int mSize;

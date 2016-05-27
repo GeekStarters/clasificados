@@ -210,7 +210,7 @@ public class ThreePartImageCellFactory extends AtlasCellFactory<ThreePartImageCe
     // Inner classes
     //==============================================================================================
 
-    public static class Info implements ParsedContent, Parcelable {
+    public static class Info implements AtlasCellFactory.ParsedContent, Parcelable {
         public int orientation;
         public int width;
         public int height;
