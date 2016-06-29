@@ -1,12 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#ffffff"
-    android:paddingBottom="@dimen/espacio_norma_1"
-    tools:context="and.clasificados.com.clasificados.actividades.Mensajes">
+    android:background="#ffffff">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -25,22 +22,29 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:visibility="visible"
-                android:textAlignment="center"
-                android:text="Buscar conversaciones"
-                android:textColor="#000000"
+                android:hint="Buscar conversaciones"
+                android:textColorHint="#000000"
                 android:background="@drawable/rounded_etext"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/reciclador_mensajes"
+        android:layout_height="match_parent">
+
+        <com.layer.atlas.AtlasConversationsRecyclerView
+            android:id="@+id/conversations_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:transcriptMode="alwaysScroll"/>
+            android:layout_height="match_parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:src="@drawable/ic_add_white_24dp"/>
     </RelativeLayout>
 
 </LinearLayout>

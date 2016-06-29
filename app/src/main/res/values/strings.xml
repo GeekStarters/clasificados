@@ -34,6 +34,11 @@
     <string name="sub_exito_registro">Ahora puedes iniciar sesion</string>
     <string name="mi_cuenta">Mi Cuenta</string>
 
+    <string name="attachment_menu_camera">Camera</string>
+    <string name="attachment_menu_gallery">Gallery</string>
+    <string name="attachment_menu_location">Location</string>
+    <string name="title_select_conversation">New Message</string>
+    <string name="push_notification_no_content_title">New message (tap to sync)</string>
 
     <string name="activity_base_alert_message_error">Ha ocurrido un error, Por favor intente de nuevo</string>
     <string name="activity_base_alert_message_network_exception">Compruebe su conexión a Internet.</string>
@@ -121,6 +126,8 @@
     <string name="alert_message_delete_message">Eliminar mensaje</string>
     <string name="notifications_num_more">+%1$d más</string>
     <string name="notifications_new_messages">%1$s mensajes nuevos</string>
+    <string name="alert_message_resuming">Retomando Sesion</string>
+    <string name="vacio" />
 
 
 </resources>

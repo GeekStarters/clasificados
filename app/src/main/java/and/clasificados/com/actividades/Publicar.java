@@ -55,6 +55,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -1270,6 +1272,90 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
         }
     }
 
+
+   /* public static void postFile(String filePath, String postUrl,
+                                String pictureTitleStr, String pseudoTextStr)
+            throws Exception {
+
+        String url = postUrl;
+        HttpURLConnection conn = null;
+        final String CrLf = "\r\n";
+        JSONObject json = new JSONObject();
+        int bytesRead = 0;
+
+
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "------BOUNDARY";
+        String EndBoundary = "";
+        int maxBufferSize = 1 * 1024 * 1024;
+
+        HttpResponse response = null;
+
+
+
+        String base64EncodedCredentials = Base64.encodeToString((userName + ":" + password).getBytes("US-ASCII"),
+                Base64.DEFAULT);
+        System.out.println("Encoded Credit " + base64EncodedCredentials);
+
+        json.put("pseudo", pseudoTextStr);
+        json.put("title", pictureTitleStr);
+
+        String jsonStr = json.toString();
+        //   System.out.println("JSON VALUE  " + jsonStr);
+
+        URL url2 = new URL(postUrl);
+
+
+
+        Bitmap bm = BitmapFactory.decodeFile(filePath);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 25, baos); // bm is the bitmap object
+        byte[] b = baos.toByteArray();
+
+        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+
+        String str = twoHyphens + boundary + lineEnd;
+        String str2 = "Content-Disposition: form-data; name=\"jsonFile\"";
+        String str3 = "Content-Type: application/json";
+        String str4 = "Content-Disposition: form-data; name=\"imgName\"";
+        String str5 = "Content-Type: image/jpeg";
+        String str6 = twoHyphens + boundary + twoHyphens;
+
+
+
+        String StrTotal = str + str2 + "\r\n" + str3 + "\r\n" +"\r\n" + jsonStr + "\r\n" + str
+                + str4 + "\r\n" + str5 + "\r\n"+"\r\n"+ encodedImage + "\r\n" + str6;
+
+        //System.out.print("Multipart request string is "+StrTotal);
+
+        HttpPost post = new HttpPost(postUrl);
+
+
+        post.addHeader(BasicScheme.authenticate(new UsernamePasswordCredentials(
+                userName, password), "UTF-8", false));
+        post.addHeader("Content-Type","multipart/form-data;boundary="+boundary);
+// System.out.println("Sending Post proxy request: " + post);
+
+        StringEntity se = new StringEntity(StrTotal);
+        se.setContentEncoding("UTF-8");
+        post.setEntity(se);
+        response = mHttpClient.execute(post);
+
+/* Checking response */
+
+  /*      statusCode = response.getStatusLine().getStatusCode();
+        System.out.println("Http Execute finish " + statusCode);
+
+        HttpEntity entity = response.getEntity();
+        String getResponseText = entity.toString(); // EntityUtils.toString(entity);
+        System.out.println(" Post Response Text from Server : "
+                + getResponseText);
+
+
+
+    }*/
     private class SubirFoto extends AppAsynchTask<String,Void,Boolean>{
 
         Activity actividad;
@@ -1297,10 +1383,6 @@ public class Publicar extends AppCompatActivity implements IListDialogListener,A
                 post.setEntity(builder);
                 HttpResponse resp = httpClient.execute(post);
                 HttpEntity responseEntity = resp.getEntity();
-
-
-
-
                 resul=true;
             }catch (Exception ex){
                 Log.e("ServicioRest", "Error!", ex);

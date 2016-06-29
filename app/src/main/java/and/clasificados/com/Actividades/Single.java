@@ -28,6 +28,8 @@ import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -74,6 +76,7 @@ public class Single extends AppCompatActivity {
     public static CallbackManager callbackManager;
     AccessToken accesstoken;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,18 +88,11 @@ public class Single extends AppCompatActivity {
         login_user= PrefUtils.getCurrentUser(Single.this);
         Intent i = getIntent();
         url = i.getStringExtra("single");
-        posicion=i.getStringExtra("posicion");
+    //  posicion=i.getStringExtra("posicion");
         tit = (TextView) findViewById(R.id.texto_anuncio);
         descr= (TextView)findViewById(R.id.texto_descripcion);
         pre=(TextView)findViewById(R.id.texto_precio);
         mapa = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-        LatLng guate = new LatLng(13.74205, -90.1285);
-        CameraPosition camPos = new CameraPosition.Builder()
-                .target(guate)
-                .zoom(5)
-                .build();
-        CameraUpdate camUpd1 = CameraUpdateFactory.newCameraPosition(camPos);
-        mapa.moveCamera(camUpd1);
         new ObtenerSingle(context).execute(url);
         contactar=(ImageView)findViewById(R.id.contactar);
         ofertar=(ImageView)findViewById(R.id.ofertar);
@@ -121,7 +117,7 @@ public class Single extends AppCompatActivity {
                 switch (v.getId()){
                     case R.id.contactar:
                         if(login_user!=null){
-                            startActivity(new Intent(getApplicationContext(),Mensajes.class));
+                         //   startActivity(new Intent(getApplicationContext(),Mensajes.class));
                         }else{
                             startActivity(new Intent(getApplicationContext(),Login.class));
                         }
@@ -270,9 +266,15 @@ public class Single extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+    }
+
     private class ObtenerSingle extends AppAsynchTask<String,Integer,Boolean> {
         Clasificado c;
         Activity actividad;
+        double latitude, longitude;
         String precio=null, titulo=null, url_imagen=null, descripcion=null, vista=null;
 
         public ObtenerSingle(Activity activity) {
@@ -292,6 +294,8 @@ public class Single extends AppCompatActivity {
                 JSONObject respJSON = new JSONObject(EntityUtils.toString(resp.getEntity()));
                 JSONObject data  = respJSON.getJSONObject("data");
                 JSONObject single = data.getJSONObject("single");
+                latitude = Double.parseDouble(single.getString("latitude"));
+                longitude = Double.parseDouble(single.getString("longitude"));
                 titulo=single.getString("title");
                 descripcion= single.getString("description");
                 precio = single.getString("currencySymbol")+" "+single.getString("price");
@@ -317,6 +321,14 @@ public class Single extends AppCompatActivity {
                 tit.setText(titulo);
                 pre.setText(precio);
                 descr.setText(descripcion);
+                LatLng guate = new LatLng(latitude, longitude);
+                CameraPosition camPos = new CameraPosition.Builder()
+                        .target(guate)
+                        .zoom(17)
+                        .build();
+                CameraUpdate camUpd1 = CameraUpdateFactory.newCameraPosition(camPos);
+               // mapa.addMarker(guate);
+                mapa.moveCamera(camUpd1);
                 init();
             }
         }

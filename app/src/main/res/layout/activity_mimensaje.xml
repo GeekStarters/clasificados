@@ -1,11 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F2F2F2"
-    tools:context=".layer.MiMensaje">
+    android:background="#F2F2F2">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -30,29 +28,31 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:weightSum="1"
+
         android:id="@+id/linearlayout">
 
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/scrollView2"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+        <com.layer.atlas.AtlasHistoricMessagesFetchLayout
+            android:id="@+id/historic_sync_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/conversation"></LinearLayout>
-        </ScrollView>
+            <com.layer.atlas.AtlasMessagesRecyclerView
+                android:id="@+id/messages_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:myTextColor="#ffffff"
+                app:myBubbleColor="#00ba68"/>
 
+        </com.layer.atlas.AtlasHistoricMessagesFetchLayout>
 
-        <LinearLayout
+        <com.layer.atlas.AtlasMessageComposer
+            android:id="@+id/message_composer"
+            android:layout_width="match_parent"
+            android:minHeight="48dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <!-- <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -85,7 +85,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
-            </LinearLayout>
+            </LinearLayout> -->
         </LinearLayout>
 </RelativeLayout>
 </LinearLayout>

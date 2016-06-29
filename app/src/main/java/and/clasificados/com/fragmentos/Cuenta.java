@@ -34,7 +34,7 @@ import java.util.List;
 import and.clasificados.com.Constants;
 import and.clasificados.com.R;
 import and.clasificados.com.actividades.Login;
-import and.clasificados.com.actividades.Mensajes;
+//import and.clasificados.com.actividades.Mensajes;
 import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.auxiliares.CategoriasTab;
 import and.clasificados.com.exception.NetworkException;
@@ -106,10 +106,10 @@ public class Cuenta extends Fragment {
                             startActivity(new Intent(getContext(), Publicar.class));
                             break;
                         case R.id.mensajes_button:
-                            startActivity(new Intent(getContext(),Mensajes.class));
+                            //startActivity(new Intent(getContext(),Mensajes.class));
                             break;
                         case R.id.footer_right:
-                            startActivity(new Intent(getContext(), Mensajes.class));
+                            //startActivity(new Intent(getContext(), Mensajes.class));
                             break;
                     }
                 }

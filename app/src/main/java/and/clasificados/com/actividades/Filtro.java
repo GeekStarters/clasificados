@@ -117,13 +117,13 @@ public class Filtro extends AppCompatActivity {
                             startActivity(new Intent(context,MiCuenta.class));
                             break;
                         case R.id.mensajes_button:
-                            startActivity(new Intent(context,Mensajes.class));
+                           // startActivity(new Intent(context,Mensajes.class));
                             break;
                         case R.id.footer_left:
                             startActivity(new Intent(context,MiCuenta.class));
                             break;
                         case R.id.footer_right:
-                            startActivity(new Intent(context, Mensajes.class));
+                        //    startActivity(new Intent(context, Mensajes.class));
                             break;
                     }
                 }
