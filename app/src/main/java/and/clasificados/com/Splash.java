@@ -34,24 +34,6 @@ public class Splash extends Activity {
         Fabric.with(this, new Crashlytics(), new Twitter(authConfig));
         setContentView(R.layout.splash);
         new MiTareaAsincrona().execute();
-        final String name= PrefUtils.getCurrentUser(this).name;
-        App.authenticate(new MyAuthenticationProvider.Credentials(App.getLayerAppId(), name),
-                new AuthenticationProvider.Callback() {
-                    @Override
-                    public void onSuccess(AuthenticationProvider provider, String userId) {
-                        if (AuthenticationProvider.Log.isLoggable(AuthenticationProvider.Log.VERBOSE)) {
-                            AuthenticationProvider.Log.v("Successfully authenticated as `" + name + "` with userId `" + userId + "`");
-                        }
-                    }
-
-                    @Override
-                    public void onError(AuthenticationProvider provider, final String error) {
-                        if (AuthenticationProvider.Log.isLoggable(AuthenticationProvider.Log.ERROR)) {
-                            AuthenticationProvider.Log.e("Failed to authenticate as `" + name + "`: " + error);
-                        }
-                    }
-                });
-
     }
 
     private void tareaLarga() {

@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import and.clasificados.com.App;
 import and.clasificados.com.Constants;
 import and.clasificados.com.MainActivity;
 import and.clasificados.com.R;
@@ -40,6 +41,8 @@ import and.clasificados.com.exception.NetworkException;
 import and.clasificados.com.exception.ParsingException;
 import and.clasificados.com.exception.ServerException;
 import and.clasificados.com.exception.TimeOutException;
+import and.clasificados.com.layer.atlas.MyAuthenticationProvider;
+import and.clasificados.com.layer.util.AuthenticationProvider;
 import and.clasificados.com.modelo.Usuario;
 import and.clasificados.com.services.AppAsynchTask;
 import and.clasificados.com.views.EditTextLight;
@@ -215,6 +218,22 @@ public class Login extends AppCompatActivity {
                     user.facebookID = data.getString("fb_user_id");
                     user.token = data.getString("token");
                     PrefUtils.setCurrentUser(user, Login.this);
+                    App.authenticate(new MyAuthenticationProvider.Credentials(App.getLayerAppId(), user.name),
+                            new AuthenticationProvider.Callback() {
+                                @Override
+                                public void onSuccess(AuthenticationProvider provider, String userId) {
+                                    if (AuthenticationProvider.Log.isLoggable(AuthenticationProvider.Log.VERBOSE)) {
+                                        AuthenticationProvider.Log.v("Successfully authenticated as `" + user.name + "` with userId `" + userId + "`");
+                                    }
+                                }
+
+                                @Override
+                                public void onError(AuthenticationProvider provider, final String error) {
+                                    if (AuthenticationProvider.Log.isLoggable(AuthenticationProvider.Log.ERROR)) {
+                                        AuthenticationProvider.Log.e("Failed to authenticate as `" + user.name + "`: " + error);
+                                    }
+                                }
+                            });
                 } else {
                     resultado = aux.substring(13, aux.length() - 12);
                     user = null;
@@ -230,7 +249,7 @@ public class Login extends AppCompatActivity {
         protected void customOnPostExecute(Boolean result) {
             if (result) {
                 Toast.makeText(getApplicationContext(), getString(R.string.bienvenido), Toast.LENGTH_LONG).show();
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                Intent i = new Intent(getApplicationContext(), Mensajes.class);
                 startActivity(i);
             } else {
                 Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();

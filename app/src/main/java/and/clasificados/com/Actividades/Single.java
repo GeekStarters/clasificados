@@ -119,7 +119,6 @@ public class Single extends AppCompatActivity {
                         if(login_user!=null){
                            startActivity(new Intent(getApplicationContext(),Mensajes.class));
                             Toast.makeText(getApplicationContext(),"Deberia ir a MensajeIndividual on usuario", Toast.LENGTH_LONG).show();
-
                         }else{
                             startActivity(new Intent(getApplicationContext(),Login.class));
                         }
