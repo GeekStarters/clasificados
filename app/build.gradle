@@ -18,7 +18,7 @@ repositories {
 
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "24.0.0"
     useLibrary 'org.apache.http.legacy'
 
@@ -36,7 +36,7 @@ android {
     defaultConfig {
         applicationId "and.clasificados.com"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 24 
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -56,10 +56,10 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.android.gms:play-services-maps:9.2.0'
-    compile 'com.google.android.gms:play-services-location:9.2.0'
-    compile 'com.google.android.gms:play-services-auth:9.2.0'
-    compile 'com.google.android.gms:play-services-gcm:9.2.0'
+    compile 'com.google.android.gms:play-services-maps:9.0.2'
+    compile 'com.google.android.gms:play-services-location:9.0.2'
+    compile 'com.google.android.gms:play-services-auth:9.0.2'
+    compile 'com.google.android.gms:play-services-gcm:9.0.2'
     compile 'org.slf4j:slf4j-nop:1.7.2'
     compile 'com.layer.atlas:layer-atlas:0.2.12'
     compile fileTree(dir: 'libs', include: 'sinch-android-rtc-3.9.5.jar')

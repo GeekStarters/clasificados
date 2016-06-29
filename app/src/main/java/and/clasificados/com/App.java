@@ -36,8 +36,10 @@ import java.util.Arrays;
  */
 public class App extends Application {
 
-    public static final String LAYER_APP_ID = "layer:///apps/staging/613d665c-d4c9-11e5-bfa3-44c9010027fe";
-    private static final String GCM_SENDER_ID = "653137112103";
+ /* private static final String LAYER_APP_ID = "layer:///apps/staging/613d665c-d4c9-11e5-bfa3-44c9010027fe";
+    private static final String GCM_SENDER_ID = "653137112103";*/
+    private final static String LAYER_APP_ID = "layer:///apps/staging/0ac8fec8-f05b-11e5-b670-8407e8084abc";
+    private final static String GCM_SENDER_ID = "748607264448";
     private static Application sInstance;
     private static LayerClient sLayerClient;
     private static ParticipantProvider sParticipantProvider;

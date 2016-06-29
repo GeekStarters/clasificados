@@ -117,7 +117,9 @@ public class Single extends AppCompatActivity {
                 switch (v.getId()){
                     case R.id.contactar:
                         if(login_user!=null){
-                         //   startActivity(new Intent(getApplicationContext(),Mensajes.class));
+                           startActivity(new Intent(getApplicationContext(),Mensajes.class));
+                            Toast.makeText(getApplicationContext(),"Deberia ir a MensajeIndividual on usuario", Toast.LENGTH_LONG).show();
+
                         }else{
                             startActivity(new Intent(getApplicationContext(),Login.class));
                         }
@@ -266,10 +268,6 @@ public class Single extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-    }
 
     private class ObtenerSingle extends AppAsynchTask<String,Integer,Boolean> {
         Clasificado c;

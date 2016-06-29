@@ -41,6 +41,7 @@ import and.clasificados.com.R;
 import and.clasificados.com.actividades.Filtro;
 import and.clasificados.com.actividades.Login;
 //import and.clasificados.com.actividades.Mensajes;
+import and.clasificados.com.actividades.Mensajes;
 import and.clasificados.com.actividades.MiCuenta;
 import and.clasificados.com.actividades.Publicar;
 import and.clasificados.com.actividades.Single;
@@ -346,13 +347,13 @@ public class Inicio extends Fragment {
                                 startActivity(new Intent(getContext(),MiCuenta.class));
                             break;
                         case R.id.mensajes_button:
-                           // startActivity(new Intent(getContext(),Mensajes.class));
+                                startActivity(new Intent(getContext(),Mensajes.class));
                             break;
                         case R.id.footer_left:
                             startActivity(new Intent(getContext(),MiCuenta.class));
                             break;
                         case R.id.footer_right:
-                          // startActivity(new Intent(getContext(), Mensajes.class));
+                            startActivity(new Intent(getContext(), Mensajes.class));
                             break;
                     }
                 }
