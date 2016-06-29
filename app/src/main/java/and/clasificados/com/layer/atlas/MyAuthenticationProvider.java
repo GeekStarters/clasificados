@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 
 
+import and.clasificados.com.auxiliares.PrefUtils;
 import and.clasificados.com.layer.util.AuthenticationProvider;
 
 import com.layer.sdk.LayerClient;
@@ -24,16 +25,18 @@ import static and.clasificados.com.layer.util.Util.streamToString;
 public class MyAuthenticationProvider implements AuthenticationProvider<MyAuthenticationProvider.Credentials> {
     private final SharedPreferences mPreferences;
     private Callback mCallback;
+    private Context ctx;
 
     public MyAuthenticationProvider(Context context) {
+        ctx=context;
         mPreferences = context.getSharedPreferences(MyAuthenticationProvider.class.getSimpleName(), Context.MODE_PRIVATE);
     }
 
     @Override
     public AuthenticationProvider<Credentials> setCredentials(Credentials credentials) {
         if (credentials == null) {
-            mPreferences.edit().clear().commit();
-            return this;
+         mPreferences.edit().clear().commit();
+         return this;
         }
         mPreferences.edit()
                 .putString("appId", credentials.getLayerAppId())

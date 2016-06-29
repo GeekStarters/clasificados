@@ -200,4 +200,7 @@ public class App extends Application {
         return sPicasso;
     }
 
+    public static String getLayerAppId() {
+        return LAYER_APP_ID;
+    }
 }
